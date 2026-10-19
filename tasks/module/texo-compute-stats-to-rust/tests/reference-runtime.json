@@ -1,0 +1,5 @@
+{
+  "root": "/reference-runtime",
+  "workspace": "/reference-runtime/app",
+  "environment": "/reference-runtime/runtime-environment.json"
+}

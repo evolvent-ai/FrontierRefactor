@@ -1,0 +1,10 @@
+{
+  "run_command": "/app/run.sh",
+  "interface": "The evaluator invokes /app/run.sh with the original program's arguments and standard input in a prepared working directory. Preserve argument handling, exit status, both output streams, and produced file contents. Keep the working directory supplied by the caller when interpreting relative input/output paths.",
+  "preparation_commands": [
+    "npm install",
+    "npm run build"
+  ],
+  "build_commands": [],
+  "build_directory": "/app"
+}

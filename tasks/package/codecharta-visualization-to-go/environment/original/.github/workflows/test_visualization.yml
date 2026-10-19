@@ -1,0 +1,153 @@
+name: Visualization Tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'visualization/**'
+      - 'logo/**'
+      # the 2.0 schema source of truth is validated by the viz drift guard (ccJson2Schema.drift.spec.ts)
+      - 'dev_docs/cc-json-2.0.schema.json'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'visualization/**'
+      - 'logo/**'
+      # the 2.0 schema source of truth is validated by the viz drift guard (ccJson2Schema.drift.spec.ts)
+      - 'dev_docs/cc-json-2.0.schema.json'
+
+jobs:
+ build_visualization_test:
+    name: Unit Tests (Visualization)
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./visualization
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v6
+      with:
+        node-version: '24'
+
+    - name: Cache node modules
+      uses: actions/cache@v5
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Install node
+      run: |
+        npm ci || (echo "npm ci failed, regenerating lock file and retrying..." && npm install --package-lock-only && npm ci)
+      working-directory: ${{env.working-directory}}
+
+    - name: Check architecture
+      run: |
+        echo "Checking architecture rules (including circular dependencies)..."
+        npm run lint:architecture || (echo "❌ Architecture violations detected! Check the output above for details." && exit 1)
+      working-directory: ${{env.working-directory}}
+
+    - name: Check component styles
+      run: |
+        echo "Checking for component style files (no-component-scss-files)..."
+        npm run lint:styles || (echo "❌ Component style files detected! Use Tailwind utility classes instead." && exit 1)
+      working-directory: ${{env.working-directory}}
+
+    - name: Check dead code
+      run: |
+        echo "Checking for unused exports/files (knip)..."
+        npm run lint:deadcode || (echo "❌ Dead code detected! Remove the unused export/file or justify it in knip.jsonc." && exit 1)
+      working-directory: ${{env.working-directory}}
+
+    - name: Run unit tests
+      env:
+        NODE_OPTIONS: "--max_old_space_size=4096"
+      run: |
+        npm run test:ci
+      working-directory: ${{env.working-directory}}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v7
+      with:
+          name: coverage
+          path: ./visualization/dist/
+
+ build_visualization_e2e:
+    name: E2E Tests (Visualization)
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./visualization
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v6
+      with:
+        node-version: '24'
+
+    - name: Cache node modules
+      uses: actions/cache@v5
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Install node
+      run: |
+        npm ci || (echo "npm ci failed, regenerating lock file and retrying..." && npm install --package-lock-only && npm ci)
+      working-directory: ${{env.working-directory}}
+
+    - name: Build and run e2e tests
+      run: |
+        npm run build
+        npm run e2e:ci
+      working-directory: ${{env.working-directory}}
+
+    - name: Upload Playwright traces on failure
+      uses: actions/upload-artifact@v7
+      if: failure()
+      with:
+        name: playwright-traces
+        path: ./visualization/test-results/
+        retention-days: 7
+
+ publish_sonar_visualization:
+    needs: [build_visualization_test, build_visualization_e2e]
+    name: "Code Quality Results (visualization)"
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./visualization
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: coverage
+          path: ./visualization/dist/
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v5.0.0
+        with:
+          projectBaseDir: ./visualization
+          args: >
+            -Dsonar.javascript.lcov.reportPaths=./dist/coverage/lcov.info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+

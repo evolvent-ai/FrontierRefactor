@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "kernel/waveform-go-encode-encode-opt"
+description = "the Encode function from mautrix/telegram"
+authors = []
+keywords = [ "kernel", "optimisation",]
+
+[metadata]
+scale = "kernel"
+source_language = "go"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "kernel", "optimisation",]
+provenance = "Reference is https://github.com/mautrix/telegram.git at f031b6f3ca877de2c0cebbbbe592ffa92b999a29. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/mautrix/telegram.git"
+commit = "f031b6f3ca877de2c0cebbbbe592ffa92b999a29"
+committed_at = "2026-09-15T18:33:48Z"
+license_spdx = "AGPL-3.0"
+license_files = [ "LICENSE", "LICENSE.exceptions",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

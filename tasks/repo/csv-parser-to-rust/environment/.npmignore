@@ -1,0 +1,4 @@
+bin/bench
+examples/
+test/
+.travis.yml

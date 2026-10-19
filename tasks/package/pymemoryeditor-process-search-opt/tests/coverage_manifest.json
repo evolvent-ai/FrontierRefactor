@@ -1,0 +1,11 @@
+{
+  "graded_count": 197,
+  "operations": {
+    "find_spec": 47,
+    "parse_scan_type": 50,
+    "parse_value_type": 50,
+    "tokenize_pattern": 50
+  },
+  "probe_count": 200,
+  "timed_count": 3
+}

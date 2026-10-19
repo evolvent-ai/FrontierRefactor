@@ -1,0 +1,143 @@
+import { checkVersion, sleep, UpdateCheckResult, xpathQuery } from "../../common"
+import { confirm, message } from "~script/notice"
+import package_config from "../../../package.json"
+import { Actions } from "../../constants/actions"
+import { MenuIds } from "../../constants/menuIds"
+
+export async function injectMenu(): Promise<void> {
+  // 本脚本会在所有 iframe 中运行，而没有侧边栏的 frame 里 #menus 永远不存在，限制重试次数避免永久轮询
+  let menus: HTMLElement | null = null;
+  for (let i = 0; i < 30; i++) {
+    menus = document.querySelector("#menus") as HTMLElement;
+    if (menus) break;
+    await sleep(1000);
+  }
+  if (!menus) return;
+
+  xpathQuery(`//*[@id="1007000000"]/a/span`, (e) => { e.insertAdjacentHTML("beforeend", '<span style="color:var(--scu-accent,#9e1b32)">✦</span>'); });
+  const el1007001003 = document.getElementById("1007001003");
+  if (el1007001003?.children[0]) {
+    el1007001003.children[0].innerHTML = el1007001003.children[0].innerHTML.replace("方案成绩", '方案成绩<span style="color:var(--scu-accent,#9e1b32)">✦</span>');
+  }
+  xpathQuery('//*[@id="1007001001"]/a', e => e.innerHTML = e.innerHTML.replace('全部及格成绩', '全部及格成绩<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1002002001"]/a', (e) => e.innerHTML = e.innerHTML.replace('本学期课表', '本学期课表<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1002000000"]/a/span', (e) => e.insertAdjacentHTML("beforeend", '<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1007001005"]/a', (e) => e.innerHTML = e.innerHTML.replace('本学期成绩', '本学期成绩<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1002001003"]/a', (e) => e.innerHTML = e.innerHTML.replace('选课结果', '选课结果<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1002001004"]/a', (e) => e.innerHTML = e.innerHTML.replace('退课', '退课<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1002001002"]/a', (e) => e.innerHTML = e.innerHTML.replace('选课', '选课<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1002002002"]/a', (e) => e.innerHTML = e.innerHTML.replace('历年学期课表', '历年学期课表<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1003000000"]/a/span', (e) => e.innerHTML = e.innerHTML.replace('教师课堂评价', '教师课堂评价<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+  xpathQuery('//*[@id="1003001002"]/a', (e) => e.innerHTML = e.innerHTML.replace('教学评估', '教学评估<span style="color:var(--scu-accent,#9e1b32)">✦</span>'));
+
+  const settingsBtn = createSettingsMenuItem();
+  menus.appendChild(settingsBtn);
+
+  console.log("菜单注入完成");
+}
+
+function createMenuItem(id: string, icon: string, title: string, items: { text: string; href: string; target?: string }[]): HTMLElement {
+  const li = document.createElement("li");
+  li.setAttribute('id', id);
+  li.setAttribute('onclick', "rootMenuClick(this);");
+
+  const itemsHtml = items.map(item =>
+    `<li class="" onclick="toSelect(this);">
+      <a href="${item.href}"${item.target ? ` target="${item.target}"` : ''}>&nbsp;&nbsp;${item.text}</a>
+      <b class="arrow"></b>
+    </li>`
+  ).join('');
+
+  li.innerHTML = `
+    <a href="#" class="dropdown-toggle">
+      <i class="menu-icon fa ${icon}"></i>
+      <span class="menu-text"> ${title} </span>
+      <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu nav-hide" onclick="stopHere();" style="display: none;">
+      <li class="hsub open">
+        <a href="#" class="dropdown-toggle">
+          <i class="menu-icon fa fa-caret-right"></i>
+          ${title}
+          <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu" style="display: block;">
+          ${itemsHtml}
+        </ul>
+      </li>
+    </ul>
+  `;
+
+  return li;
+}
+
+function createSettingsMenuItem(): HTMLElement {
+  const li = document.createElement("li");
+  li.setAttribute('id', MenuIds.SETTINGS);
+  li.setAttribute('onclick', "rootMenuClick(this);");
+  li.innerHTML = `
+    <a href="#" class="dropdown-toggle">
+      <i class="menu-icon fa fa-pencil-square-o"></i>
+      <span class="menu-text"> 设置<span style="color:var(--scu-accent,#9e1b32)">✦</span> </span>
+      <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu nav-hide" onclick="stopHere();" style="display: none;">
+      <li class="hsub open">
+        <a href="#" class="dropdown-toggle">
+          <i class="menu-icon fa fa-caret-right"></i>
+          设置
+          <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu" style="display: block;">
+          <li class="" onclick="toSelect(this);">
+            <a href="#" id="settingsBtn">&nbsp;&nbsp;SCU+ 设置</a>
+            <b class="arrow"></b>
+          </li>
+        </ul>
+      </li>
+      <li class="hsub open">
+        <a href="#" class="dropdown-toggle">
+          <i class="menu-icon fa fa-caret-right"></i>
+          版本更新
+          <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu" style="display: block;">
+          <li class="" onclick="toSelect(this);">
+            <a href="#" id="checkVersionBtn">&nbsp;&nbsp;检查版本更新</a>
+            <b class="arrow"></b>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  `;
+
+  (li.querySelector("#settingsBtn") as HTMLElement).onclick = () => {
+    chrome.runtime.sendMessage({ action: Actions.OPEN_SETTINGS });
+  };
+
+  (li.querySelector("#checkVersionBtn") as HTMLElement).onclick = () => {
+    checkVersion().then(info => {
+      if (info.result === UpdateCheckResult.NEW_VERSION_AVAILABLE) {
+        confirm({
+          title: `检测到新版本 v${info.latestVersion}，是否立即下载？`,
+          okText: "确定",
+          cancelText: "取消",
+          onOk: () => window.open(info.downloadUrl ?? package_config.download)
+        });
+      } else if (info.result === UpdateCheckResult.UP_TO_DATE) {
+        message.info("已经是最新版本了");
+      } else if (info.result === UpdateCheckResult.NETWORK_ERROR) {
+        message.error("网络错误连接，请检查网络是否正常");
+      } else {
+        message.error("检查更新失败，请稍后再试");
+      }
+    });
+  };
+
+  return li;
+}

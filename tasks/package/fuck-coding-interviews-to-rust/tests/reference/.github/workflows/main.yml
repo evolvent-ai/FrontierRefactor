@@ -1,0 +1,33 @@
+---
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      # python -m xxx will put the current directory into sys.path
+      - name: Run tests
+        run: python -m pytest --benchmark-skip --cov=algorithms --cov=data_structures --cov=problems
+
+      - name: Upload test reports
+        run: bash <(curl -s https://codecov.io/bash)

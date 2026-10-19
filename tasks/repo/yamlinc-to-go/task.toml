@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "repo/yamlinc-to-go"
+description = "Compose multiple YAML files into one with $include tag. Split Swagger/OpenAPI into multiple YAML files.\n\nThe selected workload contains 14 scenario(s). Commands exercised: /app/run.sh. Input fixtures: harvest-inputs.tar.gz. Preserve exit status, standard output/error, and produced files for these repository-owned cases."
+authors = []
+keywords = [ "repo", "cross-language",]
+
+[metadata]
+scale = "repo"
+source_language = "javascript"
+target_language = "go"
+cross_language = true
+category = "performance-optimization"
+tags = [ "repo", "cross-language",]
+provenance = "Reference is https://github.com/javanile/yamlinc.git at aeba0a736cf298d3bee63000229d2ad9bf4df771. The expectations are a frozen capture of that reference's own observable behaviour over 11 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/javanile/yamlinc.git"
+commit = "aeba0a736cf298d3bee63000229d2ad9bf4df771"
+committed_at = "2026-02-17T13:30:55Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 51200
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

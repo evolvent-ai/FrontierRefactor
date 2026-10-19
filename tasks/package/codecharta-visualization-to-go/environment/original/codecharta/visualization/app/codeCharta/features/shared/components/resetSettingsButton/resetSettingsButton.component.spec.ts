@@ -1,0 +1,49 @@
+import { TestBed } from "@angular/core/testing"
+import { State, Store } from "@ngrx/store"
+import { render, screen } from "@testing-library/angular"
+import userEvent from "@testing-library/user-event"
+import { Vector3 } from "three"
+import { setState } from "../../../../stores/rootStore/state.actions"
+import { defaultState } from "../../../../stores/rootStore/state.manager"
+import { ResetSettingsButtonComponent } from "./resetSettingsButton.component"
+
+describe("resetSettingsButtonComponent", () => {
+    const mockedStore = { dispatch: jest.fn() }
+    beforeEach(() => {
+        mockedStore.dispatch = jest.fn()
+        TestBed.configureTestingModule({
+            providers: [
+                { provide: Store, useValue: mockedStore },
+                { provide: State, useValue: { getValue: () => defaultState } }
+            ]
+        })
+    })
+
+    it("should reset given appSetting", async () => {
+        await render(ResetSettingsButtonComponent, {
+            componentProperties: {
+                settingsKeys: ["mapState.mapColors.selected", "mapState.scaling.x, mapState.scaling.y, mapState.scaling.z"]
+            }
+        })
+
+        await userEvent.click(screen.getByRole("button"))
+
+        expect(mockedStore.dispatch).toHaveBeenCalledWith(
+            setState({ value: { mapState: { mapColors: { selected: "#EB8319" }, scaling: new Vector3(1, 1, 1) } } })
+        )
+    })
+
+    it("should execute callback", async () => {
+        const callback = jest.fn()
+        await render(ResetSettingsButtonComponent, {
+            componentProperties: {
+                settingsKeys: ["mapState.mapColors.selected"],
+                callback
+            }
+        })
+
+        await userEvent.click(screen.getByRole("button"))
+
+        expect(callback).toHaveBeenCalledTimes(1)
+    })
+})

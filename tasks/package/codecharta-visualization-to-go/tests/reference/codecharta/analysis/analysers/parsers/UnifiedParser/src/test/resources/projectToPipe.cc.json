@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "projectName": "",
+    "apiVersion": "2.0",
+    "checksum": "6783f8e63aa8f34ad26159f2dcfe2e4c"
+  },
+  "files": [
+    {
+      "id": "164ddff4bb1345e1",
+      "name": "root",
+      "type": "Folder",
+      "children": [
+        {
+          "id": "4cd28e2c418de640",
+          "name": "piped",
+          "type": "Folder",
+          "children": [
+            {
+              "id": "0545a443b0cea367",
+              "name": "sampleFile.ts",
+              "type": "File",
+              "link": ""
+            }
+          ],
+          "link": ""
+        }
+      ],
+      "link": ""
+    }
+  ],
+  "lenses": {
+    "metrics": {
+      "attributes": {
+        "0545a443b0cea367": {
+          "complexity": 42.0,
+          "comment_lines": 69.0,
+          "metric_from_other_source": 55.0
+        }
+      },
+      "attributeDescriptors": {
+        "complexity": {
+          "title": "Complexity",
+          "description": "Complexity of the file based on the number of paths through the code (McCabe Complexity)",
+          "hintLowValue": "",
+          "hintHighValue": "",
+          "link": "https://en.wikipedia.org/wiki/Cyclomatic_complexity",
+          "direction": -1,
+          "analyzers": []
+        },
+        "metric_from_other_source": {
+          "title": "other metric",
+          "description": "metric to test merging with the unifiedParser",
+          "hintLowValue": "",
+          "hintHighValue": "",
+          "link": "",
+          "direction": -1,
+          "analyzers": []
+        }
+      },
+      "attributeTypes": {}
+    },
+    "dependency": {
+      "edges": [],
+      "attributeTypes": {},
+      "attributeDescriptors": {}
+    }
+  }
+}

@@ -1,0 +1,373 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
+	"testing"
+
+	"go.yaml.in/yaml/v4"
+)
+
+// testBinary holds the path to the pre-built CLI binary for testing
+var testBinary string
+
+// TestMain builds the CLI binary once before running tests
+func TestMain(m *testing.M) {
+	// Create a temporary directory for the test binary
+	tmpDir, err := os.MkdirTemp("", "go-yaml-test")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to create temp dir: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Build the binary once
+	testBinary = filepath.Join(tmpDir, "go-yaml")
+	cmd := exec.Command("go", "build", "-o", testBinary, ".")
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to build test binary: %v\n", err)
+		os.RemoveAll(tmpDir)
+		os.Exit(1)
+	}
+
+	// Run tests
+	code := m.Run()
+
+	// Cleanup before exit (defer won't run with os.Exit)
+	os.RemoveAll(tmpDir)
+	os.Exit(code)
+}
+
+// TestCase represents a single test case from a test file
+type TestCase struct {
+	Name  string `yaml:"name"`
+	Text  string `yaml:"text"`
+	Token string `yaml:"token,omitempty"`
+	TOKEN string `yaml:"TOKEN,omitempty"`
+	Event string `yaml:"event,omitempty"`
+	EVENT string `yaml:"EVENT,omitempty"`
+	Node  string `yaml:"node,omitempty"`
+	NODE  string `yaml:"NODE,omitempty"`
+	Yaml  string `yaml:"yaml,omitempty"`
+	YAML  string `yaml:"YAML,omitempty"`
+	Json  string `yaml:"json,omitempty"`
+	JSON  string `yaml:"JSON,omitempty"`
+	// Option flags
+	V2Yaml                string `yaml:"v2-yaml,omitempty"`
+	V3Yaml                string `yaml:"v3-yaml,omitempty"`
+	Indent3Yaml           string `yaml:"indent3-yaml,omitempty"`
+	Width40Yaml           string `yaml:"width40-yaml,omitempty"`
+	CompactYaml           string `yaml:"compact-yaml,omitempty"`
+	V3Indent2             string `yaml:"v3-indent2-yaml,omitempty"`
+	CanonicalYaml         string `yaml:"canonical-yaml,omitempty"`
+	ExplicitYaml          string `yaml:"explicit-yaml,omitempty"`
+	ExplicitStartYaml     string `yaml:"explicit-start-yaml,omitempty"`
+	NoUnicodeYaml         string `yaml:"no-unicode-yaml,omitempty"`
+	CanonicalExplicitYaml string `yaml:"canonical-explicit-yaml,omitempty"`
+	V2Indent4Yaml         string `yaml:"v2-indent4-yaml,omitempty"`
+	// Stream option flags
+	StreamNode string `yaml:"stream-node,omitempty"`
+	StreamNODE string `yaml:"stream-NODE,omitempty"`
+}
+
+// TestSuite is a sequence of test cases
+type TestSuite []TestCase
+
+// flagMapping maps test file field names to CLI flags
+var flagMapping = map[string]string{
+	"token":                   "-t",
+	"TOKEN":                   "-T",
+	"event":                   "-e",
+	"EVENT":                   "-E",
+	"node":                    "-n",
+	"NODE":                    "-N",
+	"yaml":                    "-y",
+	"YAML":                    "-Y",
+	"json":                    "-j",
+	"JSON":                    "-J",
+	"v2-yaml":                 "-o v2 -y",
+	"v3-yaml":                 "-o v3 -y",
+	"indent3-yaml":            "-o indent=3 -y",
+	"width40-yaml":            "-o width=40 -y",
+	"compact-yaml":            "-o compact -y",
+	"v3-indent2-yaml":         "-o v3,indent=2 -y",
+	"canonical-yaml":          "-o canonical -y",
+	"explicit-yaml":           "-o explicit -y",
+	"explicit-start-yaml":     "-o explicit-start -y",
+	"no-unicode-yaml":         "-o no-unicode -y",
+	"canonical-explicit-yaml": "-o canonical,explicit -y",
+	"v2-indent4-yaml":         "-o v2,indent=4 -y",
+	"stream-node":             "-o stream -n",
+	"stream-NODE":             "-o stream -N",
+}
+
+func TestCLI(t *testing.T) {
+	// Find all test files in testdata/
+	testFiles, err := filepath.Glob(filepath.Join("testdata", "*.yaml"))
+	if err != nil {
+		t.Fatalf("Failed to find test files: %v", err)
+	}
+
+	if len(testFiles) == 0 {
+		t.Fatal("No test files found in testdata/")
+	}
+
+	// Process each test file
+	for _, testFile := range testFiles {
+		testFileName := filepath.Base(testFile)
+		t.Run(testFileName, func(t *testing.T) {
+			runTestFile(t, testFile)
+		})
+	}
+}
+
+func runTestFile(t *testing.T, testFile string) {
+	t.Helper()
+	// Read and parse the test file
+	data, err := os.ReadFile(testFile)
+	if err != nil {
+		t.Fatalf("Failed to read test file %s: %v", testFile, err)
+	}
+
+	var suite TestSuite
+	if err := yaml.Load(data, &suite); err != nil {
+		t.Fatalf("Failed to parse test file %s: %v", testFile, err)
+	}
+
+	// Run each test case
+	for _, testCase := range suite {
+		t.Run(testCase.Name, func(t *testing.T) {
+			runTestCase(t, testCase)
+		})
+	}
+}
+
+func runTestCase(t *testing.T, tc TestCase) {
+	t.Helper()
+	// Test each output format that has an expected value
+	tests := []struct {
+		field    string
+		flag     string
+		expected string
+	}{
+		{"token", flagMapping["token"], tc.Token},
+		{"TOKEN", flagMapping["TOKEN"], tc.TOKEN},
+		{"event", flagMapping["event"], tc.Event},
+		{"EVENT", flagMapping["EVENT"], tc.EVENT},
+		{"node", flagMapping["node"], tc.Node},
+		{"NODE", flagMapping["NODE"], tc.NODE},
+		{"yaml", flagMapping["yaml"], tc.Yaml},
+		{"YAML", flagMapping["YAML"], tc.YAML},
+		{"json", flagMapping["json"], tc.Json},
+		{"JSON", flagMapping["JSON"], tc.JSON},
+		{"v2-yaml", flagMapping["v2-yaml"], tc.V2Yaml},
+		{"v3-yaml", flagMapping["v3-yaml"], tc.V3Yaml},
+		{"indent3-yaml", flagMapping["indent3-yaml"], tc.Indent3Yaml},
+		{"width40-yaml", flagMapping["width40-yaml"], tc.Width40Yaml},
+		{"compact-yaml", flagMapping["compact-yaml"], tc.CompactYaml},
+		{"v3-indent2-yaml", flagMapping["v3-indent2-yaml"], tc.V3Indent2},
+		{"canonical-yaml", flagMapping["canonical-yaml"], tc.CanonicalYaml},
+		{"explicit-yaml", flagMapping["explicit-yaml"], tc.ExplicitYaml},
+		{"explicit-start-yaml", flagMapping["explicit-start-yaml"], tc.ExplicitStartYaml},
+		{"no-unicode-yaml", flagMapping["no-unicode-yaml"], tc.NoUnicodeYaml},
+		{"canonical-explicit-yaml", flagMapping["canonical-explicit-yaml"], tc.CanonicalExplicitYaml},
+		{"v2-indent4-yaml", flagMapping["v2-indent4-yaml"], tc.V2Indent4Yaml},
+		{"stream-node", flagMapping["stream-node"], tc.StreamNode},
+		{"stream-NODE", flagMapping["stream-NODE"], tc.StreamNODE},
+	}
+
+	for _, test := range tests {
+		if test.expected == "" {
+			continue // Skip if no expected output for this format
+		}
+
+		t.Run(test.field, func(t *testing.T) {
+			// Run the pre-built CLI binary
+			args := strings.Fields(test.flag)
+			cmd := exec.Command(testBinary, args...)
+			cmd.Stdin = strings.NewReader(tc.Text)
+
+			var stdout, stderr bytes.Buffer
+			cmd.Stdout = &stdout
+			cmd.Stderr = &stderr
+
+			if err := cmd.Run(); err != nil {
+				t.Fatalf("Command failed: %v\nStderr: %s", err, stderr.String())
+			}
+
+			// Normalize output for comparison
+			actual := normalizeOutput(stdout.String())
+			expected := normalizeOutput(test.expected)
+			if test.field == "token" || test.field == "TOKEN" ||
+				test.field == "event" || test.field == "EVENT" {
+				actual = normalizeHistoricalContract(t, test.field, actual)
+				expected = normalizeHistoricalContract(t, test.field, expected)
+			}
+
+			if actual != expected {
+				t.Errorf("Output mismatch for flag %s\nExpected:\n%s\n\nActual:\n%s\n\nDiff:\n%s",
+					test.flag, expected, actual, diff(expected, actual))
+			}
+		})
+	}
+}
+
+func normalizeHistoricalContract(t *testing.T, field, input string) string {
+	t.Helper()
+	var items []map[string]any
+	if err := yaml.Load([]byte(input), &items); err != nil {
+		t.Fatalf("Failed to parse %s contract: %v", field, err)
+	}
+	projected := items[:0]
+	for _, item := range items {
+		if strings.EqualFold(field, "event") {
+			event, _ := item["event"].(string)
+			if event == "STREAM-START" || event == "STREAM-END" {
+				continue
+			}
+			if implicit, ok := item["implicit"].(bool); ok && !implicit && field == "event" {
+				item["explicit"] = true
+			}
+			delete(item, "implicit")
+			delete(item, "quoted-implicit")
+		} else if item["token"] == "STREAM-START" {
+			delete(item, "encoding")
+		}
+		projected = append(projected, item)
+	}
+	output, err := yaml.Dump(projected)
+	if err != nil {
+		t.Fatalf("Failed to normalize %s contract: %v", field, err)
+	}
+	return normalizeOutput(string(output))
+}
+
+// normalizeOutput trims whitespace and ensures consistent line endings
+func normalizeOutput(s string) string {
+	s = strings.TrimSpace(s)
+	s = strings.ReplaceAll(s, "\r\n", "\n")
+	return s
+}
+
+// CmdTestCase represents a command-based test case
+type CmdTestCase struct {
+	Name string `yaml:"name"`
+	Cmd  string `yaml:"cmd"`
+	Out  string `yaml:"out"`
+}
+
+// CmdTestSuite is a sequence of command test cases
+type CmdTestSuite []CmdTestCase
+
+// TestCLICommands runs command-based tests from testdata/cmd/*.yaml
+func TestCLICommands(t *testing.T) {
+	// Find all test files in testdata/cmd/
+	testFiles, err := filepath.Glob(filepath.Join("testdata", "cmd", "*.yaml"))
+	if err != nil {
+		t.Fatalf("Failed to find test files: %v", err)
+	}
+
+	if len(testFiles) == 0 {
+		t.Fatal("No command test files found in testdata/cmd/")
+	}
+
+	// Process each test file
+	for _, testFile := range testFiles {
+		testFileName := filepath.Base(testFile)
+		t.Run(testFileName, func(t *testing.T) {
+			runCmdTestFile(t, testFile)
+		})
+	}
+}
+
+func runCmdTestFile(t *testing.T, testFile string) {
+	t.Helper()
+	// Read and parse the test file
+	data, err := os.ReadFile(testFile)
+	if err != nil {
+		t.Fatalf("Failed to read test file %s: %v", testFile, err)
+	}
+
+	var suite CmdTestSuite
+	if err := yaml.Load(data, &suite); err != nil {
+		t.Fatalf("Failed to parse test file %s: %v", testFile, err)
+	}
+
+	// Run each test case
+	for _, tc := range suite {
+		t.Run(tc.Name, func(t *testing.T) {
+			runCmdTestCase(t, tc)
+		})
+	}
+}
+
+func runCmdTestCase(t *testing.T, tc CmdTestCase) {
+	t.Helper()
+
+	// Replace "go-yaml" with actual test binary path in the command
+	cmdStr := strings.ReplaceAll(tc.Cmd, "go-yaml", testBinary)
+
+	// Run the command through bash to handle pipes, heredocs, etc.
+	cmd := exec.Command("bash", "-c", cmdStr)
+
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	if err := cmd.Run(); err != nil {
+		t.Fatalf("Command failed: %v\nCommand: %s\nStderr: %s", err, tc.Cmd, stderr.String())
+	}
+
+	// Normalize output for comparison
+	actual := normalizeOutput(stdout.String())
+	expected := normalizeOutput(tc.Out)
+
+	if actual != expected {
+		t.Errorf("Output mismatch\nCommand: %s\nExpected:\n%s\n\nActual:\n%s\n\nDiff:\n%s",
+			tc.Cmd, expected, actual, diff(expected, actual))
+	}
+}
+
+// diff provides a simple diff output for debugging
+func diff(expected, actual string) string {
+	expLines := strings.Split(expected, "\n")
+	actLines := strings.Split(actual, "\n")
+
+	maxLines := len(expLines)
+	if len(actLines) > maxLines {
+		maxLines = len(actLines)
+	}
+
+	var result strings.Builder
+	for i := 0; i < maxLines; i++ {
+		expLine := ""
+		actLine := ""
+
+		if i < len(expLines) {
+			expLine = expLines[i]
+		}
+		if i < len(actLines) {
+			actLine = actLines[i]
+		}
+
+		if expLine != actLine {
+			fmt.Fprintf(&result, "Line %d:\n", i+1)
+			if expLine != "" {
+				result.WriteString("- ")
+				result.WriteString(expLine)
+				result.WriteString("\n")
+			}
+			if actLine != "" {
+				result.WriteString("+ ")
+				result.WriteString(actLine)
+				result.WriteString("\n")
+			}
+		}
+	}
+
+	return result.String()
+}

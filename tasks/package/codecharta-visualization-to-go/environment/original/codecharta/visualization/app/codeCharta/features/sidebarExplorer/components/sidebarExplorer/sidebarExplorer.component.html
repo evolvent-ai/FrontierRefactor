@@ -1,0 +1,53 @@
+@if (isCollapsed()) {
+    <div class="flex items-center gap-1 px-2 py-1">
+        <button
+            type="button"
+            class="btn btn-ghost btn-sm btn-square shrink-0"
+            (click)="toggle()"
+            title="Expand explorer"
+            data-testid="explorer-expand-button"
+        >
+            <i class="fa-solid fa-folder-tree"></i>
+        </button>
+
+        <ng-content select="[collapsedContent]"></ng-content>
+    </div>
+} @else {
+    <cc-explorer-header></cc-explorer-header>
+    <ng-content select="[headerChips]"></ng-content>
+    @if (capabilities.showSearch) {
+        <cc-explorer-search-bar></cc-explorer-search-bar>
+    }
+    <cc-explorer-sort-control></cc-explorer-sort-control>
+    <div #scrollHost class="flex-1 overflow-auto px-1 py-1">
+        @if (isFilesMode()) {
+            <cc-explorer-tree></cc-explorer-tree>
+        } @else {
+            <ng-content select="[modeBody]"></ng-content>
+        }
+    </div>
+    <ng-content select="[explorerPopovers]"></ng-content>
+    @if (capabilities.showRules) {
+        <cc-rules-popover kind="flatten" popoverId="explorer-flatten-rules" anchorName="explorer-flat-chip"></cc-rules-popover>
+        <cc-rules-popover kind="exclude" popoverId="explorer-hidden-rules" anchorName="explorer-hidden-chip"></cc-rules-popover>
+    }
+    @if (capabilities.showRules && hasMetricRules) {
+        <cc-metric-rule-editor
+            type="flatten"
+            popoverId="explorer-flatten-metric-rule"
+            anchorName="explorer-search-actions"
+        ></cc-metric-rule-editor>
+        <cc-metric-rule-editor
+            type="exclude"
+            popoverId="explorer-exclude-metric-rule"
+            anchorName="explorer-search-actions"
+        ></cc-metric-rule-editor>
+    }
+    <div
+        class="absolute right-0 top-0 h-full w-1.5 cursor-col-resize select-none hover:bg-primary/40 active:bg-primary/60"
+        (pointerdown)="startResize($event)"
+        (dblclick)="resetWidth()"
+        title="Drag to resize, double-click to reset"
+        data-testid="explorer-resize-handle"
+    ></div>
+}

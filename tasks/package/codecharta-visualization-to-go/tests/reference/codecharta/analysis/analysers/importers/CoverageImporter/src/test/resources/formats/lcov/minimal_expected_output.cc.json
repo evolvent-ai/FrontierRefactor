@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "projectName": "",
+    "apiVersion": "2.0",
+    "checksum": "70564efd018b1cded9552b525bb2f8f2"
+  },
+  "files": [
+    {
+      "id": "164ddff4bb1345e1",
+      "name": "root",
+      "type": "Folder",
+      "children": [
+        {
+          "id": "fc1a3a3451fe7dad",
+          "name": "app.config.ts",
+          "type": "File",
+          "link": ""
+        }
+      ],
+      "link": ""
+    }
+  ],
+  "lenses": {
+    "metrics": {
+      "attributes": {
+        "fc1a3a3451fe7dad": {
+          "line_coverage": 0.0,
+          "branch_coverage": 100.0,
+          "statement_coverage": 0.0
+        }
+      },
+      "attributeDescriptors": {},
+      "attributeTypes": {}
+    },
+    "dependency": {
+      "edges": [],
+      "attributeTypes": {},
+      "attributeDescriptors": {}
+    }
+  }
+}

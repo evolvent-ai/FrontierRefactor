@@ -1,0 +1,74 @@
+<cc-loading-file-progress-spinner view="domain"></cc-loading-file-progress-spinner>
+
+<cc-sidebar-explorer>
+    <div headerChips class="flex items-stretch border border-base-300 mx-2 mt-2 rounded-md overflow-hidden">
+        <cc-explorer-count-chip
+            label="Hidden"
+            [count]="hiddenWordCount()"
+            [tooltip]="hiddenWordsTooltip()"
+            popoverId="domain-hidden-words"
+            anchorName="domain-hidden-words-chip"
+        ></cc-explorer-count-chip>
+    </div>
+    <cc-hidden-words-popover
+        explorerPopovers
+        popoverId="domain-hidden-words"
+        anchorName="domain-hidden-words-chip"
+    ></cc-hidden-words-popover>
+
+    <div collapsedContent class="flex flex-1 min-w-0 items-center gap-1">
+        @if (selectedNodePath()) {
+            <span class="flex-1 min-w-0 truncate text-xs opacity-70" [title]="selectedNodePath()" data-testid="explorer-collapsed-path">
+                {{ selectedNodePath() }}
+            </span>
+            <button
+                type="button"
+                class="btn btn-ghost btn-sm btn-square shrink-0"
+                [title]="copied() ? 'Copied!' : 'Copy path'"
+                data-testid="explorer-copy-path-button"
+                (click)="copySelectedPath()"
+            >
+                <i class="fa" [class.fa-copy]="!copied()" [class.fa-check]="copied()"></i>
+            </button>
+        } @else {
+            <span class="flex-1 min-w-0 truncate text-xs opacity-50">{{ selectedNodeName() || "No selection" }}</span>
+        }
+    </div>
+
+    <cc-domain-word-list
+        modeBody
+        [query]="wordQuery()"
+        [sorting]="wordSorting()"
+        [expandedWord]="inspectedWord()"
+        [selectedNodePath]="selectedNodePath()"
+        (wordToggled)="toggleInspectedWord($event)"
+        (nodeClicked)="selectNode($event)"
+    ></cc-domain-word-list>
+</cc-sidebar-explorer>
+
+<div class="fixed right-0 top-[var(--cc-bars-height,49px)] bottom-[var(--cc-bottom-bar-height,32px)]" [style.left.px]="cloudLeftInset()">
+    <cc-word-cloud
+        [settings]="settings()"
+        [customShapeMask]="customShapeMask()"
+        [selectedNodePath]="selectedNodePath()"
+        [markedWords]="markedWords()"
+        (clearSelection)="clearSelection()"
+        (backgroundClicked)="deselect()"
+        (wordClicked)="showWordOccurrences($event)"
+        (wordRightClicked)="rightClickedWord.set($event)"
+    ></cc-word-cloud>
+    <cc-domain-toolbox class="absolute right-[10px] top-[10px] z-10 flex"></cc-domain-toolbox>
+</div>
+
+<cc-node-context-menu></cc-node-context-menu>
+
+<cc-domain-word-menu
+    [rightClickedWord]="rightClickedWord()"
+    (searchWord)="searchForWord($event)"
+    (hideWord)="hideWord($event)"
+    (closed)="closeWordMenu()"
+></cc-domain-word-menu>
+
+<cc-bottom-bar [showSelectedWhenNotHovered]="true" [selectedNodePath]="selectedNodePath()"></cc-bottom-bar>
+
+<cc-domain-bar></cc-domain-bar>

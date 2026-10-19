@@ -1,0 +1,43 @@
+{
+  "author": null,
+  "canonical_url": "https://www.closetcooking.com/jalapeno-popper-skillet-chicken/",
+  "site_name": "Closet Cooking",
+  "host": "closetcooking.com",
+  "language": "en-US",
+  "title": "Jalapeno Popper Skillet Chicken",
+  "ingredients": [
+    "1 tablespoon oil",
+    "1 pound chicken, boneless and skinless, diced",
+    "salt and pepper to taste",
+    "1 small onion, diced",
+    "2 jalapenos, sliced or diced",
+    "2 cloves garlic, chopped",
+    "1 cup chicken broth",
+    "4 ounces cream cheese, softened",
+    "1 cup cheddar cheese, shredded"
+  ],
+  "instructions_list": [
+    "Heat the oil in a pan over medium-high heat, add the chicken (seasoned with salt and pepper) and cook until lightly golden brown.",
+    "Add the onions and jalapenos and cook until tender, about a minute before adding the garlic and cooking another minute.",
+    "Add the chicken broth and deglaze the skillet by scraping the brown bits up off of the bottom of the pan as the broth sizzles.",
+    "Add the cheese and cook until it has melted and the sauce is nice and smooth"
+  ],
+  "yields": "5 servings",
+  "description": "Chicken in a cheesy jalapeno sauce! All of the flavours of jalapeno poppers in a skillet chicken dinner!",
+  "total_time": 20,
+  "cook_time": 15,
+  "prep_time": 5,
+  "nutrients": {
+    "calories": "Calories 415",
+    "fatContent": "Fat 32g",
+    "saturatedFatContent": "Saturated 13g",
+    "transFatContent": "Trans 0.2g",
+    "carbohydrateContent": "Carbs 4g",
+    "sugarContent": "Sugars 2g",
+    "proteinContent": "Protein 25g",
+    "sodiumContent": "Sodium 361mg",
+    "fiberContent": "Fiber 0.4g",
+    "cholesterolContent": "Cholesterol 117mg"
+  },
+  "image": "https://www.closetcooking.com/wp-content/uploads/2017/10/JalapenoPopperSkilletChicken8005532-1.jpg"
+}

@@ -1,0 +1,23 @@
+version: "3"
+services:
+    sonar:
+        image: sonarqube:10.7.0-community
+        container_name: sonar
+        ports:
+            - "9000:9000"
+
+    visualization:
+        image: codecharta/codecharta-visualization
+        build: visualization/.
+        container_name: codecharta-visualization
+        ports:
+            - "9001:80"
+
+    analysis:
+        user: "1000:1000"
+        image: codecharta/codecharta-analysis
+        container_name: codecharta-analysis
+        build: analysis/.
+        tty: true
+        environment:
+            - SONAR_HOST=http://sonar:9000

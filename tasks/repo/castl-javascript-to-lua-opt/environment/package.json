@@ -1,0 +1,43 @@
+{
+  "name": "castl",
+  "version": "1.2.4",
+  "description": "JavaScript to Lua compiler with runtime library",
+  "keywords": [
+    "castl",
+    "castlua",
+    "lua",
+    "compiler",
+    "ast",
+    "transpiler"
+  ],
+  "license": "LGPL-3.0",
+  "author": "Paul Bernier",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/PaulBernier/castl.git"
+  },
+  "main": "castl.js",
+  "scripts": {
+    "test": "node runTests.js"
+  },
+  "bin": {
+    "castl": "./bin/castl.js"
+  },
+  "dependencies": {
+    "acorn": "3.0.2",
+    "babel-core": "6.23.1",
+    "babel-preset-es2015": "6.22.0",
+    "babel-preset-es2016": "6.22.0",
+    "babel-preset-es2017": "6.22.0",
+    "commander": "2.9.0",
+    "esmangle": "1.0.1",
+    "esprima": "2.7.2"
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "bugs": {
+    "url": "http://github.com/PaulBernier/castl/issues"
+  },
+  "readmeFilename": "README.md"
+}

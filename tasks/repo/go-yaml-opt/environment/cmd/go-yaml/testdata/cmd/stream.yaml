@@ -1,0 +1,77 @@
+# Command-based tests for stream option
+
+- name: Stream option with pipe input
+  cmd: |
+    <<<'
+    a: b
+    ' go-yaml -o stream -n
+  out: |
+    - stream:
+        encoding: UTF-8
+    - mapping:
+      - plain: a
+      - plain: b
+    - stream:
+        encoding: UTF-8
+
+- name: Stream option profuse with pipe input
+  cmd: |
+    <<<'
+    a: b
+    ' go-yaml -o stream -N
+  out: |
+    - node: Stream
+      encoding: UTF-8
+    - node: Document
+      content:
+      - node: Mapping
+        style: Plain
+        tag: '!!map'
+        content:
+        - node: Scalar
+          style: Plain
+          tag: '!!str'
+          value: a
+        - node: Scalar
+          style: Plain
+          tag: '!!str'
+          value: b
+    - node: Stream
+      encoding: UTF-8
+
+- name: Without stream option no stream nodes
+  cmd: |
+    <<<'
+    key: value
+    ' go-yaml -n
+  out: |
+    mapping:
+    - plain: key
+    - plain: value
+
+- name: Stream option with scalar
+  cmd: |
+    <<<'
+    hello
+    ' go-yaml -o stream -n
+  out: |
+    - stream:
+        encoding: UTF-8
+    - plain: hello
+    - stream:
+        encoding: UTF-8
+
+- name: Stream option with sequence
+  cmd: |
+    <<<'
+    - a
+    - b
+    ' go-yaml -o stream -n
+  out: |
+    - stream:
+        encoding: UTF-8
+    - sequence:
+      - plain: a
+      - plain: b
+    - stream:
+        encoding: UTF-8

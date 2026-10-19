@@ -1,0 +1,16 @@
+{
+  "build_commands": [
+    "tsc --target ES2022 --module commonjs --skipLibCheck --outDir . ./subject.ts"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.ts",
+  "runtime_argv": [
+    "node",
+    "--experimental-specifier-resolution=node",
+    "./serve.cjs",
+    "subject.js",
+    "getLines"
+  ],
+  "launcher_builds": true
+}

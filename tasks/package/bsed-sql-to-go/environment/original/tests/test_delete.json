@@ -1,0 +1,37 @@
+{
+  "test_delete_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_delete_hello.txt",
+      "command": ["delete", "hello"]
+    }
+  ],
+  "test_delete_lines_containing_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_delete_lines_containing_hello.txt",
+      "command": ["delete", "lines", "containing", "hello"]
+    }
+  ],
+  "test_delete_lines_starting_with_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_delete_lines_starting_with_hello.txt",
+      "command": ["delete", "lines", "starting", "with", "hello"]
+    }
+  ],
+  "test_delete_lines_ending_with_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_delete_lines_ending_with_hello.txt",
+      "command": ["delete", "lines", "ending", "with", "hello"]
+    }
+  ],
+  "test_delete_lines_m_to_n": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_delete_lines_3_to_7.txt",
+      "command": ["delete", "lines", "3", "to", "7"]
+    }
+  ]
+}

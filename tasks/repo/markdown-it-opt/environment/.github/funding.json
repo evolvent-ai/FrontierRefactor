@@ -1,0 +1,97 @@
+{
+  "$schema": "https://fundingjson.org/schema/v1.1.0.json",
+  "version": "v1.1.0",
+  "entity": {
+    "type": "individual",
+    "role": "maintainer",
+    "name": "Vitaly Puzrin",
+    "email": "for.puzrin@gmail.com",
+    "description": "Open-source software architect and hardware developer.",
+    "webpageUrl": {
+      "url": "https://github.com/puzrin"
+    }
+  },
+  "projects": [
+    {
+      "guid": "markdown-it",
+      "name": "markdown-it",
+      "description": "Markdown parser for JavaScript.",
+      "webpageUrl": {
+        "url": "https://github.com/markdown-it/markdown-it"
+      },
+      "repositoryUrl": {
+        "url": "https://github.com/markdown-it/markdown-it"
+      },
+      "licenses": [
+        "spdx:MIT"
+      ],
+      "tags": [
+        "markdown",
+        "parser",
+        "javascript",
+        "nodejs",
+        "developer-tools",
+        "documentation",
+        "publishing",
+        "text-processing"
+      ]
+    }
+  ],
+  "funding": {
+    "channels": [
+      {
+        "guid": "github-sponsors",
+        "type": "payment-provider",
+        "address": "https://github.com/sponsors/puzrin",
+        "description": "GitHub Sponsors for recurring or one-time support."
+      },
+      {
+        "guid": "paypal",
+        "type": "payment-provider",
+        "address": "https://paypal.me/forpuzrin",
+        "description": "PayPal for one-time support."
+      }
+    ],
+    "plans": [
+      {
+        "guid": "maintenance-basic",
+        "status": "active",
+        "name": "Basic maintenance",
+        "description": "Security fixes and basic maintenance.",
+        "amount": 10000,
+        "currency": "USD",
+        "frequency": "yearly",
+        "channels": [
+          "github-sponsors",
+          "paypal"
+        ]
+      },
+      {
+        "guid": "deep-maintenance",
+        "status": "active",
+        "name": "Deep maintenance",
+        "description": "TypeScript migration, parser and ecosystem debt reduction, better CJK handling in linkify-it, and related correctness work.",
+        "amount": 25000,
+        "currency": "USD",
+        "frequency": "yearly",
+        "channels": [
+          "github-sponsors",
+          "paypal"
+        ]
+      },
+      {
+        "guid": "goodwill",
+        "status": "active",
+        "name": "General support",
+        "description": "Support ongoing maintenance of markdown-it at any level.",
+        "amount": 0,
+        "currency": "USD",
+        "frequency": "one-time",
+        "channels": [
+          "github-sponsors",
+          "paypal"
+        ]
+      }
+    ]
+  }
+}

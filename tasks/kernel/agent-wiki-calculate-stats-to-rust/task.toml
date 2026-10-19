@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "kernel/agent-wiki-calculate-stats-to-rust"
+description = "Calculate mean, stddev, min, max for a list of values."
+authors = []
+keywords = [ "kernel", "cross-language",]
+
+[metadata]
+scale = "kernel"
+source_language = "python"
+target_language = "rust"
+cross_language = true
+category = "performance-optimization"
+tags = [ "kernel", "cross-language",]
+provenance = "Reference is https://github.com/kyopark2014/agent-wiki.git at b08dedbd4d804370a070e043cafc33075c094d1a. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/kyopark2014/agent-wiki.git"
+commit = "b08dedbd4d804370a070e043cafc33075c094d1a"
+committed_at = "2026-09-09T01:28:31Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

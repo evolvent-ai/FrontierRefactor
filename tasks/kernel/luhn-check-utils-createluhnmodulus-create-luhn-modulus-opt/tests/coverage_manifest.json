@@ -1,0 +1,8 @@
+{
+  "graded_count": 57,
+  "operations": {
+    "createLuhnModulus": 57
+  },
+  "probe_count": 60,
+  "timed_count": 3
+}

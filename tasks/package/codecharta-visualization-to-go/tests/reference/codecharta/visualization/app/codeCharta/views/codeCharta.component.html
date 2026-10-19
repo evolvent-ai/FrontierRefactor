@@ -1,0 +1,11 @@
+<cc-error-dialog></cc-error-dialog>
+<cc-toast></cc-toast>
+@if (isInitialized()) {
+    <div>
+        <cc-nav-bar></cc-nav-bar>
+
+        <router-outlet></router-outlet>
+
+        <cc-changelog-dialog></cc-changelog-dialog>
+    </div>
+}

@@ -1,0 +1,7 @@
+{
+  "image_id": "sha256:894ee2d46b350e0947ebe46ec560064d71a25bcce526d67f78c9da696a003a51",
+  "image_ref": "benchmark-runtime:fdefda05635955b138723eb385c29183ab9238914b9ee52d90faee9abf8a7d3d",
+  "recipe_sha256": "fdefda05635955b138723eb385c29183ab9238914b9ee52d90faee9abf8a7d3d",
+  "source_language": "python",
+  "target_language": "rust"
+}

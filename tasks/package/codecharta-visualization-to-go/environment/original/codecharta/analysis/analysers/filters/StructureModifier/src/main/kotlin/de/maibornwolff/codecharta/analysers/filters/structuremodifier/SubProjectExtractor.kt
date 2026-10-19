@@ -1,0 +1,77 @@
+package de.maibornwolff.codecharta.analysers.filters.structuremodifier
+
+import de.maibornwolff.codecharta.model.BlacklistItem
+import de.maibornwolff.codecharta.model.Edge
+import de.maibornwolff.codecharta.model.MutableNode
+import de.maibornwolff.codecharta.model.Project
+import de.maibornwolff.codecharta.model.ProjectBuilder
+import de.maibornwolff.codecharta.util.Logger
+
+class SubProjectExtractor(private val project: Project) {
+    private lateinit var path: String
+
+    fun extract(path: String): Project {
+        this.path = path
+        val pathSegments =
+            path.removePrefix("/").split("/").filter {
+                it.isNotEmpty()
+            }
+        return ProjectBuilder
+            .fromLenses(
+                addRoot(extractNodes(pathSegments, project.rootNode.toMutableNode())),
+                project.lenses.copy(dependency = project.lenses.dependency.copy(edges = extractEdges(path))),
+                copyBlacklist(),
+                commitHash = project.commitHash
+            ).build(cleanAttributeDescriptors = true)
+    }
+
+    private fun extractNodes(extractionPattern: List<String>, node: MutableNode): MutableList<MutableNode> {
+        val children: Set<MutableNode> = node.children
+        val extractedNodes: MutableList<MutableNode> = mutableListOf()
+
+        val currentSearchPattern = extractionPattern.firstOrNull()
+        if (currentSearchPattern == node.name) {
+            return if (extractionPattern.size == 1) {
+                node.children.toMutableList()
+            } else {
+                children
+                    .map { child ->
+                        extractNodes(extractionPattern.drop(1), child)
+                    }.flatten()
+                    .toMutableList()
+            }
+        }
+
+        return extractedNodes
+    }
+
+    private fun addRoot(nodes: List<MutableNode>): List<MutableNode> {
+        if (nodes.isEmpty()) {
+            Logger.warn {
+                "No nodes with the specified path ($path) were found. The resulting project is therefore empty"
+            }
+        }
+
+        val rootNode = project.rootNode.toMutableNode()
+        rootNode.children = nodes.toMutableSet()
+        return mutableListOf(rootNode)
+    }
+
+    private fun extractEdges(extractionPattern: String): MutableList<Edge> {
+        val trimmedExtractionPattern = "/" + extractionPattern.removeSuffix("/").removePrefix("/")
+        return extractRenamedEdgesForPattern(trimmedExtractionPattern).toMutableList()
+    }
+
+    private fun extractRenamedEdgesForPattern(pattern: String): List<Edge> = project.lenses.dependency.edges
+        .filter {
+            it.fromNodeName.startsWith(pattern) && it.toNodeName.startsWith(pattern)
+        }.map { edge ->
+            Edge(
+                "/root" + edge.fromNodeName.removePrefix(pattern),
+                "/root" + edge.toNodeName.removePrefix(pattern),
+                edge.attributes
+            )
+        }
+
+    private fun copyBlacklist(): MutableList<BlacklistItem> = project.blacklist.toMutableList()
+}

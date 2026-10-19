@@ -1,0 +1,90 @@
+{
+  "build_commands": [
+    "/app/build.sh"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/implementation/main.go",
+  "implementation_directory": "/app/implementation",
+  "launcher_builds": true,
+  "target_language": "go",
+  "build_contract": "The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation. The first element of args selects the package operation; remaining elements are its positional arguments. Preserve all declared operations.",
+  "symbol": "entry",
+  "operations": [
+    "ar_to_fa",
+    "fa_to_ar",
+    "en_to_fa",
+    "fa_to_en",
+    "to_word",
+    "replace"
+  ],
+  "dispatch": [
+    {
+      "name": "ar_to_fa",
+      "module": "persiantools.characters",
+      "symbol": "ar_to_fa",
+      "signature": "(string)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "fa_to_ar",
+      "module": "persiantools.characters",
+      "symbol": "fa_to_ar",
+      "signature": "(string)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "en_to_fa",
+      "module": "persiantools.digits",
+      "symbol": "en_to_fa",
+      "signature": "(string)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "fa_to_en",
+      "module": "persiantools.digits",
+      "symbol": "fa_to_en",
+      "signature": "(string)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "to_word",
+      "module": "persiantools.digits",
+      "symbol": "to_word",
+      "signature": "(number)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "replace",
+      "module": "persiantools.utils",
+      "symbol": "replace",
+      "signature": "(string, dictionary)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    }
+  ]
+}

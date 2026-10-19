@@ -1,0 +1,2072 @@
+{
+ "dispatch": [
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/event.js",
+   "name": "Event",
+   "params": [],
+   "result": {},
+   "signature": "",
+   "symbol": "Event"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/event.js",
+   "name": "default",
+   "params": [],
+   "result": {},
+   "signature": "",
+   "symbol": "default"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/app.js",
+   "name": "App",
+   "params": [],
+   "result": {},
+   "signature": "",
+   "symbol": "App"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/talent.js",
+   "name": "Talent",
+   "params": [],
+   "result": {},
+   "signature": "",
+   "symbol": "Talent"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/life.js",
+   "name": "Life",
+   "params": [],
+   "result": {},
+   "signature": "",
+   "symbol": "Life"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/property.js",
+   "name": "Property",
+   "params": [],
+   "result": {},
+   "signature": "",
+   "symbol": "Property"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/achievement.js",
+   "name": "Achievement",
+   "params": [],
+   "result": {},
+   "signature": "",
+   "symbol": "Achievement"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/condition.js",
+   "name": "checkCondition",
+   "params": [],
+   "result": {},
+   "signature": "(property, condition, test = false)",
+   "symbol": "checkCondition"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/condition.js",
+   "name": "extractMaxTriggers",
+   "params": [],
+   "result": {},
+   "signature": "(condition)",
+   "symbol": "extractMaxTriggers"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/summary.js",
+   "name": "summary",
+   "params": [],
+   "result": {},
+   "signature": "(type, value)",
+   "symbol": "summary"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/addition.js",
+   "name": "getRate",
+   "params": [],
+   "result": {},
+   "signature": "(type, value)",
+   "symbol": "getRate"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/addition.js",
+   "name": "getGrade",
+   "params": [],
+   "result": {},
+   "signature": "(type, value)",
+   "symbol": "getGrade"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/util.js",
+   "name": "clone",
+   "params": [],
+   "result": {},
+   "signature": "(value)",
+   "symbol": "clone"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/util.js",
+   "name": "max",
+   "params": [],
+   "result": {},
+   "signature": "(...arr)",
+   "symbol": "max"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/util.js",
+   "name": "min",
+   "params": [],
+   "result": {},
+   "signature": "(...arr)",
+   "symbol": "min"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/util.js",
+   "name": "sum",
+   "params": [],
+   "result": {},
+   "signature": "(...arr)",
+   "symbol": "sum"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/util.js",
+   "name": "average",
+   "params": [],
+   "result": {},
+   "signature": "(...arr)",
+   "symbol": "average"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "javascript",
+   "module": "./src/functions/util.js",
+   "name": "map",
+   "params": [],
+   "result": {},
+   "signature": "(arr)",
+   "symbol": "map"
+  }
+ ],
+ "entry_points": [
+  "Event",
+  "default",
+  "App",
+  "Talent",
+  "Life",
+  "Property",
+  "Achievement",
+  "checkCondition",
+  "extractMaxTriggers",
+  "summary",
+  "getRate",
+  "getGrade",
+  "clone",
+  "max",
+  "min",
+  "sum",
+  "average",
+  "map"
+ ],
+ "freeze_runs": 5,
+ "graded": [
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0000",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0001",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0002",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0003",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0004",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0005",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0006",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0007",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0008",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0009",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0010",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0011",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0012",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0013",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0014",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0015",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0016",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0017",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0018",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0019",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0020",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0021",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0022",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0023",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0024",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0025",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0026",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a44737073c27519f02d6660e58c2fbe7ff650fa1d67ace174778c7d072d97468",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0027",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a44737073c27519f02d6660e58c2fbe7ff650fa1d67ace174778c7d072d97468",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0028",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a44737073c27519f02d6660e58c2fbe7ff650fa1d67ace174778c7d072d97468",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0029",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0030",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0031",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0032",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0033",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0034",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0035",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:765cd29b7d9c4b548887bd2b98abed76b7e0ec1ca1e213a7c4626352abbe080d",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0036",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3ecd3d00d890f8402e7d886c52a03b109b3d9a1f5bc83f05dc1e78d986da6764",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0037",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:4fe059d3aff6568ba2c63b9b32630717349fd16ba3317c64f0e3e358ceadef2e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0038",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:8115f85839255ec5e15a13b71af13ab5561b273bf608d1966fe247018dfb9597",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0039",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0040",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0041",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0042",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0043",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0044",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:c83c7d5254c6b65e8bda1ee99c0e9b6e0823ba9d1c1e5d355917dbde3365ddc0",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0045",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0046",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:782c71ca928cf61729e9e9d655ba2564f7bc0fe1d6002b735bb2ae02ece3ab26",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0047",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:ccf64f35269e971099aadbb2d905ae19293b38e273093fea08ca63f5b11b9d77",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0048",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0049",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0050",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a987682e6d36d72584cdc60d6a4cf71036b738bb1c61515d6aeb52ca91d61781",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0051",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:4fe059d3aff6568ba2c63b9b32630717349fd16ba3317c64f0e3e358ceadef2e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0052",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:158678f2ee01ad75e2a5b7715e593a425b3a0f04f9fd591aa7125d5cfd69b0aa",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0053",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0054",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0055",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0056",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0057",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0058",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0059",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0060",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0061",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0062",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0063",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0064",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b51cb17b5ece4e66e90cee4b0b0cd5365c5feb560f0d5f4b693a0a5d357c1d7a",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0065",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:1412782ae1391caad2ec6cebb89d39c30975a37c12a26d7a88c24c9762021934",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0066",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:430b09e15a3789897828dd16f1794feec0d5d2e20a68b57273abce64f4d760b9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0067",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:87f892abd5c1a484308d99774b5a2db23d5a40e1aefe3751a975edaff781aa3c",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0068",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:c83c7d5254c6b65e8bda1ee99c0e9b6e0823ba9d1c1e5d355917dbde3365ddc0",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0069",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:c671ede20b725ea580e1bd582c28b884b9117f6e6cd09bdc19dfb490a08a5757",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0070",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0071",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0072",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0073",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0074",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0075",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0076",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0077",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0078",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0079",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a44737073c27519f02d6660e58c2fbe7ff650fa1d67ace174778c7d072d97468",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0080",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0081",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0082",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a234075b4d8d63d91a5c3dad571f9bdea83bfc79905fae18e6216f9b1ad304f8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0083",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5196e554beb4c88f84e87cb9e31a8547843980b942508322bd5284587c0f7a68",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0084",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:bd0c7a13a9e2cb1ebaec7f43c73c6377695e73dadf563a659e3c39bdd28213e9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0085",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:f5da9c0650a803e5ee3dd7b3e21a2ace02c8e1995ed48b3d3ead8bb7d940290e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0086",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3e94fa7907b346c2d05f4e0f09cb5ef4e3096cf30591a8ae83d3eb8d42322da6",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0087",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:e7c81735640764bc1166c19796729e6ab3daf85b51a1a2ff31c51cda6fdf7a13",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0088",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0089",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0090",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0091",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0092",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0093",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0094",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0095",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0096",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0097",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a44737073c27519f02d6660e58c2fbe7ff650fa1d67ace174778c7d072d97468",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0098",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0099",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0100",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:239bdb9ffc13829fb31cfb1fe0a80057747005a2e2bd7f6ac0014611c31b0fd5",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0101",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:ba38deb05c598318aee83ffffaeabbcf7878bd3ef4ac4b5b0e63035ddbacebf1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0102",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:cf214185e8e9119dd67da3972801f5fe973c2b4f296e5760b2365fd46b45b8cb",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0103",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:f3538c8997f4f5b8fd2686c38be59231e3c0994ffb6e6c875ef6a3e791de69ea",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0104",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9d9132d7fa51f93a1e255f9056f892cb946e6adbc70de941abcb1832acd7d03f",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0105",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:6ead327cd6ea293257ec0049dd942b2434a75b6ad55d57fe92267654119295aa",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0106",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0107",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0108",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0109",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0110",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0111",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0112",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0113",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0114",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0115",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a44737073c27519f02d6660e58c2fbe7ff650fa1d67ace174778c7d072d97468",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0116",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0117",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0118",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:ddde060bdd0453878a7de82640a7873683aacc5ec620a8a9e3768d59025ab848",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0119",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:ee17d23eaf3cbb861487c8cb23048792f2aca8a69e6d5fa8e5b69413d47029cf",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0120",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:823609b8d1c1edf3c7cef8abb924aa32dc349f87758efac0600ec1126177128e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0121",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:abcb7d2fa9c0fd780badaa90ced2f146f318e51c0fa13dabecef26d1072ade8e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0122",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:e54a32b495473c95970cb366f1ea5195c5add8f231d981e928ff902fb6233116",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0123",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:d1b3a96b8db258a7314b653c7dfef21248b12842f59e761dffbda8d806dd0b6f",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0124",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0125",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:99b4abb5ab2919bca67842c49b98329a0429e5cf1a9aafdb038e20ece3ce26a4",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0126",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:80d51ddf618aaafdda3d2e89963c0db985b64d610879fbb38123cd3a8d583232",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0127",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:667b84f485453c4c30e43d0d506c2c615bd5e3b1b427f18b656b7e6e7c9871b8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0128",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:12fab609e7b0517480228457f3da2947140effd11b5b50f0ff76049e624e1647",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0129",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b194b129de8df0d0d4198a213a659e90431c27919795e62a115d4977c96005d2",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0130",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b9d7fd90d87a20ea8941ef56cc0c33ae526f40bad7044663e6de895fa9d7a432",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0131",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9448fd71c418988d631988cdf9e150090ad1ff8f5216e1f3a25437cbdae34f74",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0132",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:7d3e827caffbb80c720f8b67c8004a7f6a0e638f695dd2688397cca5b5bc3230",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0133",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:a44737073c27519f02d6660e58c2fbe7ff650fa1d67ace174778c7d072d97468",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0134",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0135",
+   "runs": 5
+  }
+ ],
+ "language": "javascript",
+ "package": true,
+ "package_name": "life_restart",
+ "probes": {
+  "probe-0000": [
+   "Event"
+  ],
+  "probe-0001": [
+   "Event",
+   null
+  ],
+  "probe-0002": [
+   "Event",
+   {
+    "case": "Event"
+   }
+  ],
+  "probe-0003": [
+   "default"
+  ],
+  "probe-0004": [
+   "default",
+   null
+  ],
+  "probe-0005": [
+   "default",
+   {
+    "case": "default"
+   }
+  ],
+  "probe-0006": [
+   "App"
+  ],
+  "probe-0007": [
+   "App",
+   null
+  ],
+  "probe-0008": [
+   "App",
+   {
+    "case": "App"
+   }
+  ],
+  "probe-0009": [
+   "Talent"
+  ],
+  "probe-0010": [
+   "Talent",
+   null
+  ],
+  "probe-0011": [
+   "Talent",
+   {
+    "case": "Talent"
+   }
+  ],
+  "probe-0012": [
+   "Life"
+  ],
+  "probe-0013": [
+   "Life",
+   null
+  ],
+  "probe-0014": [
+   "Life",
+   {
+    "case": "Life"
+   }
+  ],
+  "probe-0015": [
+   "Property"
+  ],
+  "probe-0016": [
+   "Property",
+   null
+  ],
+  "probe-0017": [
+   "Property",
+   {
+    "case": "Property"
+   }
+  ],
+  "probe-0018": [
+   "Achievement"
+  ],
+  "probe-0019": [
+   "Achievement",
+   null
+  ],
+  "probe-0020": [
+   "Achievement",
+   {
+    "case": "Achievement"
+   }
+  ],
+  "probe-0021": [
+   "checkCondition",
+   {
+    "value": 10
+   },
+   ">= 5",
+   false
+  ],
+  "probe-0022": [
+   "checkCondition",
+   {
+    "value": 0
+   },
+   "== 0",
+   true
+  ],
+  "probe-0023": [
+   "checkCondition",
+   "not-a-property",
+   ">= 5",
+   false
+  ],
+  "probe-0024": [
+   "extractMaxTriggers",
+   "max: 3"
+  ],
+  "probe-0025": [
+   "extractMaxTriggers",
+   ""
+  ],
+  "probe-0026": [
+   "extractMaxTriggers",
+   {
+    "condition": "max: 3"
+   }
+  ],
+  "probe-0027": [
+   "summary",
+   "life",
+   10
+  ],
+  "probe-0028": [
+   "summary",
+   "",
+   0
+  ],
+  "probe-0029": [
+   "summary",
+   null,
+   "invalid"
+  ],
+  "probe-0030": [
+   "getRate",
+   "life",
+   10
+  ],
+  "probe-0031": [
+   "getRate",
+   "",
+   0
+  ],
+  "probe-0032": [
+   "getRate",
+   null,
+   "invalid"
+  ],
+  "probe-0033": [
+   "getGrade",
+   "life",
+   10
+  ],
+  "probe-0034": [
+   "getGrade",
+   "",
+   0
+  ],
+  "probe-0035": [
+   "getGrade",
+   null,
+   "invalid"
+  ],
+  "probe-0036": [
+   "clone",
+   {
+    "value": 1
+   }
+  ],
+  "probe-0037": [
+   "clone",
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  "probe-0038": [
+   "clone",
+   null
+  ],
+  "probe-0039": [
+   "max",
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  "probe-0040": [
+   "max",
+   []
+  ],
+  "probe-0041": [
+   "max",
+   [
+    "a",
+    2
+   ]
+  ],
+  "probe-0042": [
+   "min",
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  "probe-0043": [
+   "min",
+   []
+  ],
+  "probe-0044": [
+   "min",
+   [
+    "a",
+    2
+   ]
+  ],
+  "probe-0045": [
+   "sum",
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  "probe-0046": [
+   "sum",
+   []
+  ],
+  "probe-0047": [
+   "sum",
+   [
+    "a",
+    2
+   ]
+  ],
+  "probe-0048": [
+   "average",
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  "probe-0049": [
+   "average",
+   []
+  ],
+  "probe-0050": [
+   "average",
+   [
+    "a",
+    2
+   ]
+  ],
+  "probe-0051": [
+   "map",
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  "probe-0052": [
+   "map",
+   []
+  ],
+  "probe-0053": [
+   "map",
+   "not-an-array"
+  ],
+  "probe-0054": [
+   "Event",
+   {
+    "case": 1,
+    "name": "Event"
+   }
+  ],
+  "probe-0055": [
+   "default",
+   {
+    "case": 2,
+    "name": "default"
+   }
+  ],
+  "probe-0056": [
+   "App",
+   {
+    "case": 3,
+    "name": "App"
+   }
+  ],
+  "probe-0057": [
+   "Talent",
+   {
+    "case": 4,
+    "name": "Talent"
+   }
+  ],
+  "probe-0058": [
+   "Life",
+   {
+    "case": 5,
+    "name": "Life"
+   }
+  ],
+  "probe-0059": [
+   "Property",
+   {
+    "case": 6,
+    "name": "Property"
+   }
+  ],
+  "probe-0060": [
+   "Achievement",
+   {
+    "case": 7,
+    "name": "Achievement"
+   }
+  ],
+  "probe-0061": [
+   "checkCondition",
+   {
+    "value": 8
+   },
+   ">= 8",
+   false
+  ],
+  "probe-0062": [
+   "extractMaxTriggers",
+   "max: 9"
+  ],
+  "probe-0063": [
+   "getRate",
+   "life",
+   11
+  ],
+  "probe-0064": [
+   "getGrade",
+   "life",
+   12
+  ],
+  "probe-0065": [
+   "clone",
+   {
+    "case": 13,
+    "items": [
+     13,
+     14
+    ]
+   }
+  ],
+  "probe-0066": [
+   "max",
+   [
+    14,
+    15,
+    -14
+   ]
+  ],
+  "probe-0067": [
+   "min",
+   [
+    15,
+    16,
+    -15
+   ]
+  ],
+  "probe-0068": [
+   "sum",
+   [
+    16,
+    17,
+    -16
+   ]
+  ],
+  "probe-0069": [
+   "average",
+   [
+    17,
+    18,
+    -17
+   ]
+  ],
+  "probe-0070": [
+   "map",
+   [
+    {
+     "id": 18,
+     "value": 4
+    }
+   ]
+  ],
+  "probe-0071": [
+   "Event",
+   {
+    "case": 19,
+    "name": "Event"
+   }
+  ],
+  "probe-0072": [
+   "default",
+   {
+    "case": 20,
+    "name": "default"
+   }
+  ],
+  "probe-0073": [
+   "App",
+   {
+    "case": 21,
+    "name": "App"
+   }
+  ],
+  "probe-0074": [
+   "Talent",
+   {
+    "case": 22,
+    "name": "Talent"
+   }
+  ],
+  "probe-0075": [
+   "Life",
+   {
+    "case": 23,
+    "name": "Life"
+   }
+  ],
+  "probe-0076": [
+   "Property",
+   {
+    "case": 24,
+    "name": "Property"
+   }
+  ],
+  "probe-0077": [
+   "Achievement",
+   {
+    "case": 25,
+    "name": "Achievement"
+   }
+  ],
+  "probe-0078": [
+   "checkCondition",
+   {
+    "value": 26
+   },
+   ">= 26",
+   false
+  ],
+  "probe-0079": [
+   "extractMaxTriggers",
+   "max: 27"
+  ],
+  "probe-0080": [
+   "summary",
+   "life",
+   28
+  ],
+  "probe-0081": [
+   "getRate",
+   "life",
+   29
+  ],
+  "probe-0082": [
+   "getGrade",
+   "life",
+   30
+  ],
+  "probe-0083": [
+   "clone",
+   {
+    "case": 31,
+    "items": [
+     31,
+     32
+    ]
+   }
+  ],
+  "probe-0084": [
+   "max",
+   [
+    32,
+    33,
+    -32
+   ]
+  ],
+  "probe-0085": [
+   "min",
+   [
+    33,
+    34,
+    -33
+   ]
+  ],
+  "probe-0086": [
+   "sum",
+   [
+    34,
+    35,
+    -34
+   ]
+  ],
+  "probe-0087": [
+   "average",
+   [
+    35,
+    36,
+    -35
+   ]
+  ],
+  "probe-0088": [
+   "map",
+   [
+    {
+     "id": 36,
+     "value": 1
+    }
+   ]
+  ],
+  "probe-0089": [
+   "Event",
+   {
+    "case": 37,
+    "name": "Event"
+   }
+  ],
+  "probe-0090": [
+   "default",
+   {
+    "case": 38,
+    "name": "default"
+   }
+  ],
+  "probe-0091": [
+   "App",
+   {
+    "case": 39,
+    "name": "App"
+   }
+  ],
+  "probe-0092": [
+   "Talent",
+   {
+    "case": 40,
+    "name": "Talent"
+   }
+  ],
+  "probe-0093": [
+   "Life",
+   {
+    "case": 41,
+    "name": "Life"
+   }
+  ],
+  "probe-0094": [
+   "Property",
+   {
+    "case": 42,
+    "name": "Property"
+   }
+  ],
+  "probe-0095": [
+   "Achievement",
+   {
+    "case": 43,
+    "name": "Achievement"
+   }
+  ],
+  "probe-0096": [
+   "checkCondition",
+   {
+    "value": 44
+   },
+   ">= 44",
+   false
+  ],
+  "probe-0097": [
+   "extractMaxTriggers",
+   "max: 45"
+  ],
+  "probe-0098": [
+   "summary",
+   "life",
+   46
+  ],
+  "probe-0099": [
+   "getRate",
+   "life",
+   47
+  ],
+  "probe-0100": [
+   "getGrade",
+   "life",
+   48
+  ],
+  "probe-0101": [
+   "clone",
+   {
+    "case": 49,
+    "items": [
+     49,
+     50
+    ]
+   }
+  ],
+  "probe-0102": [
+   "max",
+   [
+    50,
+    51,
+    -50
+   ]
+  ],
+  "probe-0103": [
+   "min",
+   [
+    51,
+    52,
+    -51
+   ]
+  ],
+  "probe-0104": [
+   "sum",
+   [
+    52,
+    53,
+    -52
+   ]
+  ],
+  "probe-0105": [
+   "average",
+   [
+    53,
+    54,
+    -53
+   ]
+  ],
+  "probe-0106": [
+   "map",
+   [
+    {
+     "id": 54,
+     "value": 5
+    }
+   ]
+  ],
+  "probe-0107": [
+   "Event",
+   {
+    "case": 55,
+    "name": "Event"
+   }
+  ],
+  "probe-0108": [
+   "default",
+   {
+    "case": 56,
+    "name": "default"
+   }
+  ],
+  "probe-0109": [
+   "App",
+   {
+    "case": 57,
+    "name": "App"
+   }
+  ],
+  "probe-0110": [
+   "Talent",
+   {
+    "case": 58,
+    "name": "Talent"
+   }
+  ],
+  "probe-0111": [
+   "Life",
+   {
+    "case": 59,
+    "name": "Life"
+   }
+  ],
+  "probe-0112": [
+   "Property",
+   {
+    "case": 60,
+    "name": "Property"
+   }
+  ],
+  "probe-0113": [
+   "Achievement",
+   {
+    "case": 61,
+    "name": "Achievement"
+   }
+  ],
+  "probe-0114": [
+   "checkCondition",
+   {
+    "value": 62
+   },
+   ">= 62",
+   false
+  ],
+  "probe-0115": [
+   "extractMaxTriggers",
+   "max: 63"
+  ],
+  "probe-0116": [
+   "summary",
+   "life",
+   64
+  ],
+  "probe-0117": [
+   "getRate",
+   "life",
+   65
+  ],
+  "probe-0118": [
+   "getGrade",
+   "life",
+   66
+  ],
+  "probe-0119": [
+   "clone",
+   {
+    "case": 67,
+    "items": [
+     67,
+     68
+    ]
+   }
+  ],
+  "probe-0120": [
+   "max",
+   [
+    68,
+    69,
+    -68
+   ]
+  ],
+  "probe-0121": [
+   "min",
+   [
+    69,
+    70,
+    -69
+   ]
+  ],
+  "probe-0122": [
+   "sum",
+   [
+    70,
+    71,
+    -70
+   ]
+  ],
+  "probe-0123": [
+   "average",
+   [
+    71,
+    72,
+    -71
+   ]
+  ],
+  "probe-0124": [
+   "map",
+   [
+    {
+     "id": 72,
+     "value": 2
+    }
+   ]
+  ],
+  "probe-0125": [
+   "Event",
+   {
+    "case": 73,
+    "name": "Event"
+   }
+  ],
+  "probe-0126": [
+   "default",
+   {
+    "case": 74,
+    "name": "default"
+   }
+  ],
+  "probe-0127": [
+   "App",
+   {
+    "case": 75,
+    "name": "App"
+   }
+  ],
+  "probe-0128": [
+   "Talent",
+   {
+    "case": 76,
+    "name": "Talent"
+   }
+  ],
+  "probe-0129": [
+   "Life",
+   {
+    "case": 77,
+    "name": "Life"
+   }
+  ],
+  "probe-0130": [
+   "Property",
+   {
+    "case": 78,
+    "name": "Property"
+   }
+  ],
+  "probe-0131": [
+   "Achievement",
+   {
+    "case": 79,
+    "name": "Achievement"
+   }
+  ],
+  "probe-0132": [
+   "checkCondition",
+   {
+    "value": 80
+   },
+   ">= 80",
+   false
+  ],
+  "probe-0133": [
+   "extractMaxTriggers",
+   "max: 81"
+  ],
+  "probe-0134": [
+   "summary",
+   "life",
+   82
+  ],
+  "probe-0135": [
+   "getRate",
+   "life",
+   83
+  ],
+  "probe-0136": [
+   "getGrade",
+   "life",
+   84
+  ],
+  "probe-0137": [
+   "clone",
+   {
+    "case": 85,
+    "items": [
+     85,
+     86
+    ]
+   }
+  ],
+  "probe-0138": [
+   "max",
+   [
+    86,
+    87,
+    -86
+   ]
+  ]
+ },
+ "symbol": "entry",
+ "timed": [
+  "probe-0136",
+  "probe-0137",
+  "probe-0138"
+ ],
+ "timed_expectations": {
+  "probe-0136": "sha256:5c7aaec6efda5d0e4b5e6690a592326ead62afbd0acd49c221139d7a476ccde9",
+  "probe-0137": "sha256:2c3a7efbede1c3a635fb621b152047bdd6fd11e86adfc57c9ca60542390bf560",
+  "probe-0138": "sha256:a8812ca116f05588ef3057984e495b258d7fcdef81482c011c511af45a4a6b17"
+ }
+}

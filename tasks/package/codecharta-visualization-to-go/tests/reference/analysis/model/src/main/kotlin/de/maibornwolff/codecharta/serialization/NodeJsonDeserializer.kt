@@ -1,0 +1,58 @@
+package de.maibornwolff.codecharta.serialization
+
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParseException
+import com.google.gson.ToNumberPolicy
+import de.maibornwolff.codecharta.model.Node
+import de.maibornwolff.codecharta.model.NodeType
+import java.lang.reflect.Type
+
+internal class NodeJsonDeserializer : JsonDeserializer<Node> {
+    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext?): Node {
+        val jsonNode = json.asJsonObject
+
+        val name = deserializeName(jsonNode)
+        val nodeType = deserializeNodeType(jsonNode)
+        val attributes = deserializeAttributes(jsonNode)
+        val link = deserializeLink(jsonNode)
+        val children = deserializeChildren(jsonNode)
+        val checksum = deserializeChecksum(jsonNode)
+
+        return Node(name, nodeType, attributes, link, children.toSet(), checksum)
+    }
+
+    private fun deserializeLink(jsonNode: JsonObject): String? = jsonNode["link"]?.asString
+
+    private fun deserializeNodeType(jsonNode: JsonObject): NodeType {
+        val typeElement = jsonNode["type"] ?: throw JsonParseException("Type element is missing.")
+        return NodeType.parse(typeElement.asString)
+    }
+
+    private fun deserializeName(jsonNode: JsonObject): String {
+        val nameElement = jsonNode["name"] ?: throw JsonParseException("Name element is missing.")
+        return nameElement.asString
+    }
+
+    private fun deserializeAttributes(jsonNode: JsonObject): Map<String, Any> {
+        val attributes = jsonNode["attributes"] ?: return mapOf()
+
+        // Read whole-number attribute values as Long instead of GSON's default Double, so an integer
+        // metric survives a read→write round-trip as `1` rather than being widened to `1.0`.
+        val gson = GsonBuilder().setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE).create()
+        return gson.fromJson<Map<String, Any>>(attributes, Map::class.java)
+    }
+
+    private fun deserializeChildren(jsonNode: JsonObject): List<Node> {
+        val children = jsonNode["children"] ?: return listOf()
+
+        return children.asJsonArray.mapTo(ArrayList()) {
+            deserialize(it, Node::class.java, null)
+        }
+    }
+
+    private fun deserializeChecksum(jsonNode: JsonObject): String? = jsonNode["checksum"]?.asString
+}

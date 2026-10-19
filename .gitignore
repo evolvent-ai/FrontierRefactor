@@ -1,0 +1,7 @@
+/.env
+/.scratch/
+/results/
+/frf-harvest/
+/frf-run.json
+/frf-run.json.partial
+/scripts/__pycache__/

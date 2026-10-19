@@ -1,0 +1,7 @@
+{
+  "image_id": "sha256:d55ba92c94f9c3e208f3fa3250f0fcfa6141d84d618549cb2a8d5b98e275841f",
+  "image_ref": "benchmark-runtime:57f620fa28209f6196122964a4079dc247255245cf67023df1dfad2f9c7d50a3",
+  "recipe_sha256": "57f620fa28209f6196122964a4079dc247255245cf67023df1dfad2f9c7d50a3",
+  "source_language": "javascript",
+  "target_language": "javascript"
+}

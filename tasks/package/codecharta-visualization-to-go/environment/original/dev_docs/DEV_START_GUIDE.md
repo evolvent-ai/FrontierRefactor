@@ -1,0 +1,233 @@
+# Developer Quick Start Guide
+
+CodeCharta consists of two separate parts:
+
+- The [analysis](https://maibornwolff.github.io/codecharta/docs/analysis/) which is a cli-tool that generates a `.cc.json` file.
+- The [visualization](https://maibornwolff.github.io/codecharta/docs/visualization/) that consumes said file and visualises it in form of a tree map. The visualization has both a desktop client and a [web version](https://maibornwolff.github.io/codecharta/visualization/app/index.html?file=codecharta.cc.json.gz&file=codecharta_analysis.cc.json.gz&currentFilesAreSampleFiles=true).
+
+Both parts are in active development, meaning as a developer you can contribute to both. For more on how we communicate and how you can give feedback, check out [feedback](https://maibornwolff.github.io/codecharta/docs/feedback/).
+
+All major decisions are documented in our [architecture decision records (ADR)](https://maibornwolff.github.io/codecharta/categories/#adr). It’s also important to know that CodeCharta uses [two different tech stacks](https://maibornwolff.github.io/codecharta/adr/ADR_1_decide_tech_stack/) for analysis and visualization.
+
+## Requirements
+
+To work on CodeCharta, please ensure your system includes:
+
+- Git (with bash utilities for Windows)
+- Java >= 11, <= 21
+- Node >= 22.19
+
+## Install guide
+
+To start contributing to CodeCharta, first clone the [GitHub repository](https://github.com/MaibornWolff/codecharta) and navigate into it
+
+```bash
+# clone the repository
+git clone https://github.com/MaibornWolff/codecharta.git
+# navigate into the created folder
+cd codecharta
+# install npm dependencies
+npm i
+```
+
+CodeCharta consists of the two parts analysis and visualization which can be installed and used separately.
+Meaning, it is not necessary to have the visualization installed when only working on the analysis part of CodeCharta and vice versa.
+Therefore, this guide includes separate installation guides for both parts.
+
+### Install Analysis
+
+```bash
+# change into analysis sub-folder
+cd analysis
+# build the program from source (result is bundled in .tar and .zip files)
+./gradlew build
+# installs the built distribution
+./gradlew installDist
+```
+
+With this, the cli-tool is installed. When running `ccsh` however, we still get an error as the command is not accessible.
+There are three ways in which the cli-tool can be used:
+
+- Navigate into the folder where the installed shell and batch files are created (`analysis/build/install/codecharta-analysis/bin`) and executing commands from there
+- Call the ccsh with the relative path to the current location. E.g. in the analysis folder with `./build/install/codecharta-analysis/bin/ccsh`
+- Add the installed shell or batch files to the path to make it globally accessible. This can be done by adding the shell or batch file to the path of your terminal.
+  As this process is specific to each terminal, we cannot include instructions here, but searching for "{name-of-console} add to path" should result in fitting instructions.
+  This solution is recommended, as it is the most effort in the short term but the most comfortable in the long run.
+
+### Install Visualisation
+
+As the visualisation has both a desktop client and a web-version, we provide instructions on how to install both.
+
+#### Web version
+
+This option will be the more comfortable choice for development, as the program is started as localhost and changes are quickly visible.
+
+```bash
+# change into visualization sub-folder
+cd visualization
+# install visualization specific npm dependencies
+npm i
+# build and start the web-version as localhost
+npm run dev
+# this should open a browser window with the web version
+```
+
+#### Desktop client
+
+We also provide CodeCharta as a standalone desktop app with versions for windows, mac and linux. A local version for your system can be built using the following commands:
+
+```bash
+# change into visualization sub-folder
+cd visualization
+# install visualization specific npm dependencies
+npm i
+# build the standalone app from source
+npm run build
+# start the built standalone client
+npm run start
+```
+
+You can also directly build a distributable package (.zip) of the standalone client for your system.
+For more information, see the 'Package' section of the [visualization readme](https://github.com/MaibornWolff/codecharta/tree/main/visualization#package).
+
+## Testing
+
+The analysis and visualization parts are tested separately with different tools. \
+For the analysis, we use gradle for testing, linting and formatting. More information is available [here](https://maibornwolff.github.io/codecharta/docs/new-to-code-analysis/#testing).\
+For the visualization, we utilize Jest and puppeteer for unit- and e2e-tests. To run all unit tests, execute `npm test`. More information about e2e-tests can be found [here](https://maibornwolff.github.io/codecharta/dev-guide/e2e-testing-with-puppeteer/).
+
+When opening a pull requests, all tests are executed automatically using GitHub-actions and a branch can only be merged if all tests are successful. However, it is highly recommended to test changes before pushing them!
+
+## GitHub Actions
+
+In GitHub Actions, we defined stages, which group different jobs. Inside a stage, all jobs run in parallel. There is no data persistence between stages, so we have to rebuild our application in each stage. The CI consists of the following stages:
+
+- Testing (which runs on every push on an active PR)
+- Sonar Analysis (which runs on every push on an active PR after testing to ensure code quality metrics are met)
+- Deploy (run by `make_release.py`)
+
+All workflow files can be found under `.github/workflows`
+
+### Testing
+
+- Runs Unit and E2E/UI-Tests
+- Workflow: `test.yml`
+
+#### Sonar
+
+- Publishes Sonar-Analysis-Results to [Sonarcloud.io](https://sonarcloud.io) and displays code-quality of the current PR
+- Workflow: `test.yml`
+
+#### Deploy
+
+- Separate workflow for analysis and visualization
+- Deploys the application in a docker container to the github-pages
+- Publishes the new version on npm
+- Publishes a docker container on [Docker Hub](https://hub.docker.com/r/codecharta/codecharta-visualization)
+
+- Workflows: `release-analysis.yml` and `release-visualization.yml`
+
+## Docker
+
+For deployment and usage of the docker images, check out our documentation page [here](https://maibornwolff.github.io/codecharta/docs/docker-containers/).
+
+## Troubleshooting
+
+We mainly use IntelliJ for our development. The project generally works right away, but sometimes issues can occur:
+
+- Sometimes when opening the main CodeCharta folder, the analysis part does not get detected as a module. To solve this, directly open the analysis folder.
+- If you get Error `lint-staged: command not found` when trying to commit: Try to reinstall the node packages in the project. To do that, visit the root directory of the project (and the subdirectories for analysis and visualization if that still fails) and execute `npm ci`.
+- The integration tests for the analysis (`./gradlew integrationTest`) can fail due to OS specific problems:
+
+  - On **windows** this may be caused by a missing or unknown `sh` command.
+    To make it work, add the path to the Git `sh.exe` (which is normally placed here `C:\<path-to-git>\Git\bin`) to your PATH variable.
+  - For **macOS**, it is necessary to install the `timeout` command (e.g. using `brew install coreutils`) to execute the integration tests.
+
+- When working on visualization, IntelliJ does not correctly detect our test-suite. To execute tests using the build in runners,
+  it is necessary to adjust the Jest-Configuration:
+  - First select 'Edit...' from the 'More actions' menu next to the Runner icon
+  - Inside there, select 'Edit configuration templates...' at the bottom left
+  - Select 'Jest' and set 'jestUnit.config.json' as the configuration file as well as adding the Jest option '--env=jsdom'
+  - After clicking apply, IntelliJ should e able to execute all visualization tests
+
+## Branching / Releasing
+
+We create Pull Requests to the `main` branch after implementing a feature or fixing a bug. There is no release or development branch. We never push on `main` directly. Please take a look at our [contributing guidelines](https://github.com/MaibornWolff/codecharta/blob/main/CONTRIBUTING.md) before you start committing.
+
+### Rebase
+
+Always try to rebase your changes on top of main after a PR is done. Talk to other developers if that is not possible.
+To make rebasing easier, keep the following in mind:
+
+- If fast-forward is not possible, try `git pull --rebase`
+  > Especially useful is someone else rebased your remote branch onto main
+- Regularly update your branch via `git rebase main`
+  > If you use merge here, it will get complicated later
+- ! After you finish the update via rebasing onto main, you **need** to `git push --force-with-lease` to your remote branch
+  > DO NOT merge your local and remote branch at this point
+
+We prefer the usage of rebase for updates on-branch and transfers to main to keep the commit history clean.
+
+## Documentation structure
+
+Our documentation is generally split between user docs and developer docs.
+The user docs can be found in the [GitHub-pages](https://maibornwolff.github.io/codecharta/docs/quick-start-guide/),
+while the developer docs can be found inside the [GitHub repository](https://github.com/MaibornWolff/codecharta) in several README files.
+Each relevant part of the project that requires explanation includes a README file.
+If this is not the case, feel free to open an issue, so it will be added.
+Additionally, for the analysis, the ccsh-command, as well as every parser includes a `-h` flag to show further information about its usages.
+For more information about the CodeChart Shell and individual parsers, click [here](https://maibornwolff.github.io/codecharta/docs/ccsh/).
+
+## Code Style
+
+The basic code format is defined through the `.editorconfig`. If possible, the other formatting tools check out those rules.
+Editors like VSC and IntelliJ Idea are able to apply those basic settings as well.
+
+### Analysis
+
+In the analysis our code style is applied through `gradle`:
+
+```bash
+# verify code style
+./gradlew ktlintCheck
+# format code style
+./gradlew ktlintFormat
+```
+
+The tool _KTlint_ is added to gradle via a plugin. _KTlint_ is a linter and a formatting tool, with rules defined in the `.editorconfig`.
+
+### Visualization
+
+In the Visualization we use BiomeJS to format and lint our code, to keep it in a consistant style.
+You can execute the script in the root package.json yourself or we highly recommend installing the Biome extension and formatting on save.
+If the code is not formatted, the git hooks will format it for you before commiting.
+
+### Commits: Linting on Staged Files
+
+Your code should be automatically checked and formatted for code style and quality before commiting. To ensure this works as expected run
+`npm i` in the root directory and in `visualization/`. This command installs _Husky_, which is our tool for Git Hooks.
+On commit the `.husky/pre-commit.sh` gets executed, which runs _Pretty-Quick_ (Prettier extension) on staged files as well as _Lint-Staged_ in
+visualization. _Lint-Staged_ runs a given linter (in this case _EsLint_) on staged files, as defined inside the package.json `lint-staged: {...}`.
+
+The analysis does not get automatically linted on commit.
+
+### Editor Setup
+
+> It is a good idea to check, if there are any plugin versions of ours tools available for your code editor. Those plugins usually enable a
+> non-intrusive code linting on save, which can really help with code style, and avoids commits,solely focused on formatting.
+
+#### IntelliJ Idea
+
+For analysis the code style is based on the official `Kotlin Coding Conventions`. This baseline can be set in the configuration.
+
+## Dependency Updates
+
+Non-major dependency updates and security patches are done via renovate. Renovate auto-merges thoses PRs if possible. A developer tests and verifies dependency changes if there is a problem with an update. In general, a developer should assign themselves to a dependency story after a non-dependency story is done.
+
+## Contributing
+
+If you are interested in contributing, please check out [CONTRIBUTING.md](https://github.com/MaibornWolff/codecharta/blob/main/CONTRIBUTING.md) before working on existing or creating new issues or pull requests.
+If you want to know more about the codebase, useful starting points are:
+[New to this Code?](https://maibornwolff.github.io/codecharta/docs/new-to-code/),
+[New To Analysis?](https://maibornwolff.github.io/codecharta/docs/new-to-code-analysis/) and
+[New to Visualization?](https://maibornwolff.github.io/codecharta/docs/new-to-code-visualization/).

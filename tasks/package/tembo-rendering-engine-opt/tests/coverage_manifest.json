@@ -1,0 +1,32 @@
+{
+  "graded_count": 197,
+  "operations": {
+    "TextNode": 8,
+    "TreeNode": 8,
+    "appendChild": 8,
+    "clone": 8,
+    "createElement": 8,
+    "createText": 8,
+    "differentPatch": 8,
+    "differentTypes": 8,
+    "getChildren": 8,
+    "getID": 8,
+    "getId": 8,
+    "getText": 8,
+    "insertChild": 8,
+    "isElement": 8,
+    "isNative": 8,
+    "isText": 8,
+    "merge": 5,
+    "removeChild": 8,
+    "render": 8,
+    "replaceChild": 8,
+    "setDOM": 8,
+    "setID": 8,
+    "setId": 8,
+    "setProp": 8,
+    "setText": 8
+  },
+  "probe_count": 200,
+  "timed_count": 3
+}

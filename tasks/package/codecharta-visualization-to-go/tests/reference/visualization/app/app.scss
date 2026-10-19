@@ -1,0 +1,73 @@
+@use "mixins" as *;
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "@fortawesome/fontawesome-free/css/v4-shims.css";
+@import "@fortawesome/fontawesome-free/css/v4-font-face.css";
+
+*,
+*:before,
+*:after {
+    @include prefix(
+        (
+            box-sizing: border-box
+        ),
+        webkit moz ms o
+    );
+}
+
+html,
+body {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+
+    @include prefix(
+        (
+            user-select: none
+        ),
+        webkit moz ms o
+    );
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+// Native HTML popovers must be hidden when closed even if utility classes
+// (flex, grid, etc.) on the popover element override the user-agent
+// `display: none` rule.
+[popover]:not(:popover-open) {
+    display: none !important;
+}
+
+// Tailwind's `ring-*` utilities don't currently expose a dashed variant; the
+// metrics-bar link button uses a dashed outline to signal the "unlinked" state.
+.cc-link-button-dashed {
+    outline-style: dashed;
+    outline-width: 1px;
+    outline-offset: 1px;
+}
+
+// The metrics bar uses `divide-x` to draw vertical separators between every
+// segment, but the link button visually belongs together with the color
+// segment that immediately follows it, so suppress the divider on the link
+// button. `display: contents` on the surrounding segments means the right
+// border lands on the link button element itself.
+cc-metrics-bar > cc-link-color-height-button {
+    border-inline-end-width: 0;
+}
+
+// Marks the current item in the top bar: the Metric/Domain tabs and the modes in the bar below them
+// all wear the same primary underline hugging their bottom edge. Extracted from the templates
+// because five copies of the utility chain drift apart, and the marker has to stay identical for
+// the two rows to read as one selection language. Draw it on a `relative` parent.
+.cc-current-underline {
+    position: absolute;
+    inset-inline: 0.5rem;
+    bottom: 0;
+    height: 0.125rem;
+    border-start-start-radius: 9999px;
+    border-start-end-radius: 9999px;
+    background-color: var(--color-primary);
+}

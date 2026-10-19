@@ -1,0 +1,152 @@
+{
+  "build_commands": [],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.cjs",
+  "runtime_argv": [
+    "node",
+    "--experimental-specifier-resolution=node",
+    "./serve.cjs",
+    "subject.cjs",
+    "entry"
+  ],
+  "launcher_builds": true,
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The first element of args selects the package operation; remaining elements are its positional arguments. Preserve all declared operations.",
+  "symbol": "entry",
+  "operations": [
+    "isObject",
+    "hasRegexChars",
+    "isRegexChar",
+    "escapeRegex",
+    "toPosixSlashes",
+    "isWindows",
+    "removeBackslashes",
+    "escapeLast",
+    "removePrefix",
+    "wrapOutput",
+    "basename"
+  ],
+  "dispatch": [
+    {
+      "name": "isObject",
+      "module": "./lib/utils.js",
+      "symbol": "isObject",
+      "signature": "",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "hasRegexChars",
+      "module": "./lib/utils.js",
+      "symbol": "hasRegexChars",
+      "signature": "",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "isRegexChar",
+      "module": "./lib/utils.js",
+      "symbol": "isRegexChar",
+      "signature": "",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "escapeRegex",
+      "module": "./lib/utils.js",
+      "symbol": "escapeRegex",
+      "signature": "",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "toPosixSlashes",
+      "module": "./lib/utils.js",
+      "symbol": "toPosixSlashes",
+      "signature": "",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "isWindows",
+      "module": "./lib/utils.js",
+      "symbol": "isWindows",
+      "signature": "()",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "removeBackslashes",
+      "module": "./lib/utils.js",
+      "symbol": "removeBackslashes",
+      "signature": "",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "escapeLast",
+      "module": "./lib/utils.js",
+      "symbol": "escapeLast",
+      "signature": "(input, char, lastIdx)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "removePrefix",
+      "module": "./lib/utils.js",
+      "symbol": "removePrefix",
+      "signature": "(input, state = {})",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "wrapOutput",
+      "module": "./lib/utils.js",
+      "symbol": "wrapOutput",
+      "signature": "(input, state = {}, options = {})",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "basename",
+      "module": "./lib/utils.js",
+      "symbol": "basename",
+      "signature": "(path, { windows } = {})",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    }
+  ]
+}

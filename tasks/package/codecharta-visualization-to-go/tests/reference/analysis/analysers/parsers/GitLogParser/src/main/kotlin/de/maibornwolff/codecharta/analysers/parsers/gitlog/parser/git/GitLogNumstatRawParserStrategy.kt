@@ -1,0 +1,116 @@
+package de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.git
+
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.input.Modification
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.LogLineCollector
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.LogParserStrategy
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.git.AuthorParser.AUTHOR_ROW_INDICATOR
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.git.CommitDateParser.DATE_ROW_INDICATOR
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.git.MergeCommitDetector.MERGE_COMMIT_INDICATOR
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.git.helper.GitLogNumstatParsingHelper
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.parser.git.helper.GitLogRawParsingHelper
+import java.time.OffsetDateTime
+import java.util.function.Predicate
+import java.util.stream.Collector
+import java.util.stream.Stream
+
+class GitLogNumstatRawParserStrategy : LogParserStrategy {
+    override fun creationCommand(): String = "git log --numstat --raw --topo-order --reverse -m"
+
+    override fun createLogLineCollector(): Collector<String, *, Stream<List<String>>> = LogLineCollector.create(
+        GIT_COMMIT_SEPARATOR_TEST
+    )
+
+    override fun parseAuthor(commitLines: List<String>): String {
+        val authorLine = commitLines.first { commitLine -> commitLine.startsWith(AUTHOR_ROW_INDICATOR) }
+        return AuthorParser.parseAuthor(authorLine)
+    }
+
+    override fun parseModifications(commitLines: List<String>): List<Modification> = commitLines
+        .mapNotNull {
+            if (isFileLine(
+                    it
+                )
+            ) {
+                parseModification(
+                    it
+                )
+            } else {
+                null
+            }
+        }.groupingBy { it.currentFilename }
+        .aggregate { _, aggregatedModification: Modification?, currentModification, _ ->
+            when (aggregatedModification) {
+                null -> mergeModifications(
+                    currentModification
+                )
+
+                else -> mergeModifications(
+                    aggregatedModification,
+                    currentModification
+                )
+            }
+        }.values
+        .toList()
+
+    override fun parseDate(commitLines: List<String>): OffsetDateTime {
+        val dateLine = commitLines.first { commitLine -> commitLine.startsWith(DATE_ROW_INDICATOR) }
+        return CommitDateParser.parseCommitDate(dateLine)
+    }
+
+    override fun parseIsMergeCommit(commitLines: List<String>): Boolean =
+        commitLines.any { commitLine -> commitLine.startsWith(MERGE_COMMIT_INDICATOR) }
+
+    override fun parseMessage(commitLines: List<String>): String {
+        val commitMessages = extractCommitMessages(commitLines)
+        return commitMessages.joinToString("\n").trim()
+    }
+
+    override fun parseCoAuthors(commitLines: List<String>): List<String> {
+        val commitMessages = extractCommitMessages(commitLines)
+        return CoAuthorParser.parseCoAuthors(commitMessages)
+    }
+
+    private fun extractCommitMessages(commitLines: List<String>): List<String> {
+        val isCommitMessage: (commitLine: String) -> Boolean = { it.isNotEmpty() && it.isNotBlank() && it.startsWith("    ") }
+        return commitLines.filter { isCommitMessage(it) }.map { it.substring(4) }
+    }
+
+    companion object {
+        private val GIT_COMMIT_SEPARATOR_TEST = Predicate<String> { logLine -> logLine.startsWith("commit") }
+
+        private fun isFileLine(commitLine: String): Boolean =
+            GitLogRawParsingHelper.isFileLine(commitLine) || GitLogNumstatParsingHelper.isFileLine(commitLine)
+
+        internal fun parseModification(fileLine: String): Modification = if (fileLine.startsWith(":")) {
+            GitLogRawParsingHelper.parseModification(fileLine)
+        } else {
+            GitLogNumstatParsingHelper.parseModification(fileLine)
+        }
+
+        private fun mergeModifications(vararg a: Modification): Modification {
+            val filename = a[0].currentFilename
+            val additions = a.sumOf { it.additions }
+            val deletions = a.sumOf { it.deletions }
+
+            val tmpModification = a.firstOrNull { modification -> modification.type != Modification.Type.UNKNOWN }
+            var type = Modification.Type.UNKNOWN
+
+            if (tmpModification != null) {
+                type = tmpModification.type
+            }
+
+            if (type == Modification.Type.RENAME) {
+                val temporaryModification = a.firstOrNull { modification -> modification.oldFilename.isNotEmpty() }
+                var oldFilename = ""
+
+                if (temporaryModification != null) {
+                    oldFilename = temporaryModification.oldFilename
+                }
+
+                return Modification(filename, oldFilename, additions, deletions, type)
+            }
+
+            return Modification(filename, additions, deletions, type)
+        }
+    }
+}

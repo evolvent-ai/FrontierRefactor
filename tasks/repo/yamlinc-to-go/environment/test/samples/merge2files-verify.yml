@@ -1,0 +1,12 @@
+openapi: "3.0.0"
+info:
+  title: Simple API overview
+  version: 2.0.0
+
+routes:
+
+  /api/v1/join:
+    body: JOIN
+
+  /api/v1/login:
+    body: LOGIN

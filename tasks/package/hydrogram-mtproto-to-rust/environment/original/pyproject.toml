@@ -1,0 +1,139 @@
+[project]
+name = "Hydrogram"
+dynamic = ["version"]
+description = "Sleek, advanced, and asynchronous Telegram MTProto API framework in Python, designed for fluid user and bot interactions."
+authors = [{ name = "Hydrogram", email = "contact@hydrogram.org" }]
+dependencies = ["pyaes==1.6.1", "pysocks==1.7.1", "aiosqlite>=0.19.0"]
+readme = "README.md"
+license = "LGPL-3.0-or-later"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Internet",
+    "Topic :: Communications",
+    "Topic :: Communications :: Chat",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+keywords = ["telegram chat messenger mtproto api client library python"]
+
+[tool.hatch.version]
+path = "hydrogram/__init__.py"
+
+# Used to call hatch_build.py
+[tool.hatch.build.hooks.custom]
+
+[project.urls]
+homepage = "https://hydrogram.org"
+tracker = "https://github.com/hydrogram/hydrogram/issues"
+community = "https://t.me/HydrogramNews"
+source = "https://github.com/hydrogram/hydrogram"
+documentation = "https://docs.hydrogram.org"
+changelog = "https://docs.hydrogram.org/en/latest/releases.html"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+managed = true
+dev-dependencies = [
+    "ruff>=0.15.7",
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.23.2",
+    "pytest-cov>=4.1.0",
+    "twine>=4.0.2",
+    "pre-commit>=4.2.0",
+    "httpx[http2]>=0.28.1",
+    "lxml>=5.3.2",
+    "hatchling>=1.27.0",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx<8.0.0",
+    "furo>=2024.8.6",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-copybutton>=0.5.2",
+    "pygments>=2.19.1",
+    "towncrier>=24.8.0",
+    "sphinxcontrib-towncrier>=0.5.0a0",
+]
+fast = [
+    "tgcrypto>=1.2.5",
+    "uvloop>=0.19.0; (sys_platform == 'darwin' or sys_platform == 'linux') and platform_python_implementation != 'PyPy'",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    ".github/",
+    "dev_tools/",
+    "docs/",
+    "news/",
+    "tests/",
+    ".editorconfig",
+    ".gitignore",
+    ".pre-commit-config.yaml",
+    "CONTRIBUTING.md",
+    "NEWS.rst",
+    "requirements.lock",
+    "requirements-dev.lock",
+    "ruff.toml",
+]
+
+[tool.hatch.build.targets.wheel]
+ignore-vcs = true
+package = "hydrogram"
+
+[tool.towncrier]
+package = "hydrogram"
+filename = "NEWS.rst"
+directory = "news/"
+template = "news/.template.rst.jinja2"
+issue_format = "`#{issue} <https://github.com/hydrogram/hydrogram/issues/{issue}>`_"
+
+[[tool.towncrier.section]]
+path = ""
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bugfixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Improved Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Deprecations and Removals"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Misc"
+showcontent = true

@@ -1,0 +1,81 @@
+import assert from 'node:assert/strict'
+import { describe, it } from 'node:test'
+import * as utils from '../../src/common/utils.ts'
+
+describe('Utils', function () {
+  it('fromCodePoint', function () {
+    const fromCodePoint = utils.fromCodePoint
+
+    assert.strictEqual(fromCodePoint(0x20), ' ')
+    assert.strictEqual(fromCodePoint(0x1F601), '😁')
+  })
+
+  it('isValidEntityCode', function () {
+    const isValidEntityCode = utils.isValidEntityCode
+
+    assert.strictEqual(isValidEntityCode(0x20), true)
+    assert.strictEqual(isValidEntityCode(0xD800), false)
+    assert.strictEqual(isValidEntityCode(0xFDD0), false)
+    assert.strictEqual(isValidEntityCode(0x1FFFF), false)
+    assert.strictEqual(isValidEntityCode(0x1FFFE), false)
+    assert.strictEqual(isValidEntityCode(0x00), false)
+    assert.strictEqual(isValidEntityCode(0x0B), false)
+    assert.strictEqual(isValidEntityCode(0x0E), false)
+    assert.strictEqual(isValidEntityCode(0x7F), false)
+  })
+
+  /* it('replaceEntities', function () {
+    var replaceEntities = utils.replaceEntities;
+
+    assert.strictEqual(replaceEntities('&amp;'), '&');
+    assert.strictEqual(replaceEntities('&#32;'), ' ');
+    assert.strictEqual(replaceEntities('&#x20;'), ' ');
+    assert.strictEqual(replaceEntities('&amp;&amp;'), '&&');
+
+    assert.strictEqual(replaceEntities('&am;'), '&am;');
+    assert.strictEqual(replaceEntities('&#00;'), '&#00;');
+  }); */
+
+  it('escapeRE', function () {
+    const escapeRE = utils.escapeRE
+
+    assert.strictEqual(escapeRE(' .?*+^$[]\\(){}|-'), ' \\.\\?\\*\\+\\^\\$\\[\\]\\\\\\(\\)\\{\\}\\|\\-')
+  })
+
+  it('isWhiteSpace', function () {
+    const isWhiteSpace = utils.isWhiteSpace
+
+    assert.strictEqual(isWhiteSpace(0x2000), true)
+    assert.strictEqual(isWhiteSpace(0x09), true)
+
+    assert.strictEqual(isWhiteSpace(0x30), false)
+  })
+
+  it('isMdAsciiPunct', function () {
+    const isMdAsciiPunct = utils.isMdAsciiPunct
+
+    assert.strictEqual(isMdAsciiPunct(0x30), false)
+
+    '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'.split('').forEach(function (ch) {
+      assert.strictEqual(isMdAsciiPunct(ch.charCodeAt(0)), true)
+    })
+  })
+
+  it('isPunctCharCode', function () {
+    assert.strictEqual(utils.isPunctCharCode(0x2014), true)
+    assert.strictEqual(utils.isPunctCharCode(0x61), false)
+
+    assert.strictEqual(utils.isPunctCharCode(0x2014), utils.isPunctChar('\u2014'))
+  })
+
+  it('unescapeMd', function () {
+    const unescapeMd = utils.unescapeMd
+
+    assert.strictEqual(unescapeMd('\\foo'), '\\foo')
+    assert.strictEqual(unescapeMd('foo'), 'foo')
+
+    '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'.split('').forEach(function (ch) {
+      assert.strictEqual(unescapeMd('\\' + ch), ch)
+    })
+  })
+})

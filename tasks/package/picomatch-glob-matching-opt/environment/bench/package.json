@@ -1,0 +1,24 @@
+{
+  "name": "picomatch-benchmarks",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "ansi-colors": "^4.1.3",
+    "benchmark": "^2.1.4",
+    "minimist": "^1.2.8"
+  },
+  "devDependencies": {
+    "glob-parent": "^6.0.2",
+    "minimatch": "^10.2.4"
+  },
+  "lintDeps": {
+    "devDependencies": {
+      "files": {
+        "patterns": [
+          "*.js"
+        ]
+      }
+    }
+  }
+}

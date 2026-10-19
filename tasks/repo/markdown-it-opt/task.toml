@@ -1,0 +1,59 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "repo/markdown-it-opt"
+description = "Markdown parser, done right. 100% CommonMark support, extensions, syntax plugins & high speed\n\nThe selected workload contains 16 scenario(s). Commands exercised: /app/run.sh. Input fixtures: inputs.tar.gz. Preserve exit status, standard output/error, and produced files for these repository-owned cases."
+authors = []
+keywords = [ "repo", "optimisation",]
+
+[metadata]
+scale = "repo"
+source_language = "typescript"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "repo", "optimisation",]
+provenance = "Reference is https://github.com/markdown-it/markdown-it.git at 3c51991c32aaa2b002a52c009334ebe5752c84b3. The expectations are a frozen capture of that reference's own observable behaviour over 13 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+evidence_schema = "frf-evidence/1"
+evidence_digest = "sha256:ccd6f87e4529a5bf533ce451a117a4cd9d6b53d830f8d9947f216c397f2bfe60"
+evidence_checks_held = 9
+evidence_checks_total = 9
+evidence_backend = "remote"
+evidence_recorded_at = "2026-09-15T10:40:43.157185+00:00"
+
+[metadata.upstream]
+url = "https://github.com/markdown-it/markdown-it.git"
+commit = "3c51991c32aaa2b002a52c009334ebe5752c84b3"
+committed_at = "2026-09-12T05:27:05Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 51200
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

@@ -1,0 +1,23 @@
+name: Track pathological reference
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 3'
+
+jobs:
+  track-ref-pathological:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Use Node.js 24
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24
+
+    - run: npm install
+
+    - name: Track pathological reference
+      run: npm run pathological:track-ref

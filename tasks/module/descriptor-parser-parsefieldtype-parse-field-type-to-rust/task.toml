@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "module/descriptor-parser-parsefieldtype-parse-field-type-to-rust"
+description = "the parseFieldType function from leonardosnt/jar-string-editor"
+authors = []
+keywords = [ "module", "cross-language",]
+
+[metadata]
+scale = "module"
+source_language = "javascript"
+target_language = "rust"
+cross_language = true
+category = "performance-optimization"
+tags = [ "module", "cross-language",]
+provenance = "Reference is https://github.com/leonardosnt/jar-string-editor.git at 93d056f85ceb1b3efd95a2c117ad54422488861f. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/leonardosnt/jar-string-editor.git"
+commit = "93d056f85ceb1b3efd95a2c117ad54422488861f"
+committed_at = "2023-01-25T23:37:37Z"
+license_spdx = "GPL-2.0"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

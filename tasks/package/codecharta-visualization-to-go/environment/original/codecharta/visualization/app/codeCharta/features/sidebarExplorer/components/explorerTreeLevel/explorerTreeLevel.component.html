@@ -1,0 +1,44 @@
+@if (!rowProjection().isHidden) {
+    <div class="tree-element-{{ depth() }} {{ isLeafNode() ? 'tree-leaf' : 'tree-parent' }}">
+        <cc-explorer-row
+            class="tree-element-label-{{ depth() }}"
+            [rowId]="rowId()"
+            [hint]="rowProjection().title"
+            [isSelected]="isSelected()"
+            [isHovered]="isHovered()"
+            [isMarked]="isMarked()"
+            [isRevealed]="isRevealed()"
+            [decoration]="rowProjection().decoration"
+            (mouseenter)="onMouseEnter($event)"
+            (mouseleave)="onMouseLeave()"
+            (click)="onClick()"
+            (contextmenu)="openNodeContextMenu($event)"
+        >
+            <cc-explorer-tree-item-icon
+                [isFolder]="!isLeafNode()"
+                [isOpen]="isOpen()"
+                [isInactive]="rowProjection().isInactive"
+                [markingColor]="rowProjection().markingColor"
+            ></cc-explorer-tree-item-icon>
+            <cc-explorer-tree-item-name
+                class="ml-1 flex-1 truncate"
+                [node]="node()"
+                [isInactive]="rowProjection().isInactive"
+                [isItalic]="rowProjection().isItalic"
+                [isFlattened]="rowProjection().isFlattened"
+            ></cc-explorer-tree-item-name>
+            @if (rowProjection().isFlattened) {
+                <i class="fa fa-eye-slash text-xs opacity-60 ml-1 shrink-0" title="Flattened"></i>
+            }
+        </cc-explorer-row>
+        <div class="tree-element-children tree-element-children-{{ depth() }} pl-3">
+            @if (isOpen()) {
+                @for (childNode of children(); track childNode.path) {
+                    <div>
+                        <cc-explorer-tree-level [node]="childNode" [depth]="depth() + 1"></cc-explorer-tree-level>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

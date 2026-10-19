@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>markdown-it demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="./index.mjs"></script>
+  </head>
+  <body class="d-flex flex-column vh-100 overflow-hidden pt-3 pb-4">
+    <div class="container flex-shrink-0">
+      <div class="d-flex align-items-center justify-content-between">
+        <h1>
+          markdown-it <small>demo</small></h1>
+        <a class="github-link" href="https://github.com/markdown-it/markdown-it" target="_blank" title="Go to GitHub" aria-label="Go to GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+          </svg>
+        </a>
+      </div>
+      <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+        <div class="not-strict">
+          <label class="_tip" title="enable html tags in source text">
+            <input id="html" type="checkbox"> html
+          </label>
+        </div>
+        <div class="not-strict">
+          <label class="_tip" title="produce xtml output (add / to single tags (&lt;br /&gt; instead of &lt;br&gt;)">
+            <input id="xhtmlOut" type="checkbox"> xhtmlOut
+          </label>
+        </div>
+        <div class="not-strict">
+          <label class="_tip" title="newlines in paragraphs are rendered as &lt;br&gt;">
+            <input id="breaks" type="checkbox"> breaks
+          </label>
+        </div>
+        <div class="not-strict">
+          <label class="_tip" title="autoconvert link-like texts to links">
+            <input id="linkify" type="checkbox"> linkify
+          </label>
+        </div>
+        <div class="not-strict">
+          <label class="_tip" title="do typographic replacements, (c) → © and so on">
+            <input id="typographer" type="checkbox"> typographer
+          </label>
+        </div>
+        <div class="not-strict">
+          <label class="_tip" title="enable output highlight for fenced blocks">
+            <input id="_highlight" type="checkbox"> highlight
+          </label>
+        </div>
+        <div class="not-strict">
+          <input class="form-control w-auto _tip" id="langPrefix" type="input" placeholder="language prefix" title="css class language prefix for fenced code blocks">
+        </div>
+        <div>
+          <label class="_tip" title="force strict CommonMark mode - output will be equal to reference parser">
+            <input id="_strict" type="checkbox"> CommonMark strict
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="container flex-grow-1 d-flex gap-4 overflow-hidden">
+      <div class="demo-column d-flex flex-column">
+        <div class="demo-control"><a class="source-clear" href="#">clear</a><a id="permalink" href="./" title="Share this snippet as link"><strong>permalink</strong></a></div>
+        <textarea class="source flex-grow-1"></textarea>
+      </div>
+      <section class="demo-column d-flex flex-column">
+        <div class="demo-control"><a href="#" data-result-as="html">html</a><a href="#" data-result-as="src">source</a><a href="#" data-result-as="debug">debug</a></div>
+        <div class="result-html flex-grow-1 overflow-auto"></div>
+        <pre class="result-src flex-grow-1 overflow-auto"><code class="result-src-content"></code></pre>
+        <pre class="result-debug flex-grow-1 overflow-auto"><code class="result-debug-content"></code></pre>
+      </section>
+    </div>
+  </body>
+</html>

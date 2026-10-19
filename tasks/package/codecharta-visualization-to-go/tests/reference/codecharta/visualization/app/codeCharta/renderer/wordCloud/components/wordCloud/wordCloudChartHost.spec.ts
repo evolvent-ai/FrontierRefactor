@@ -1,0 +1,270 @@
+import * as echarts from "echarts/core"
+import { WordCloudChartRegistry } from "../../services/wordCloudChart.registry"
+import { WordCloudChartHost } from "./wordCloudChartHost"
+
+const mockZrender = { on: jest.fn() }
+
+const mockChart = {
+    getZr: jest.fn(() => mockZrender),
+    setOption: jest.fn(),
+    dispatchAction: jest.fn(),
+    resize: jest.fn(),
+    dispose: jest.fn(),
+    clear: jest.fn(),
+    on: jest.fn(),
+    getModel: jest.fn()
+}
+
+jest.mock("echarts/core", () => ({
+    init: jest.fn(() => mockChart),
+    use: jest.fn()
+}))
+jest.mock("echarts/renderers", () => ({ CanvasRenderer: {} }))
+jest.mock("echarts/components", () => ({ TooltipComponent: {}, AriaComponent: {} }))
+jest.mock("echarts-wordcloud", () => ({}))
+
+const RENDER_DEBOUNCE_MS = 150
+const LAYOUT_SETTLE_MS = 200
+const SOME_OPTION = {} as never
+
+function measurableContainer(): HTMLElement {
+    const container = document.createElement("div")
+    Object.defineProperty(container, "clientWidth", { value: 800, configurable: true })
+    Object.defineProperty(container, "clientHeight", { value: 600, configurable: true })
+    return container
+}
+
+class ResizeObserverMock {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+}
+
+describe("WordCloudChartHost", () => {
+    let host: WordCloudChartHost
+    const onWordRightClicked = jest.fn()
+    const onWordClicked = jest.fn()
+    const onBackgroundClicked = jest.fn()
+
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.useFakeTimers()
+        window.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver
+        host = new WordCloudChartHost(new WordCloudChartRegistry(), {
+            onLayoutFinished: () => undefined,
+            onWordRightClicked: onWordRightClicked,
+            onWordClicked: onWordClicked,
+            onBackgroundClicked: onBackgroundClicked
+        })
+    })
+
+    afterEach(() => {
+        jest.useRealTimers()
+    })
+
+    it("should report a clicked word, so the explorer can follow the cloud", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+        const [, handleClick] = mockChart.on.mock.calls.find(([eventName]) => eventName === "click")
+
+        // Act
+        handleClick({ name: "invoice" })
+
+        // Assert
+        expect(onWordClicked).toHaveBeenCalledWith("invoice")
+    })
+
+    it("should report a click that landed beside every word, so a selection can be let go", () => {
+        // Arrange — the canvas below the chart reports every click, the chart only those on a word
+        host.attachTo(document.createElement("div"))
+        const [, handleCanvasClick] = mockZrender.on.mock.calls.find(([eventName]) => eventName === "click")
+
+        // Act
+        handleCanvasClick({})
+
+        // Assert
+        expect(onBackgroundClicked).toHaveBeenCalled()
+    })
+
+    it("should keep a click that landed on a word off the background", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+        const [, handleCanvasClick] = mockZrender.on.mock.calls.find(([eventName]) => eventName === "click")
+
+        // Act
+        handleCanvasClick({ target: { type: "text" } })
+
+        // Assert
+        expect(onBackgroundClicked).not.toHaveBeenCalled()
+    })
+
+    it("should ignore a click that did not land on a word", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+        const [, handleClick] = mockChart.on.mock.calls.find(([eventName]) => eventName === "click")
+
+        // Act
+        handleClick({})
+
+        // Assert
+        expect(onWordClicked).not.toHaveBeenCalled()
+    })
+
+    it("should emphasise every marked word and drop the emphasis of everything else", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+
+        // Act
+        host.highlightWords(["invoice"])
+
+        // Assert
+        expect(mockChart.dispatchAction).toHaveBeenNthCalledWith(1, { type: "downplay", seriesIndex: 0 })
+        expect(mockChart.dispatchAction).toHaveBeenNthCalledWith(2, { type: "highlight", seriesIndex: 0, name: ["invoice"] })
+    })
+
+    it("should emphasise all the words a search matched in one dispatch", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+
+        // Act
+        host.highlightWords(["payment", "prepaid"])
+
+        // Assert
+        expect(mockChart.dispatchAction).toHaveBeenNthCalledWith(2, {
+            type: "highlight",
+            seriesIndex: 0,
+            name: ["payment", "prepaid"]
+        })
+    })
+
+    it("should drop every emphasis when no word is marked", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+
+        // Act
+        host.highlightWords([])
+
+        // Assert
+        expect(mockChart.dispatchAction).toHaveBeenCalledTimes(1)
+        expect(mockChart.dispatchAction).toHaveBeenCalledWith({ type: "downplay", seriesIndex: 0 })
+    })
+
+    it("should re-apply the highlight once a layout it asked for has settled", () => {
+        // Arrange: drawing a fresh layout wipes the emphasis, so the marked word has to be marked again.
+        const container = measurableContainer()
+        host.attachTo(container)
+        host.highlightWords(["invoice"])
+        host.render(SOME_OPTION, () => undefined)
+        jest.advanceTimersByTime(RENDER_DEBOUNCE_MS)
+        mockChart.dispatchAction.mockClear()
+        const [, handleFinished] = mockChart.on.mock.calls.find(([eventName]) => eventName === "finished")
+
+        // Act
+        handleFinished()
+        jest.advanceTimersByTime(LAYOUT_SETTLE_MS)
+
+        // Assert
+        expect(mockChart.dispatchAction).toHaveBeenCalledWith({ type: "highlight", seriesIndex: 0, name: ["invoice"] })
+    })
+
+    it("should wait for the last chunk of a progressive layout before it marks the word", () => {
+        // Arrange: a big cloud is drawn in chunks and reports each one finished. The first report
+        // lands while the marked word is not drawn yet, so emphasising on it reaches nothing.
+        host.attachTo(measurableContainer())
+        host.highlightWords(["invoice"])
+        host.render(SOME_OPTION, () => undefined)
+        jest.advanceTimersByTime(RENDER_DEBOUNCE_MS)
+        mockChart.dispatchAction.mockClear()
+        const [, handleFinished] = mockChart.on.mock.calls.find(([eventName]) => eventName === "finished")
+
+        // Act
+        handleFinished()
+        jest.advanceTimersByTime(LAYOUT_SETTLE_MS / 2)
+        const dispatchesBeforeTheLastChunk = mockChart.dispatchAction.mock.calls.length
+        handleFinished()
+        jest.advanceTimersByTime(LAYOUT_SETTLE_MS)
+
+        // Assert
+        expect(dispatchesBeforeTheLastChunk).toBe(0)
+        expect(mockChart.dispatchAction).toHaveBeenCalledWith({ type: "highlight", seriesIndex: 0, name: ["invoice"] })
+    })
+
+    it("should leave the emphasis alone when a layout it did not ask for finishes", () => {
+        // Arrange: hovering a word makes echarts draw and report a finished layout of its own. Dropping
+        // the emphasis there would wipe the highlight off the word under the pointer a moment after it
+        // appeared.
+        host.attachTo(measurableContainer())
+        host.highlightWords(["invoice"])
+        mockChart.dispatchAction.mockClear()
+        const [, handleFinished] = mockChart.on.mock.calls.find(([eventName]) => eventName === "finished")
+
+        // Act
+        handleFinished()
+        jest.advanceTimersByTime(LAYOUT_SETTLE_MS)
+
+        // Assert
+        expect(mockChart.dispatchAction).not.toHaveBeenCalled()
+    })
+
+    it("should keep the chart when attaching to the same container again", () => {
+        // Arrange
+        const container = document.createElement("div")
+        host.attachTo(container)
+
+        // Act
+        host.attachTo(container)
+
+        // Assert
+        expect(echarts.init).toHaveBeenCalledTimes(1)
+    })
+
+    it("should report the right-clicked word at the pointer, so a menu can open there", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+        const [, handleContextMenu] = mockChart.on.mock.calls.find(([eventName]) => eventName === "contextmenu")
+
+        // Act
+        handleContextMenu({ name: "invoice", event: { event: { clientX: 40, clientY: 80 } } })
+
+        // Assert
+        expect(onWordRightClicked).toHaveBeenCalledWith("invoice", 40, 80)
+    })
+
+    it("should ignore a right click that did not land on a word", () => {
+        // Arrange
+        host.attachTo(document.createElement("div"))
+        const [, handleContextMenu] = mockChart.on.mock.calls.find(([eventName]) => eventName === "contextmenu")
+
+        // Act
+        handleContextMenu({ event: { event: { clientX: 40, clientY: 80 } } })
+
+        // Assert
+        expect(onWordRightClicked).not.toHaveBeenCalled()
+    })
+
+    it("should suppress the browser menu on the canvas, so only the word menu opens", () => {
+        // Arrange
+        const container = document.createElement("div")
+        host.attachTo(container)
+        const browserMenuEvent = new MouseEvent("contextmenu", { cancelable: true })
+
+        // Act
+        container.dispatchEvent(browserMenuEvent)
+
+        // Assert
+        expect(browserMenuEvent.defaultPrevented).toBe(true)
+    })
+
+    it("should attach to a re-created container instead of drawing into the replaced one", () => {
+        // Arrange — the empty state destroys the container element, so coming back gives a brand new one
+        host.attachTo(document.createElement("div"))
+        const recreatedContainer = document.createElement("div")
+
+        // Act
+        host.attachTo(recreatedContainer)
+
+        // Assert — a chart left on the replaced element draws where nobody can see it
+        expect(echarts.init).toHaveBeenCalledTimes(2)
+        expect(echarts.init).toHaveBeenLastCalledWith(recreatedContainer)
+    })
+})

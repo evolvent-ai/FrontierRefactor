@@ -1,0 +1,27 @@
+{
+  "author": "Panelinha",
+  "canonical_url": "https://panelinha.com.br/receita/rosbife",
+  "site_name": "Panelinha - Receitas que funcionam",
+  "host": "panelinha.com.br",
+  "language": "pt-br",
+  "title": "Rosbife",
+  "ingredients": [
+    "750 g de filé mignon em peça para rosbife",
+    "1 colher (chá) de mostarda amarela em pó",
+    "1 colher (chá) de páprica defumada",
+    "azeite a gosto",
+    "sal e pimenta-do-reino moída na hora a gosto"
+  ],
+  "instructions_list": [
+    "Preaqueça o forno a 220 ºC (temperatura alta). Retire a peça de filé mignon da geladeira e deixe em temperatura ambiente por 15 minutos, enquanto o forno aquece.",
+    "Numa tigela pequena, misture a páprica com a mostarda em pó. Disponha a peça de filé mignon na tábua e tempere com sal, pimenta e a mistura de mostarda com páprica. Regue com ½ colher (sopa) de azeite e espalhe bem com as mãos por toda a superfície da carne.",
+    "Transfira o filé mignon para uma assadeira grande e leve ao forno para assar por 15 minutos. Após esse tempo, diminua a temperatura para 180 ºC (temperatura média) e deixe o rosbife no forno por mais 10 minutos para assar a carne com o interior bem vermelhinho (mal passada). Se quiser ao ponto, deixe assar por mais 5 minutos.",
+    "Retire a assadeira do forno e deixe o rosbife descansar por 10 minutos antes de cortar e servir – nesse período os sucos se redistribuem, deixando a carne mais suculenta."
+  ],
+  "category": "Carnes,Pratos principais",
+  "yields": "4 servings",
+  "description": "Clássico é clássico! Com a técnica certa, o rosbife fica perfeito. Atente para os tempos e as temperaturas. Ele não pode estar gelado e precisa mesmo do descanso depois de assado.",
+  "total_time": 60,
+  "cuisine": "Inglesa,Prática,Clássica,Argentina,Sem Glúten",
+  "image": "https://i.panelinha.com.br/i1/228-q-9959-rosbife.webp"
+}

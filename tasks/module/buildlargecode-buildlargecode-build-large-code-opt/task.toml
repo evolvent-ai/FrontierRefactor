@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "module/buildlargecode-buildlargecode-build-large-code-opt"
+description = "the buildLargeCode function from javascript-obfuscator/javascript-obfuscator"
+authors = []
+keywords = [ "module", "optimisation",]
+
+[metadata]
+scale = "module"
+source_language = "typescript"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "module", "optimisation",]
+provenance = "Reference is https://github.com/javascript-obfuscator/javascript-obfuscator.git at b35280d2397c999ee9f31fe26233a9a4e85e173f. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/javascript-obfuscator/javascript-obfuscator.git"
+commit = "b35280d2397c999ee9f31fe26233a9a4e85e173f"
+committed_at = "2026-09-09T12:52:52Z"
+license_spdx = "BSD-2-Clause"
+license_files = [ "LICENSE.BSD",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

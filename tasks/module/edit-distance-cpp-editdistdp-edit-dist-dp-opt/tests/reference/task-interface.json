@@ -1,0 +1,13 @@
+{
+  "build_commands": [
+    "c++ -std=c++17 -O2 -x c -c ./serve.c -o ./serve.o",
+    "c++ -std=c++17 -O2 -o ./serve.bin ./serve.o ./subject.cpp"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.cpp",
+  "runtime_argv": [
+    "./serve.bin"
+  ],
+  "launcher_builds": true
+}

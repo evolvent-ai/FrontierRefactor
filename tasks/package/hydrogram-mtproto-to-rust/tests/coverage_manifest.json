@@ -1,0 +1,11 @@
+{
+  "graded_count": 197,
+  "operations": {
+    "get_docstring_arg_type": 49,
+    "get_references": 50,
+    "get_type_hint": 49,
+    "remove_whitespaces": 49
+  },
+  "probe_count": 200,
+  "timed_count": 3
+}

@@ -1,0 +1,102 @@
+import { expect, test } from "@playwright/test"
+import { gzip } from "pako"
+import { CC_URL, clearIndexedDB, goto } from "../../playwright.helper"
+import sample1 from "../assets/sample1.cc.json"
+import sample2 from "../assets/sample2.cc.json"
+import sample3 from "../assets/sample3.cc.json"
+import { MapSelectorPageObject } from "../features/navBar/components/mapSelector/mapSelector.po"
+import { DialogErrorPageObject } from "../features/shared/components/errorDialog/errorDialog.component.po"
+
+test.describe("codecharta", () => {
+    test.beforeEach(async ({ page }) => {
+        await goto(page)
+    })
+
+    test.afterEach(async ({ page }) => {
+        await clearIndexedDB(page)
+    })
+
+    test("should load data when compressed file parameters in url are valid", async ({ page }) => {
+        const filePanel = new MapSelectorPageObject(page)
+
+        await page.route("**/*", async route => {
+            if (route.request().url().includes("/fileThree.json.gz")) {
+                const compressFile = gzip(JSON.stringify(sample2))
+                const buffer = Buffer.from(compressFile)
+                await route.fulfill({
+                    status: 200,
+                    contentType: "blob",
+                    headers: { "Access-Control-Allow-Origin": "*" },
+                    body: buffer
+                })
+            } else {
+                await route.continue()
+            }
+        })
+
+        await goto(page, `${CC_URL}?file=fileThree.json.gz`)
+        expect(await filePanel.getSelectedName()).toEqual("Sample Project")
+    })
+
+    test("should load data when file parameters in url are valid", async ({ page }) => {
+        const filePanel = new MapSelectorPageObject(page)
+
+        await page.route("**/*", async route => {
+            if (route.request().url().includes("/fileOne.json")) {
+                await route.fulfill({
+                    contentType: "application/json",
+                    headers: { "Access-Control-Allow-Origin": "*" },
+                    body: JSON.stringify(sample1)
+                })
+            } else if (route.request().url().includes("/fileTwo.json")) {
+                await route.fulfill({
+                    contentType: "application/json",
+                    headers: { "Access-Control-Allow-Origin": "*" },
+                    body: JSON.stringify(sample3)
+                })
+            } else {
+                await route.continue()
+            }
+        })
+
+        await goto(page, `${CC_URL}?file=fileOne.json&file=fileTwo.json`)
+        expect(await filePanel.getAllNames()).toEqual(["Sample Project", "Sample Project with Edges"])
+    })
+
+    test("should load and render a cc.json 2.0 file", async ({ page }) => {
+        const filePanel = new MapSelectorPageObject(page)
+
+        await page.route("**/*", async route => {
+            if (route.request().url().includes("/sample1.cc.json")) {
+                await route.fulfill({
+                    contentType: "application/json",
+                    headers: { "Access-Control-Allow-Origin": "*" },
+                    body: JSON.stringify(sample1)
+                })
+            } else {
+                await route.continue()
+            }
+        })
+
+        await goto(page, `${CC_URL}?file=sample1.cc.json`)
+
+        expect(await filePanel.getSelectedName()).toEqual("Sample Project with Edges")
+        expect(await page.locator("#codeMap").count()).toBe(1)
+    })
+
+    test("should throw errors when file parameters in url are invalid and load sample data instead", async ({ page }) => {
+        const dialogError = new DialogErrorPageObject(page)
+        const filePanel = new MapSelectorPageObject(page)
+
+        await goto(page, `${CC_URL}?file=invalid234`)
+
+        const message = await dialogError.getMessage()
+        // The exact HTTP status text depends on the transport/server, so assert the stable parts only.
+        expect(message).toContain("Error (Http failure response for")
+        expect(message).toContain("invalid234")
+        await dialogError.clickOk()
+
+        expect(await filePanel.getSelectedName()).toEqual("sample1 +1")
+        expect(await filePanel.getAllNames()).toEqual(["sample1", "sample2"])
+    })
+})

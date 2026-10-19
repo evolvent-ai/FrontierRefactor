@@ -1,0 +1,12 @@
+{
+  "graded_count": 57,
+  "operations": {
+    "customText": 15,
+    "hideFailCourse": 2,
+    "mixWithWhite": 14,
+    "normalizeAspectRatio": 12,
+    "resolveAvatarRedirectUrl": 14
+  },
+  "probe_count": 60,
+  "timed_count": 3
+}

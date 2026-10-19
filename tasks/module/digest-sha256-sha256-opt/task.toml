@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "module/digest-sha256-sha256-opt"
+description = "the sha256 function from matrix-org/matrix-js-sdk"
+authors = []
+keywords = [ "module", "optimisation",]
+
+[metadata]
+scale = "module"
+source_language = "typescript"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "module", "optimisation",]
+provenance = "Reference is https://github.com/matrix-org/matrix-js-sdk.git at 7100152606a8561d1d3fe532496668461e81d6e8. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/matrix-org/matrix-js-sdk.git"
+commit = "7100152606a8561d1d3fe532496668461e81d6e8"
+committed_at = "2026-09-11T16:30:27Z"
+license_spdx = "Apache-2.0"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

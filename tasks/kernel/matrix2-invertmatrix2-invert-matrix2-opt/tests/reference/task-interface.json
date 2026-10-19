@@ -1,0 +1,14 @@
+{
+  "build_commands": [],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.js",
+  "runtime_argv": [
+    "node",
+    "--experimental-specifier-resolution=node",
+    "./serve.cjs",
+    "subject.js",
+    "invertMatrix2"
+  ],
+  "launcher_builds": true
+}

@@ -1,0 +1,35 @@
+import { ChangeDetectionStrategy, Component, computed, input, output } from "@angular/core"
+import { DomainWord } from "../../../../model/codeCharta.model"
+import { formatCompactNumber } from "../../../../util/formatCompactNumber"
+import { ExplorerRowComponent } from "../../../sidebarExplorer/facade"
+import { formatShare } from "../../util/formatShare"
+
+const domainWordRowId = (word: string) => `domain-word-row-${word}`
+
+@Component({
+    selector: "cc-domain-word-row",
+    templateUrl: "./domainWordRow.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ExplorerRowComponent],
+    host: {
+        class: "block",
+        "[id]": "rowId()",
+        "[attr.data-testid]": "rowId()",
+        "[attr.aria-expanded]": "isExpanded()",
+        "(click)": "toggled.emit()"
+    }
+})
+export class DomainWordRowComponent {
+    readonly word = input.required<DomainWord>()
+    /** Part of all word occurrences in the project. The breakdown below the row states a share of this
+     * one word instead, so both decorations name what they are a share of. */
+    readonly share = input(0)
+    readonly isExpanded = input(false)
+
+    readonly toggled = output<void>()
+
+    protected readonly rowId = computed(() => domainWordRowId(this.word().text))
+    protected readonly decoration = computed(
+        () => `${formatShare(this.share())} of all words · ${formatCompactNumber(this.word().frequency)}`
+    )
+}

@@ -1,0 +1,15 @@
+{"probe_id": "harvest-0006", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "testdata/node.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0008", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "testdata/decode.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0010", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "internal/libyaml/testdata/scanner.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0012", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "testdata/encode.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0014", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "internal/libyaml/testdata/emitter.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0016", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "cmd/go-yaml/testdata/multi-document.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0015", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "cmd/go-yaml/testdata/document-implicit.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0002", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "cmd/go-yaml/testdata/aliases.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0007", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "cmd/go-yaml/testdata/basic.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0013", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "cmd/go-yaml/testdata/comments.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0011", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "cmd/go-yaml/testdata/cmd/stream.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0009", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-f", "yaml", "-n", "cmd/go-yaml/testdata/cmd/chaining.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0000", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--help"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0018", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--version"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0017", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--help"], "cwd": ".", "stdin": null}]}

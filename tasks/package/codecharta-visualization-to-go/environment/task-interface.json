@@ -1,0 +1,234 @@
+{
+  "build_commands": [
+    "/app/build.sh"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/implementation/main.go",
+  "implementation_directory": "/app/implementation",
+  "launcher_builds": true,
+  "target_language": "go",
+  "build_contract": "The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation. The first element of args selects the package operation; remaining elements are its positional arguments. Preserve all declared operations.",
+  "symbol": "entry",
+  "operations": [
+    "viewIdForLink",
+    "getAsApiVersion",
+    "loadMaskImage",
+    "interpolateColor",
+    "colorForWord",
+    "toExportApiVersion",
+    "downloadPng",
+    "shapeMaskFromSvg",
+    "settingCountLabel",
+    "formatShare",
+    "getXMLmodel"
+  ],
+  "dispatch": [
+    {
+      "name": "viewIdForLink",
+      "module": "./visualization/app/codeCharta/routing/routePaths.js",
+      "symbol": "viewIdForLink",
+      "signature": "(url: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "getAsApiVersion",
+      "module": "./visualization/app/codeCharta/stores/fileStore/loaders/ccJson/util/fileValidator.js",
+      "symbol": "getAsApiVersion",
+      "signature": "(version: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "loadMaskImage",
+      "module": "./visualization/app/codeCharta/renderer/wordCloud/util/wordCloudMask.js",
+      "symbol": "loadMaskImage",
+      "signature": "(dataUri: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "interpolateColor",
+      "module": "./visualization/app/codeCharta/renderer/wordCloud/util/color.util.js",
+      "symbol": "interpolateColor",
+      "signature": "(startColor: string, endColor: string, factor: number)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "float"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "colorForWord",
+      "module": "./visualization/app/codeCharta/renderer/wordCloud/util/wordCloudWordColor.js",
+      "symbol": "colorForWord",
+      "signature": "(text: string, startColor: string, endColor: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "toExportApiVersion",
+      "module": "./visualization/app/codeCharta/util/apiVersion.js",
+      "symbol": "toExportApiVersion",
+      "signature": "(originApiVersion: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "downloadPng",
+      "module": "./visualization/app/codeCharta/features/screenshot/services/pngScreenshot.js",
+      "symbol": "downloadPng",
+      "signature": "(dataUrl: string, fileName: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "shapeMaskFromSvg",
+      "module": "./visualization/app/codeCharta/features/domainBar/util/shapeMaskSvg.js",
+      "symbol": "shapeMaskFromSvg",
+      "signature": "(svgText: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "settingCountLabel",
+      "module": "./visualization/app/codeCharta/features/scenarios/components/scenarioSettingsPicker/settingCountLabel.js",
+      "symbol": "settingCountLabel",
+      "signature": "(count: number)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "float"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "formatShare",
+      "module": "./visualization/app/codeCharta/features/domainWordOccurrences/util/formatShare.js",
+      "symbol": "formatShare",
+      "signature": "(share: number)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "float"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "getXMLmodel",
+      "module": "./visualization/app/codeCharta/features/3dPrint/3DExports/generateXML/build3mfModel.js",
+      "symbol": "getXMLmodel",
+      "signature": "(vertices: string[], triangles: string[])",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "list",
+          "size": "n",
+          "element": {
+            "kind": "string",
+            "size": "n"
+          }
+        },
+        {
+          "kind": "list",
+          "size": "n",
+          "element": {
+            "kind": "string",
+            "size": "n"
+          }
+        }
+      ],
+      "result": {}
+    }
+  ]
+}

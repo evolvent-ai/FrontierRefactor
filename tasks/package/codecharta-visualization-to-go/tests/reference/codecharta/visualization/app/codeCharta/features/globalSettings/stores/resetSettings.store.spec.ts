@@ -1,0 +1,129 @@
+import { TestBed } from "@angular/core/testing"
+import { State } from "@ngrx/store"
+import { MockStore, provideMockStore } from "@ngrx/store/testing"
+import { setState } from "../../../stores/rootStore/state.actions"
+import { defaultState } from "../../../stores/rootStore/state.manager"
+import { getLastAction } from "../../../util/testUtils/store.utils"
+import { ResetSettingsStore } from "./resetSettings.store"
+
+jest.mock("../../shared/getPartialDefaultState", () => ({
+    getPartialDefaultState: jest.fn((settingsKeys: string[], _state) => {
+        const partialState = {}
+        for (const key of settingsKeys) {
+            const keys = key.split(".")
+            let pointer = partialState
+            let defaultPointer = defaultState
+            for (const [index, k] of keys.entries()) {
+                if (index === keys.length - 1) {
+                    pointer[k] = defaultPointer[k]
+                } else {
+                    if (!pointer[k]) {
+                        pointer[k] = {}
+                    }
+                    pointer = pointer[k]
+                    defaultPointer = defaultPointer[k]
+                }
+            }
+        }
+        return partialState
+    })
+}))
+
+describe("ResetSettingsStore", () => {
+    let store: ResetSettingsStore
+    let mockStore: MockStore
+    let mockState: jest.Mocked<Partial<State<any>>>
+
+    beforeEach(() => {
+        mockState = {
+            getValue: jest.fn().mockReturnValue(defaultState)
+        }
+
+        TestBed.configureTestingModule({
+            providers: [ResetSettingsStore, provideMockStore(), { provide: State, useValue: mockState }]
+        })
+
+        store = TestBed.inject(ResetSettingsStore)
+        mockStore = TestBed.inject(MockStore)
+    })
+
+    describe("resetSettings", () => {
+        it("should dispatch setState action with partial default state for single setting", async () => {
+            // Arrange
+            const settingsKeys = ["mapState.isWhiteBackground"]
+
+            // Act
+            store.resetSettings(settingsKeys)
+
+            // Assert
+            const action: any = await getLastAction(mockStore)
+            expect(action.type).toBe(setState.type)
+            expect(action.value).toEqual({
+                mapState: {
+                    isWhiteBackground: defaultState.mapState.isWhiteBackground
+                }
+            })
+        })
+
+        it("should dispatch setState action with partial default state for multiple settings", async () => {
+            // Arrange
+            const settingsKeys = ["mapState.hideFlatBuildings", "preferences.experimentalFeaturesEnabled"]
+
+            // Act
+            store.resetSettings(settingsKeys)
+
+            // Assert
+            const action: any = await getLastAction(mockStore)
+            expect(action.type).toBe(setState.type)
+            expect(action.value).toEqual({
+                mapState: {
+                    hideFlatBuildings: defaultState.mapState.hideFlatBuildings
+                },
+                preferences: {
+                    experimentalFeaturesEnabled: defaultState.preferences.experimentalFeaturesEnabled
+                }
+            })
+        })
+
+        it("should call State.getValue to get current state", () => {
+            // Arrange
+            const settingsKeys = ["preferences.resetCameraIfNewFileIsLoaded"]
+
+            // Act
+            store.resetSettings(settingsKeys)
+
+            // Assert
+            expect(mockState.getValue).toHaveBeenCalled()
+        })
+
+        it("should handle empty settings keys array", async () => {
+            // Arrange
+            const settingsKeys: string[] = []
+
+            // Act
+            store.resetSettings(settingsKeys)
+
+            // Assert
+            const action: any = await getLastAction(mockStore)
+            expect(action.type).toBe(setState.type)
+            expect(action.value).toEqual({})
+        })
+
+        it("should reset layout algorithm setting", async () => {
+            // Arrange
+            const settingsKeys = ["mapState.layoutAlgorithm"]
+
+            // Act
+            store.resetSettings(settingsKeys)
+
+            // Assert
+            const action: any = await getLastAction(mockStore)
+            expect(action.type).toBe(setState.type)
+            expect(action.value).toEqual({
+                mapState: {
+                    layoutAlgorithm: defaultState.mapState.layoutAlgorithm
+                }
+            })
+        })
+    })
+})

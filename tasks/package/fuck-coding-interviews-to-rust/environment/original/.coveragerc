@@ -1,0 +1,26 @@
+[run]
+branch = True
+omit =
+    */tests/*
+    problems/array_sum.py
+    problems/bfs_shortest_path_in_a_graph.py
+    problems/clone_graph.py
+    problems/course_schedule.py
+    problems/delete_node_in_a_linked_list.py
+    problems/dijkstra_shortest_reach_2.py
+    problems/hash_tables_ransom_note.py
+    problems/kruskal_mst_really_special_subtree.py
+    problems/linked_list_cycle.py
+    problems/maximum_element.py
+    problems/prim_mst_special_subtree.py
+    problems/simple_text_editor.py
+    problems/tree_height_of_a_binary_tree.py
+    problems/tree_top_view.py
+
+[report]
+exclude_lines =
+    if __name__ == '__main__':
+    pragma: no cover
+    __repr__
+    __str__
+    \.\.\.

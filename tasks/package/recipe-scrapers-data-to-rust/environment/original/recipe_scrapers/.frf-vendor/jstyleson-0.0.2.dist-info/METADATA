@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: jstyleson
+Version: 0.0.2
+Summary: Library to parse JSON with js-style comments.
+Home-page: https://github.com/linjackson78/jstyleson
+Author: linjackson
+Author-email: linjackson78@gmail.com
+License: MIT
+Keywords: json,comment,javascript,parse
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.5
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: summary

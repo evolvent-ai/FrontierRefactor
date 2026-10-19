@@ -1,0 +1,87 @@
+{
+  "build_commands": [],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.py",
+  "runtime_argv": [
+    "python3",
+    "./serve.py",
+    "subject",
+    "entry"
+  ],
+  "launcher_builds": true,
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The first element of args selects the package operation; remaining elements are its positional arguments. Preserve all declared operations.",
+  "symbol": "entry",
+  "operations": [
+    "tokenize_pattern",
+    "parse_value_type",
+    "parse_scan_type",
+    "find_spec"
+  ],
+  "dispatch": [
+    {
+      "name": "tokenize_pattern",
+      "module": "PyMemoryEditor.util.pattern",
+      "symbol": "tokenize_pattern",
+      "signature": "(pattern)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "parse_value_type",
+      "module": "PyMemoryEditor.mcp.toolset",
+      "symbol": "parse_value_type",
+      "signature": "(raw)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "parse_scan_type",
+      "module": "PyMemoryEditor.mcp.toolset",
+      "symbol": "parse_scan_type",
+      "signature": "(raw)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "find_spec",
+      "module": "PyMemoryEditor.app.value_types",
+      "symbol": "find_spec",
+      "signature": "(label)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "image_id": "sha256:89441c7fc779cd8c336ea74c185e643d3f7b563fc055460eb296ed5ee4516294",
+  "image_ref": "benchmark-runtime:34e076774a10d1e528ef19644914d0ddc418adaf1ddf4de490770f1cc0bfd1e1",
+  "recipe_sha256": "34e076774a10d1e528ef19644914d0ddc418adaf1ddf4de490770f1cc0bfd1e1",
+  "source_language": "java",
+  "target_language": "java"
+}

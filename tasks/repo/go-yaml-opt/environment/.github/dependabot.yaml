@@ -1,0 +1,26 @@
+# Copyright 2025 The go-yaml Project Contributors
+# SPDX-License-Identifier: Apache-2.0
+
+version: 2
+
+updates:
+- package-ecosystem: gomod
+  directory: /  # Location of package manifests
+  cooldown:
+    # Supply chain attacks are more likely to be detected and mitigated after a
+    # few days, so this can help reduce the risk of introducing malicious code.
+    default-days: 10
+  schedule:
+    interval: weekly
+
+- package-ecosystem: github-actions
+  directory: /
+  groups:
+    actions:
+      patterns: ['*']
+  cooldown:
+    # Supply chain attacks are more likely to be detected and mitigated after a
+    # few days, so this can help reduce the risk of introducing malicious code.
+    default-days: 10
+  schedule:
+    interval: weekly

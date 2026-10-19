@@ -1,0 +1,45 @@
+import { fileRoot } from "./fileRoot"
+
+export function getUpdatedBlacklistItemPath(fileName: string, path: string) {
+    if (isAbsoluteRootPath(path)) {
+        return getUpdatedPath(fileName, path)
+    }
+    return path
+}
+
+export function getUpdatedPath(fileName: string, path: string) {
+    const length = fileRoot.rootPath.length + 1
+    const end = path.length <= length ? "" : `/${path.slice(length)}`
+    return `${fileRoot.rootPath}/${fileName}${end}`
+}
+
+function isAbsoluteRootPath(path: string) {
+    return path.startsWith(`${fileRoot.rootPath}/`)
+}
+
+export function getTopLevelMapName(path: string) {
+    if (!isAbsoluteRootPath(path)) {
+        return path
+    }
+    const start = fileRoot.rootPath.length + 1
+    const end = path.indexOf("/", start)
+    return end === -1 ? path.slice(start) : path.slice(start, end)
+}
+
+export function pathToNodeName(path: string | null, fallback: string): string {
+    if (path === null) {
+        return fallback
+    }
+    return path.split("/").findLast(Boolean) ?? fallback
+}
+
+export function getParent<T>(hashMap: Map<string, T>, path: string): T {
+    do {
+        path = path.slice(0, path.lastIndexOf("/"))
+
+        const node = hashMap.get(path)
+        if (node) {
+            return node
+        }
+    } while (path !== fileRoot.rootPath && path.length > 0)
+}

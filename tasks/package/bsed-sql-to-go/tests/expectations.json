@@ -1,0 +1,744 @@
+{
+ "dispatch": [
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "python",
+   "module": "bsed.interpreter",
+   "name": "default_interpreter",
+   "params": [],
+   "result": {},
+   "signature": "()",
+   "symbol": "default_interpreter"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "python",
+   "module": "bsed.interpreter",
+   "name": "print_commands",
+   "params": [],
+   "result": {},
+   "signature": "()",
+   "symbol": "print_commands"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "python",
+   "module": "bsed.interpreter",
+   "name": "print_help",
+   "params": [],
+   "result": {},
+   "signature": "()",
+   "symbol": "print_help"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "python",
+   "module": "bsed.interpreter",
+   "name": "main",
+   "params": [],
+   "result": {},
+   "signature": "()",
+   "symbol": "main"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "python",
+   "module": "bsed.special_chars",
+   "name": "parse_special_chars",
+   "params": [],
+   "result": {},
+   "signature": "(args)",
+   "symbol": "parse_special_chars"
+  },
+  {
+   "json_safe": true,
+   "klass": "",
+   "language": "python",
+   "module": "bsed.token_tree",
+   "name": "keyword_to_user_input_type",
+   "params": [],
+   "result": {},
+   "signature": "(kw)",
+   "symbol": "keyword_to_user_input_type"
+  }
+ ],
+ "entry_points": [
+  "default_interpreter",
+  "print_commands",
+  "print_help",
+  "main",
+  "parse_special_chars",
+  "keyword_to_user_input_type"
+ ],
+ "freeze_runs": 5,
+ "graded": [
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0000",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0001",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0002",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0003",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:e3c9d76982b6e7c8f22237cc48e291bd39ce3a06821f441d2497be3132156f2e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0004",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:2a16886262d8fce5458da008821b165063bc0a1726e249c4e15c43377bc836b1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0005",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0006",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0007",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0008",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0009",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:f8220c499910d13ee096f50c7aeac87bbe43281edbecb024858b3f70cb3d7905",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0010",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0011",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0012",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0013",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0014",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0015",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:09766e3a19ae8dff6d24ee1a961540eabffb65da06843c204c789aa1263dfa54",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0016",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0017",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0018",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0019",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0020",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0021",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:61a2524b041ba61e1ff4d7939db25a07e52fa45c14b0e9758c1619e75cbf3086",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0022",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0023",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0024",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0025",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0026",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0027",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:9af846cbd81dfa59ac3be890b267589a43eea62538fa8df619588c2f316ea51e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0028",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:544e4f6b084900a930fd873f948fe97cb3a084d62e2f1259425dbed08b3957bc",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0029",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0030",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0031",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0032",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0033",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:4fe059d3aff6568ba2c63b9b32630717349fd16ba3317c64f0e3e358ceadef2e",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0034",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:07119d31e33b76e3ac2b874674acb48661e7444a583b9069ad1eb7aeee27476d",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0035",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0036",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0037",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0038",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0039",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:09766e3a19ae8dff6d24ee1a961540eabffb65da06843c204c789aa1263dfa54",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0040",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0041",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0042",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0043",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0044",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0045",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0048",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0049",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0050",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0051",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:66a825070f48201d8adc84567de765aef747ebc59fa77ebbaa3380b04878e7e8",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0052",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0054",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0055",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0056",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:b124e212fc42d6b242454c3c1baf88b88c2fc63b163b07640a9f4d7e315c05e1",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0057",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:f8220c499910d13ee096f50c7aeac87bbe43281edbecb024858b3f70cb3d7905",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0058",
+   "runs": 5
+  },
+  {
+   "digest": "sha256:544e4f6b084900a930fd873f948fe97cb3a084d62e2f1259425dbed08b3957bc",
+   "drop_reason": "",
+   "dropped": false,
+   "probe_id": "probe-0059",
+   "runs": 5
+  }
+ ],
+ "language": "python",
+ "package": true,
+ "package_name": "bsed",
+ "probes": {
+  "probe-0000": [
+   "default_interpreter"
+  ],
+  "probe-0001": [
+   "print_commands"
+  ],
+  "probe-0002": [
+   "print_help"
+  ],
+  "probe-0003": [
+   "main"
+  ],
+  "probe-0004": [
+   "parse_special_chars"
+  ],
+  "probe-0005": [
+   "keyword_to_user_input_type"
+  ],
+  "probe-0006": [
+   "default_interpreter",
+   null
+  ],
+  "probe-0007": [
+   "print_commands",
+   null
+  ],
+  "probe-0008": [
+   "print_help",
+   null
+  ],
+  "probe-0009": [
+   "main",
+   null
+  ],
+  "probe-0010": [
+   "parse_special_chars",
+   null
+  ],
+  "probe-0011": [
+   "keyword_to_user_input_type",
+   null
+  ],
+  "probe-0012": [
+   "default_interpreter",
+   0
+  ],
+  "probe-0013": [
+   "print_commands",
+   0
+  ],
+  "probe-0014": [
+   "print_help",
+   0
+  ],
+  "probe-0015": [
+   "main",
+   0
+  ],
+  "probe-0016": [
+   "parse_special_chars",
+   0
+  ],
+  "probe-0017": [
+   "keyword_to_user_input_type",
+   0
+  ],
+  "probe-0018": [
+   "default_interpreter",
+   ""
+  ],
+  "probe-0019": [
+   "print_commands",
+   ""
+  ],
+  "probe-0020": [
+   "print_help",
+   ""
+  ],
+  "probe-0021": [
+   "main",
+   ""
+  ],
+  "probe-0022": [
+   "parse_special_chars",
+   ""
+  ],
+  "probe-0023": [
+   "keyword_to_user_input_type",
+   ""
+  ],
+  "probe-0024": [
+   "default_interpreter",
+   []
+  ],
+  "probe-0025": [
+   "print_commands",
+   []
+  ],
+  "probe-0026": [
+   "print_help",
+   []
+  ],
+  "probe-0027": [
+   "main",
+   []
+  ],
+  "probe-0028": [
+   "parse_special_chars",
+   []
+  ],
+  "probe-0029": [
+   "keyword_to_user_input_type",
+   []
+  ],
+  "probe-0030": [
+   "default_interpreter",
+   {}
+  ],
+  "probe-0031": [
+   "print_commands",
+   {}
+  ],
+  "probe-0032": [
+   "print_help",
+   {}
+  ],
+  "probe-0033": [
+   "main",
+   {}
+  ],
+  "probe-0034": [
+   "parse_special_chars",
+   {}
+  ],
+  "probe-0035": [
+   "keyword_to_user_input_type",
+   {}
+  ],
+  "probe-0036": [
+   "default_interpreter",
+   -1
+  ],
+  "probe-0037": [
+   "print_commands",
+   -1
+  ],
+  "probe-0038": [
+   "print_help",
+   -1
+  ],
+  "probe-0039": [
+   "main",
+   -1
+  ],
+  "probe-0040": [
+   "parse_special_chars",
+   -1
+  ],
+  "probe-0041": [
+   "keyword_to_user_input_type",
+   -1
+  ],
+  "probe-0042": [
+   "default_interpreter",
+   " "
+  ],
+  "probe-0043": [
+   "print_commands",
+   " "
+  ],
+  "probe-0044": [
+   "print_help",
+   " "
+  ],
+  "probe-0045": [
+   "main",
+   " "
+  ],
+  "probe-0046": [
+   "parse_special_chars",
+   " "
+  ],
+  "probe-0047": [
+   "keyword_to_user_input_type",
+   " "
+  ],
+  "probe-0048": [
+   "default_interpreter",
+   true
+  ],
+  "probe-0049": [
+   "print_commands",
+   true
+  ],
+  "probe-0050": [
+   "print_help",
+   true
+  ],
+  "probe-0051": [
+   "main",
+   true
+  ],
+  "probe-0052": [
+   "parse_special_chars",
+   true
+  ],
+  "probe-0053": [
+   "keyword_to_user_input_type",
+   true
+  ],
+  "probe-0054": [
+   "default_interpreter",
+   [
+    null
+   ]
+  ],
+  "probe-0055": [
+   "print_commands",
+   [
+    null
+   ]
+  ],
+  "probe-0056": [
+   "print_help",
+   [
+    null
+   ]
+  ],
+  "probe-0057": [
+   "main",
+   [
+    null
+   ]
+  ],
+  "probe-0058": [
+   "parse_special_chars",
+   [
+    null
+   ]
+  ],
+  "probe-0059": [
+   "keyword_to_user_input_type",
+   [
+    null
+   ]
+  ]
+ },
+ "symbol": "entry",
+ "target_helpers": [],
+ "target_language": "go",
+ "timed": [
+  "probe-0046",
+  "probe-0047",
+  "probe-0053"
+ ],
+ "timed_expectations": {
+  "probe-0046": "sha256:81bb3c8172571acce5646fe69e6791a94cf8fa9e738df591bf24ce0a4029fd1b",
+  "probe-0047": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28",
+  "probe-0053": "sha256:3b293bb515987d3783f4e5e5ac35b5cb32b114bee017f57ebe7a22e59e7afd28"
+ }
+}

@@ -1,0 +1,48 @@
+import { CcState, RecursivePartial, Settings } from "../../model/codeCharta.model"
+import { codeMapNodesSelector } from "../../renderer/renderModel/renderModel.facade"
+import { defaultState } from "../../stores/rootStore/state.manager"
+import { getNumberOfTopLabels } from "../../util/getNumberOfTopLabels"
+import { convertToVectors } from "../../util/settingsHelper"
+
+const MAP_STATE_AMOUNT_OF_TOP_LABELS = "mapState.amountOfTopLabels"
+
+export const getPartialDefaultState = (settingKeys: string[], state: CcState) => {
+    const updatedSettings: RecursivePartial<Settings> = {}
+    let settingsCounter = 0
+
+    for (const token of settingKeys) {
+        settingsCounter += applyDefaultSetting(token.split("."), updatedSettings)
+    }
+
+    if (settingsCounter !== 0) {
+        convertToVectors(updatedSettings)
+    }
+
+    if (settingKeys.includes(MAP_STATE_AMOUNT_OF_TOP_LABELS)) {
+        updatedSettings.mapState.amountOfTopLabels = getNumberOfTopLabels(codeMapNodesSelector(state))
+    }
+
+    return updatedSettings
+}
+
+function applyDefaultSetting(steps: string[], updatedSettings: RecursivePartial<Settings>) {
+    let createdSettingsCounter = 0
+    let defaultSettingsPointer = defaultState
+    let updatedSettingsPointer = updatedSettings
+
+    for (const [index, step] of steps.entries()) {
+        if (defaultSettingsPointer[step] !== undefined) {
+            if (!updatedSettingsPointer[step]) {
+                updatedSettingsPointer[step] = {}
+                createdSettingsCounter++
+            }
+            if (index === steps.length - 1) {
+                updatedSettingsPointer[step] = defaultSettingsPointer[step]
+            } else {
+                defaultSettingsPointer = defaultSettingsPointer[step]
+                updatedSettingsPointer = updatedSettingsPointer[step]
+            }
+        }
+    }
+    return createdSettingsCounter
+}

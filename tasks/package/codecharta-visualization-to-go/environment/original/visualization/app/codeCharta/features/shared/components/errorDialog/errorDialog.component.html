@@ -1,0 +1,19 @@
+<dialog #dialog class="modal backdrop-blur-sm" aria-labelledby="error-dialog-title">
+    <div class="modal-box">
+        @if (data(); as dialogData) {
+            <h2 id="error-dialog-title" class="text-lg font-bold mb-2">{{ dialogData.title }}</h2>
+            <div class="dialog-content py-2" [innerHTML]="dialogData.message"></div>
+            <div class="modal-action">
+                @if (dialogData.resolveErrorData) {
+                    <button class="btn btn-primary" (click)="handleResolveClick()">
+                        {{ dialogData.resolveErrorData.buttonText }}
+                    </button>
+                }
+                <button class="btn" (click)="close()">{{ dialogData.dismissButtonText ?? "OK" }}</button>
+            </div>
+        }
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>

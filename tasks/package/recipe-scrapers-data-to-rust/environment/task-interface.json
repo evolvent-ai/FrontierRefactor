@@ -1,0 +1,102 @@
+{
+  "build_commands": [
+    "/app/build.sh"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/implementation/src/main.rs",
+  "implementation_directory": "/app/implementation",
+  "launcher_builds": true,
+  "target_language": "rust",
+  "build_contract": "The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation. The first element of args selects the package operation; remaining elements are its positional arguments. Preserve all declared operations.",
+  "symbol": "entry",
+  "operations": [
+    "levenshtein_distance",
+    "find_json",
+    "find_instructions",
+    "parse_instructions",
+    "fix_json_ld_property_keys",
+    "strip_tags",
+    "stripper"
+  ],
+  "dispatch": [
+    {
+      "name": "levenshtein_distance",
+      "module": "recipe_scrapers.dagelijksekost",
+      "symbol": "levenshtein_distance",
+      "signature": "(s1, s2)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "find_json",
+      "module": "recipe_scrapers.dagelijksekost",
+      "symbol": "find_json",
+      "signature": "(blocks)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "find_instructions",
+      "module": "recipe_scrapers.dagelijksekost",
+      "symbol": "find_instructions",
+      "signature": "(data)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "parse_instructions",
+      "module": "recipe_scrapers.dagelijksekost",
+      "symbol": "parse_instructions",
+      "signature": "(instructions)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "fix_json_ld_property_keys",
+      "module": "recipe_scrapers.tineno",
+      "symbol": "fix_json_ld_property_keys",
+      "signature": "(k)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "strip_tags",
+      "module": "recipe_scrapers.plugins.html_tags_stripper",
+      "symbol": "strip_tags",
+      "signature": "(html)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    },
+    {
+      "name": "stripper",
+      "module": "recipe_scrapers.plugins.html_tags_stripper",
+      "symbol": "stripper",
+      "signature": "(string)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [],
+      "result": {}
+    }
+  ]
+}

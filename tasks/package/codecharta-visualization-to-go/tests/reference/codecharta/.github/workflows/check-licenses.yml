@@ -1,0 +1,79 @@
+name: Check application licenses for main branch
+
+on:
+  push:
+    branches:
+      - main
+      - renovate/major-cyclonedx
+
+permissions: read-all
+
+jobs:
+  scan_licenses_analysis:
+    if: github.repository == 'MaibornWolff/codecharta'
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - 
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - 
+        name: Generate CycloneDX SBOM for analysis
+        run: |
+          cd analysis
+          chmod +x ./gradlew
+          ./gradlew cyclonedxbom
+      -
+        name: Import analysis SBOM
+        uses: MaibornWolff/secobserve_actions_templates/dev/actions/upload_sbom@eacb7af59653b127f4f926aff7e4d50de6089c10 # 2025_05
+        with:
+          so_product_name: 'CodeCharta'
+          so_file_name: 'analysis/build/reports/sbom_analysis.cdx.json'
+          so_branch_name: 'main'
+          so_origin_service: 'analysis'
+          so_api_base_url: "https://secobserve-backend.maibornwolff.de"
+          so_api_token: ${{ secrets.SO_API_TOKEN }}
+      - 
+        name: Check licenses for analysis
+        uses: MaibornWolff/purl-patrol@7d1eb703de44cd8961c4e4d321670567d523ae3c # v1.6.6
+        with:
+          SBOM_PATH: 'analysis/build/reports/sbom_analysis.cdx.json'
+          LICENSE_POLICY_PATH: 'license_policy.json'
+          BREAK_ENABLED: false
+
+  scan_licenses_visualization:
+    if: github.repository == 'MaibornWolff/codecharta'
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        with:
+          node-version: 24
+      - 
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - 
+        name: Generate SBOM for visualization
+        run: |
+          cd visualization
+          npm install
+          npm run sbom
+      -
+        name: Import visualization SBOM
+        uses: MaibornWolff/secobserve_actions_templates/dev/actions/upload_sbom@eacb7af59653b127f4f926aff7e4d50de6089c10 # 2025_05
+        with:
+          so_product_name: 'CodeCharta'
+          so_file_name: 'visualization/build/reports/sbom_visualization.cdx.json'
+          so_branch_name: 'main'
+          so_origin_service: 'visualization'
+          so_api_base_url: "https://secobserve-backend.maibornwolff.de"
+          so_api_token: ${{ secrets.SO_API_TOKEN }}
+      - 
+        name: Check licenses for visualization
+        uses: MaibornWolff/purl-patrol@7d1eb703de44cd8961c4e4d321670567d523ae3c # v1.6.6
+        with:
+          SBOM_PATH: 'visualization/build/reports/sbom_visualization.cdx.json'
+          LICENSE_POLICY_PATH: 'license_policy.json'
+          BREAK_ENABLED: false

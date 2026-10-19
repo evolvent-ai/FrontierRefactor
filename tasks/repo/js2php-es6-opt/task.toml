@@ -1,0 +1,59 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "repo/js2php-es6-opt"
+description = "JavaScript (ES6) to PHP source-to-source transpiler.\n\nThe selected workload contains 16 scenario(s). Commands exercised: /app/run.sh. Input fixtures: inputs.tar.gz. Preserve exit status, standard output/error, and produced files for these repository-owned cases."
+authors = []
+keywords = [ "repo", "optimisation",]
+
+[metadata]
+scale = "repo"
+source_language = "javascript"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "repo", "optimisation",]
+provenance = "Reference is https://github.com/endel/js2php.git at 82133a1acf4e00c071679eed8d7e7d15924cb559. The expectations are a frozen capture of that reference's own observable behaviour over 13 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+evidence_schema = "frf-evidence/1"
+evidence_digest = "sha256:6162cce5785a5aa8872964c35f30219464ce39ee0cedeccb3f4a8e8c3ef84983"
+evidence_checks_held = 9
+evidence_checks_total = 9
+evidence_backend = "remote"
+evidence_recorded_at = "2026-09-14T10:17:51.035256+00:00"
+
+[metadata.upstream]
+url = "https://github.com/endel/js2php.git"
+commit = "82133a1acf4e00c071679eed8d7e7d15924cb559"
+committed_at = "2019-05-04T12:11:16Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 51200
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

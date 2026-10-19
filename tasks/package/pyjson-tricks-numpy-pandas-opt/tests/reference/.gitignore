@@ -1,0 +1,14 @@
+*~
+*.pyc
+*.egg-info
+*.swp
+/.idea/
+*.sqlite3
+/.pypirc
+/dist/
+/build/
+/MANIFEST
+/.cache/
+/try.py
+.pytest_cache/
+

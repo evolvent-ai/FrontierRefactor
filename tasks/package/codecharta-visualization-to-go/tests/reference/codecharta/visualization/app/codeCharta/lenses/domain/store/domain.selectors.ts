@@ -1,0 +1,35 @@
+import { createSelector } from "@ngrx/store"
+import { DomainLensData, FileState } from "../../../model/codeCharta.model"
+import { domainWordsSelector } from "../../../stores/domainLensSource/domainLensSource.read.facade"
+import { visibleFileStatesWithCurrentSettingsSelector } from "../../../stores/fileStore/fileStore.facade"
+import { fileRoot } from "../../../util/fileRoot"
+import { viewIndependentTreeSelector } from "../../structure/structure.facade"
+import { buildWordOccurrenceTree } from "./wordOccurrences"
+
+export const hasDomainDataSelector = createSelector(domainWordsSelector, words => Object.keys(words).length > 0)
+
+const pathsCarryingWords = (words: DomainLensData): ReadonlySet<string> =>
+    new Set(Object.entries(words).flatMap(([path, wordList]) => (wordList.length > 0 ? [path] : [])))
+
+export const pathsWithDomainWordsSelector = createSelector(domainWordsSelector, pathsCarryingWords)
+
+export const hasTfidfDataSelector = createSelector(domainWordsSelector, words =>
+    Object.values(words).some(wordList => wordList.some(word => word.tfidf !== undefined))
+)
+
+export const projectWordsSelector = createSelector(domainWordsSelector, words => words[fileRoot.rootPath] ?? [])
+
+export const createWordsForSelectedNodeSelector = (selectedNodePath: string | null) =>
+    createSelector(domainWordsSelector, words => words[selectedNodePath ?? fileRoot.rootPath] ?? [])
+
+export const createWordOccurrencesSelector = (scopePath: string | null, word: string | null) =>
+    createSelector(viewIndependentTreeSelector, domainWordsSelector, (tree, words) =>
+        word === null ? null : buildWordOccurrenceTree(tree, words, scopePath ?? fileRoot.rootPath, word)
+    )
+
+const carriesNoDomainLens = ({ file }: FileState) => Object.keys(file.settings.fileSettings.domainWords).length === 0
+
+export const isLoadedFileSetWithoutDomainLensSelector = createSelector(
+    visibleFileStatesWithCurrentSettingsSelector,
+    visibleFileStates => visibleFileStates.length > 0 && visibleFileStates.every(carriesNoDomainLens)
+)

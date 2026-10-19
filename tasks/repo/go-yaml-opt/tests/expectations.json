@@ -1,0 +1,398 @@
+{
+  "cli-0017": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:c36df6da56458da970d96ae051a18c6ef6592609950dbcb4cf5d6782e4c29756",
+        "graded": true,
+        "line_count": 56,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "cli-0018": [
+    {
+      "exit_code": {
+        "digest": "sha256:d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:82f9f946b703e86aad5dd9feb339b7745c07fdcc99ae44b0d2394080bb9d92c8",
+        "graded": false,
+        "line_count": 58,
+        "masked": [],
+        "reason": "the delivered image did not reproduce this observation that the build sandbox did; ungraded rather than regraded"
+      },
+      "stdout": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0000": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:c36df6da56458da970d96ae051a18c6ef6592609950dbcb4cf5d6782e4c29756",
+        "graded": true,
+        "line_count": 56,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0002": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:b819e2b63340321872974426761ee40c02a44da71164acceb5819aa612c377bc",
+        "graded": true,
+        "line_count": 193,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0007": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:f79eebf6a844a3b39e99b43445741da0dd573ac31b8507f357a9b329c5c1f0c4",
+        "graded": true,
+        "line_count": 111,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0009": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:3b346dcae39e7f6ff032f1e55e1e435b12b6aaf2dff799d80e9c0334f6f7adee",
+        "graded": true,
+        "line_count": 61,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0011": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:cf6ca0016571130ef2083ea0fc4652ca5c7b74b4d72a020441d9564ef2f71bad",
+        "graded": true,
+        "line_count": 93,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0012": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:486d103c7117aa35cedeac69e8c6ec772028dc48037f8ec17621375ded56ff3f",
+        "graded": true,
+        "line_count": 1696,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0013": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:3bd4eb5a8d22077e2acf6846125cf6d4a0c471de9529f93e7a88c90f3d1f1269",
+        "graded": true,
+        "line_count": 86,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0014": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:ab4e43e63ef0a26db9add994b23300b4ec3769781f224281f880386e94372893",
+        "graded": true,
+        "line_count": 1462,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0015": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:1691fc338c3a80f372577618726b77c111841bdf234d69b59efdc8b2bbb8c665",
+        "graded": true,
+        "line_count": 303,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ],
+  "harvest-0016": [
+    {
+      "exit_code": {
+        "digest": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "graded": true,
+        "line_count": 1,
+        "masked": [],
+        "reason": ""
+      },
+      "stderr": {
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "graded": true,
+        "line_count": 0,
+        "masked": [],
+        "reason": ""
+      },
+      "stdout": {
+        "digest": "sha256:7a25d74ddb9e4658abc9347a1b51cc538038f07ad4e260c2c9625292a598a4ae",
+        "graded": true,
+        "line_count": 641,
+        "masked": [],
+        "reason": ""
+      },
+      "step": 0,
+      "tree": {
+        "digest": "sha256:ecfb5abb0016d5784421b2ad1c7919599fb2a3c990206f0714267f18cf69ad5c",
+        "graded": true,
+        "line_count": 80,
+        "masked": [],
+        "reason": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+name: Staging Deployment - Analysis
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'analysis/**'
+
+env:
+  SHORT_SHA: "0000000"
+
+jobs:
+  build_and_deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Get short SHA for tagging
+      - name: Set short SHA
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build analysis
+        working-directory: ./analysis
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build
+
+      # Docker build and push with staging tags
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./analysis
+          push: true
+          tags: |
+            codecharta/codecharta-analysis:staging
+            codecharta/codecharta-analysis:staging-${{ env.SHORT_SHA }}
+    

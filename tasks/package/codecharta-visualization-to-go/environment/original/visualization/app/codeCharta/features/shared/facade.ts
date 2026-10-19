@@ -1,0 +1,26 @@
+// Reusable presentational UI kit — the public surface other features compose in their templates.
+export { ActionIconComponent } from "./components/actionIcon/actionIcon.component"
+export { AxisCardComponent } from "./components/axisCard/axisCard.component"
+export {
+    BAR_BOTTOM_ABOVE_BOTTOM_BAR,
+    BAR_BOTTOM_ABOVE_FILE_EXTENSION_BAR,
+    BarShellDirective
+} from "./components/barShell/barShell.directive"
+export { ConfirmDialogComponent } from "./components/confirmDialog/confirmDialog.component"
+export { ContextMenuItemComponent } from "./components/contextMenuItem/contextMenuItem.component"
+export { ErrorDialogComponent } from "./components/errorDialog/errorDialog.component"
+export { FloatingMenuAnchor, FloatingMenuComponent } from "./components/floatingMenu/floatingMenu.component"
+export { InlineColorPickerComponent } from "./components/inlineColorPicker/inlineColorPicker.component"
+export { LoadingFileProgressSpinnerComponent } from "./components/loadingFileProgressSpinner/loadingFileProgressSpinner.component"
+export { MetricOption } from "./components/metricSelectPopover/metricOption"
+export { MetricSelectPopoverComponent } from "./components/metricSelectPopover/metricSelectPopover.component"
+export { HEIGHT_CSS_VARIABLE, PublishesHeightDirective } from "./components/publishesHeight/publishesHeight.directive"
+export { ResetSettingsButtonComponent } from "./components/resetSettingsButton/resetSettingsButton.component"
+export { SettingsPopoverShellComponent } from "./components/settingsPopoverShell/settingsPopoverShell.component"
+export { SliderNumberInputComponent } from "./components/sliderNumberInput/sliderNumberInput.component"
+export { ToastComponent } from "./components/toast/toast.component"
+export { CSS_VARIABLE_HOST, provideViewScopedCssVariables } from "./cssVariableHost"
+export { BlacklistExclusionGuard } from "./effects/addBlacklistItemsIfNotResultsInEmptyMap/blacklistExclusionGuard"
+export { getPartialDefaultState } from "./getPartialDefaultState"
+export { ToastService } from "./services/toast.service"
+export { parseChangedNumberInput, SETTINGS_INPUT_DEBOUNCE_MS } from "./util/settingsInput"

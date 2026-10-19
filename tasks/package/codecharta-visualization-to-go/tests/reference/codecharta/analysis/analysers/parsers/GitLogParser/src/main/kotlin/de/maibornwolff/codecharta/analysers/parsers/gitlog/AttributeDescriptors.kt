@@ -1,0 +1,163 @@
+package de.maibornwolff.codecharta.analysers.parsers.gitlog
+
+import de.maibornwolff.codecharta.model.AttributeDescriptor
+
+internal fun getAttributeDescriptors(): Map<String, AttributeDescriptor> {
+    val ghLink = "https://codecharta.com/docs/parser/git-log"
+    val analyzerName = setOf("gitLogParser")
+    return mapOf(
+        "age_in_weeks" to
+            AttributeDescriptor(
+                title = "Age in Weeks",
+                description = "File age in weeks",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "number_of_authors" to
+            AttributeDescriptor(
+                title = "Number of Authors",
+                description = "Number of authors",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "number_of_commits" to
+            AttributeDescriptor(
+                title = "Number of Commits",
+                description = "Number of commits",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "number_of_renames" to
+            AttributeDescriptor(
+                title = "Number of Renames",
+                description = "Number of file renames",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "range_of_weeks_with_commits" to
+            AttributeDescriptor(
+                title = "Week Range of Commits",
+                description = "Average number of weeks between commits",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "successive_weeks_with_commits" to
+            AttributeDescriptor(
+                title = "Successive Weeks with Commits",
+                description = "Number of successive weeks in which the file was included in a commit",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "weeks_with_commits" to
+            AttributeDescriptor(
+                title = "Weeks with Commits",
+                description = "Number of weeks in which commits occurred",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "highly_coupled_files" to
+            AttributeDescriptor(
+                title = "Highly Coupled Files",
+                description = "Number of highly coupled files (>=35% of times modified the same time) with this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "median_coupled_files" to
+            AttributeDescriptor(
+                title = "Median Coupled Files",
+                description = "Median of number of other files that where committed with this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "temporal_coupling" to
+            AttributeDescriptor(
+                title = "Temporal Coupling",
+                description = "The degree of temporal coupling between two files (>=35%)",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "feat_commits" to
+            AttributeDescriptor(
+                title = "Feature Commits",
+                description = "Number of commits starting with 'feat' for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "fix_commits" to
+            AttributeDescriptor(
+                title = "Fix Commits",
+                description = "Number of commits starting with 'fix' for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "docs_commits" to
+            AttributeDescriptor(
+                title = "Documentation Commits",
+                description = "Number of commits starting with 'docs' for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "style_commits" to
+            AttributeDescriptor(
+                title = "Style Commits",
+                description = "Number of commits starting with 'style' for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "refactor_commits" to
+            AttributeDescriptor(
+                title = "Refactor Commits",
+                description = "Number of commits starting with 'refactor' for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "test_commits" to
+            AttributeDescriptor(
+                title = "Test Commits",
+                description = "Number of commits starting with 'test' for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "hotfix_commits" to
+            AttributeDescriptor(
+                title = "Hotfix Commits",
+                description = "Number of commits containing 'hotfix' keyword for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "semantic_commit_ratio" to
+            AttributeDescriptor(
+                title = "Semantic Commit Ratio",
+                description = "Ratio of semantic commits (which start with feat, fix, docs, style, refactor or test)" +
+                    " to total commits for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            ),
+        "hotfix_commit_ratio" to
+            AttributeDescriptor(
+                title = "Hotfix Commit Ratio",
+                description = "Ratio of hotfix commits (containing 'hotfix' keyword) to total commits for this file",
+                link = ghLink,
+                direction = -1,
+                analyzers = analyzerName
+            )
+    )
+}

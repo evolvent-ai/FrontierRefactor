@@ -1,0 +1,68 @@
+name: Prepare Release - Visualization/Analysis
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: 'Repository to release'
+        required: true
+        type: choice
+        options:
+          - Visualization
+          - Analysis
+      version_type:
+        description: 'Version increment type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Update version and files
+        id: version
+        run: |
+          set -e  # Exit immediately if a command exits with a non-zero status
+          NEW_VERSION=$(bun .github/workflows/scripts/version-manager.ts update-version ${{ inputs.repository }} ${{ inputs.version_type }})
+          if [ $? -ne 0 ]; then
+            echo "::error::Version manager failed"
+            exit 1
+          fi
+          echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+          echo "prefix=${{ inputs.repository == 'Visualization' && 'vis' || 'ana' }}" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          commit-message: "Releasing ${{ steps.version.outputs.prefix }}-${{ steps.version.outputs.new_version }}"
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+          branch: release/${{ steps.version.outputs.prefix }}-${{ steps.version.outputs.new_version }}
+          delete-branch: true
+          title: "Release ${{ inputs.repository }} ${{ steps.version.outputs.new_version }}"
+          body: |
+            Automated PR for releasing ${{ inputs.repository }} version ${{ steps.version.outputs.new_version }}
+
+            This PR was automatically created by the release workflow.
+            After merging, the release workflow will create a tag `${{ steps.version.outputs.prefix }}-${{ steps.version.outputs.new_version }}` and start the release process.
+          labels: |
+            release
+          draft: false

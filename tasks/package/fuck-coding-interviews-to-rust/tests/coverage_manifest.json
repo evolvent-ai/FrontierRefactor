@@ -1,0 +1,27 @@
+{
+  "graded_count": 173,
+  "operations": {
+    "binary_search": 9,
+    "binary_search_left_bound": 9,
+    "binary_search_recursive": 9,
+    "bubble_sort": 9,
+    "counting_sort": 9,
+    "factorial": 8,
+    "factorial_for_loop": 8,
+    "fib": 8,
+    "fib_for_loop": 8,
+    "heap_sort_heapq": 9,
+    "heapsort": 9,
+    "insertion_sort": 9,
+    "linear_search": 9,
+    "mad": 9,
+    "merge": 9,
+    "mergesort": 9,
+    "quicksort": 9,
+    "quicksort_in_place": 9,
+    "selection_sort": 9,
+    "selection_sort_in_place": 6
+  },
+  "probe_count": 176,
+  "timed_count": 3
+}

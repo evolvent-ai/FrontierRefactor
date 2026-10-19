@@ -1,0 +1,18 @@
+{
+  "graded_count": 137,
+  "operations": {
+    "basename": 12,
+    "escapeLast": 12,
+    "escapeRegex": 13,
+    "hasRegexChars": 13,
+    "isObject": 13,
+    "isRegexChar": 13,
+    "isWindows": 12,
+    "removeBackslashes": 12,
+    "removePrefix": 12,
+    "toPosixSlashes": 13,
+    "wrapOutput": 12
+  },
+  "probe_count": 140,
+  "timed_count": 3
+}

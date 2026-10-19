@@ -1,0 +1,20 @@
+package de.maibornwolff.codecharta.analysers.parsers.svnlog.input.metrics
+
+import de.maibornwolff.codecharta.analysers.parsers.svnlog.input.Commit
+import de.maibornwolff.codecharta.model.AttributeType
+
+class NumberOfAuthors : Metric {
+    private val authors = mutableSetOf<String>()
+
+    override fun description(): String = "Number of Authors: Number of authors that contributed to this file."
+
+    override fun metricName(): String = "number_of_authors"
+
+    override fun registerCommit(commit: Commit) {
+        authors.add(commit.author)
+    }
+
+    override fun value(): Number = authors.size
+
+    override fun attributeType(): AttributeType = AttributeType.RELATIVE
+}

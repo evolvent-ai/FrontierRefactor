@@ -1,0 +1,14 @@
+{"probe_id": "harvest-0009", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "benches/fixtures/maven_pom.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0014", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "benches/fixtures/xhtml_page.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0019", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "benches/fixtures/svg_drawing.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0004", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "benches/fixtures/atom_feed.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0029", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/c14n10_3_3_input.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0039", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/excc14n_2_2_input2.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0024", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/c14n10_3_1_input.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0054", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/excc14n_2_2_input1.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0049", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/c14n10_3_2_input.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0044", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/c14n10_3_1_with_comments.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0034", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/c14n10_3_1_no_comments.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0059", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--c14n", "tests/data/c14n_w3c/c14n10_3_6_input.xml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0061", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--version"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0060", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--help"], "cwd": ".", "stdin": null}]}

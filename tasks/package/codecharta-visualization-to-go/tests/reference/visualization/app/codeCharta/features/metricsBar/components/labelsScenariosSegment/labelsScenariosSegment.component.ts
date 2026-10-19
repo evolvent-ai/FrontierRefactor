@@ -1,0 +1,61 @@
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal, viewChild } from "@angular/core"
+import { toSignal } from "@angular/core/rxjs-interop"
+import { MetricData } from "../../../../model/codeCharta.model"
+import { LabelSettingsPanelComponent } from "../../../labelSettings/facade"
+import {
+    ApplyScenarioDialogComponent,
+    SaveScenarioDialogComponent,
+    Scenario,
+    ScenarioListDialogComponent,
+    ScenariosService
+} from "../../../scenarios/facade"
+import { SettingsPopoverShellComponent } from "../../../shared/facade"
+
+@Component({
+    selector: "cc-labels-scenarios-segment",
+    templateUrl: "./labelsScenariosSegment.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: "group flex flex-col items-stretch px-3 py-2 transition-colors relative" },
+    imports: [
+        LabelSettingsPanelComponent,
+        ScenarioListDialogComponent,
+        SaveScenarioDialogComponent,
+        ApplyScenarioDialogComponent,
+        SettingsPopoverShellComponent
+    ]
+})
+export class LabelsScenariosSegmentComponent implements OnInit {
+    private readonly scenariosService = inject(ScenariosService)
+
+    readonly listDialog = viewChild.required<ScenarioListDialogComponent>("listDialog")
+    readonly saveDialog = viewChild.required<SaveScenarioDialogComponent>("saveDialog")
+
+    readonly applyTarget = signal<{ scenario: Scenario; metricData: MetricData } | null>(null)
+
+    readonly scenarios = toSignal(this.scenariosService.scenarios$, { initialValue: [] as Scenario[] })
+
+    readonly scenariosCountLabel = computed(() => {
+        const count = this.scenarios().length
+        return `${count} ${count === 1 ? "scenario" : "scenarios"} available`
+    })
+
+    async ngOnInit(): Promise<void> {
+        await this.scenariosService.loadScenarios()
+    }
+
+    openScenarioList() {
+        this.listDialog().open()
+    }
+
+    openSaveDialog() {
+        this.saveDialog().open()
+    }
+
+    handleApplyRequested(event: { scenario: Scenario; metricData: MetricData }) {
+        this.applyTarget.set(event)
+    }
+
+    handleApplyClosed() {
+        this.applyTarget.set(null)
+    }
+}

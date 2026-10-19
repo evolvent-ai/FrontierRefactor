@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 3'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Use Node.js LTS
+      uses: actions/setup-node@v6
+      with:
+        node-version: lts/*
+        cache: npm
+
+    - run: npm ci
+
+    - name: Test
+      run: npm test
+
+    - name: Coverage
+      run: npm run coverage
+
+    - name: Upload coverage report to coveralls.io
+      uses: coverallsapp/github-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

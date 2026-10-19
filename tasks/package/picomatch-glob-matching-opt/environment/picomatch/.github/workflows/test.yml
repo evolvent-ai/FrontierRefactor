@@ -1,0 +1,62 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  FORCE_COLOR: 2
+
+permissions:
+  contents: read
+  code-quality: write
+
+jobs:
+  run:
+    name: Node.js ${{ matrix.node }} @ ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [12, 14, 16, 18, 20, 22, 24, 25]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        exclude:
+          - os: macos-latest
+            node: 12
+          - os: macos-latest
+            node: 14
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: package.json
+
+      - name: Update npm
+        if: matrix.node == 12 || matrix.node == 14
+        run: npm install -g npm@8
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test:ci
+
+      - name: Upload coverage report
+        # Only upload coverage report for Ubuntu and Node.js 25 (latest version), and only if the event is not a pull request or if the pull request is from the same repository.
+        if: startsWith(matrix.os, 'ubuntu') && matrix.node == 25 && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+        uses: actions/upload-code-coverage@1c15be36fc3733ba839b1dd643bd9556e4426dc1 # v1
+        continue-on-error: true
+        with:
+          file: coverage/cobertura-coverage.xml
+          language: JavaScript
+          label: code-coverage/nyc
+          fail-on-error: false

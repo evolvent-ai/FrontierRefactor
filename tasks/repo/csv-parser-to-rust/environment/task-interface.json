@@ -1,0 +1,16 @@
+{
+  "build_commands": [
+    "/app/build.sh"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/implementation/src/main.rs",
+  "implementation_directory": "/app/implementation",
+  "launcher_builds": true,
+  "target_language": "rust",
+  "build_contract": "The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "interface": "The target executable receives the original program's arguments and standard input in a prepared working directory. Preserve argument handling, exit status, both output streams, and produced file contents. Keep the working directory supplied by the caller when interpreting relative input/output paths. The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "preparation_commands": [
+    "npm install"
+  ]
+}

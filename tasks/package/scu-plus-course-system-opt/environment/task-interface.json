@@ -1,0 +1,116 @@
+{
+  "build_commands": [
+    "sh -c 'if [ -f package.json ] && grep -q '\"'\"'\"type\"[[:space:]]*:[[:space:]]*\"module\"'\"'\"' package.json; then sed -i '\"'\"'s/\"type\"[[:space:]]*:[[:space:]]*\"module\"/\"type\": \"commonjs\"/'\"'\"' package.json; echo '\"'\"'[build] package.json declared type=module; set to commonjs to match the CommonJS tsc emits'\"'\"'; fi; tsc --target ES2022 --module commonjs --skipLibCheck --allowJs $(find . -name '\"'\"'*.ts'\"'\"' -not -path '\"'\"'./node_modules/*'\"'\"' -not -name '\"'\"'*.d.ts'\"'\"' 2>/dev/null) ./subject.cts || tsc --target ES2022 --module commonjs --skipLibCheck ./subject.cts'"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.cts",
+  "runtime_argv": [
+    "node",
+    "--experimental-specifier-resolution=node",
+    "./serve.cjs",
+    "subject.cjs",
+    "entry"
+  ],
+  "launcher_builds": true,
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The first element of args selects the package operation; remaining elements are its positional arguments. Preserve all declared operations.",
+  "symbol": "entry",
+  "operations": [
+    "resolveAvatarRedirectUrl",
+    "mixWithWhite",
+    "normalizeAspectRatio",
+    "hideFailCourse",
+    "customText"
+  ],
+  "dispatch": [
+    {
+      "name": "resolveAvatarRedirectUrl",
+      "module": "./src/common/avatar.js",
+      "symbol": "resolveAvatarRedirectUrl",
+      "signature": "(avatarSource: string, avatarInfo: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "mixWithWhite",
+      "module": "./src/features/beautify/palette.js",
+      "symbol": "mixWithWhite",
+      "signature": "(hex: string, ratio: number)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "float"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "normalizeAspectRatio",
+      "module": "./src/features/ocr/model.js",
+      "symbol": "normalizeAspectRatio",
+      "signature": "(ar: number)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "float"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "hideFailCourse",
+      "module": "./src/features/homepage/index.js",
+      "symbol": "hideFailCourse",
+      "signature": "(enabled: boolean)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "bool"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "customText",
+      "module": "./src/features/homepage/index.js",
+      "symbol": "customText",
+      "signature": "(id: string, text: string)",
+      "language": "javascript",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    }
+  ]
+}

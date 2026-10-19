@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "repo/rdf-parser-csvw-to-rust"
+description = "CSV on the Web parser\n\nThe selected workload contains 19 scenario(s). Commands exercised: /app/run.sh. Input fixtures: inputs.tar.gz. Preserve exit status, standard output/error, and produced files for these repository-owned cases."
+authors = []
+keywords = [ "repo", "cross-language",]
+
+[metadata]
+scale = "repo"
+source_language = "javascript"
+target_language = "rust"
+cross_language = true
+category = "performance-optimization"
+tags = [ "repo", "cross-language",]
+provenance = "Reference is https://github.com/rdf-ext/rdf-parser-csvw.git at 751c64209e06dd092aaa7348f51ba6b35af03cc2. The expectations are a frozen capture of that reference's own observable behaviour over 16 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/rdf-ext/rdf-parser-csvw.git"
+commit = "751c64209e06dd092aaa7348f51ba6b35af03cc2"
+committed_at = "2026-09-14T18:09:06Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE.md",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 51200
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

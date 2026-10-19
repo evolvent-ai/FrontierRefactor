@@ -1,0 +1,48 @@
+package de.maibornwolff.codecharta.analysers.importers.codemaat
+
+import de.maibornwolff.codecharta.model.Edge
+
+class CSVRow(private val row: Array<String?>, private val header: CSVHeader, private val pathSeparator: Char) {
+    init {
+        require(row.size > header.pathColumn.size) {
+            "Row " + row.contentToString() +
+                " has no column containing the file path. Should be in one of " + header.pathColumn + " columns."
+        }
+    }
+
+    fun asEdge(): Edge {
+        val rootNode = "/root/"
+        val fromNodeName = rootNode + allColumns["entity"]
+        val toNodeName = rootNode + allColumns["coupled"]
+
+        return Edge(fromNodeName, toNodeName, attributes)
+    }
+
+    private val allColumns: Map<String, String> =
+        header.columnNumbers
+            .filter {
+                validAttributeValue(it)
+            }.associateBy(
+                {
+                    header.getColumnName(it)
+                },
+                { row[it]!! }
+            )
+
+    private val attributes: Map<String, Int> =
+        header.columnNumbers
+            .filter {
+                validAttributeValue(it) && isAttributeColumn(it)
+            }.associateBy(
+                {
+                    header.getColumnName(it)
+                },
+                {
+                    row[it]!!.toInt()
+                }
+            )
+
+    private fun validAttributeValue(i: Int) = i < row.size && row[i] != null
+
+    private fun isAttributeColumn(i: Int) = header.pathColumn.filter { pathColumnIndex -> i == pathColumnIndex }.isEmpty()
+}

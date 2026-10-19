@@ -1,0 +1,9 @@
+tests
+tests/**
+**/expectations.json
+**/verify.py
+**/coverage_manifest.json
+**/reference
+**/reference.tar.gz
+__pycache__
+**/*.pyc

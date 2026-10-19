@@ -1,0 +1,110 @@
+package de.maibornwolff.codecharta.model
+
+import de.maibornwolff.codecharta.util.Logger
+
+/**
+ * merging multiply nodes by using max attribute and link, ignoring children
+ */
+class NodeMaxAttributeMerger(var mergeChildrenList: Boolean = false) : NodeMergerStrategy {
+    override fun merge(tree: MutableNode, otherTrees: List<MutableNode>): MutableNode {
+        val nodes = listOf(tree).plus(otherTrees)
+        return MutableNode(
+            createName(tree),
+            createType(nodes),
+            createAttributes(nodes),
+            createLink(nodes),
+            createChildrenList(nodes),
+            nodeMergingStrategy = createMergingStrategy(tree),
+            checksum = createChecksum(nodes)
+        )
+    }
+
+    // Carry the content hash through a merge when the merged nodes agree on it (or only one supplies
+    // it), so a merged 2.0 file stays usable as a --base-file and for content-match re-merge. Drop it
+    // (null) only on a genuine conflict between differing checksums.
+    private fun createChecksum(nodes: List<MutableNode>): String? = nodes
+        .mapNotNull { it.checksum }
+        .filter { it.isNotEmpty() }
+        .distinct()
+        .singleOrNull()
+
+    private fun createLink(nodes: List<MutableNode>) = nodes
+        .map {
+            it.link
+        }.firstOrNull {
+            it != null && !it.isBlank()
+        }
+
+    private fun createAttributes(nodes: List<MutableNode>) = nodes
+        .map {
+            it.attributes
+        }.reduce { acc, mutableMap ->
+            acc.mergeReduce(mutableMap) { x, y ->
+                maxValOrFirst(x, y)
+            }
+        }.toMutableMap()
+
+    private fun createType(nodes: List<MutableNode>): NodeType {
+        val types =
+            nodes
+                .mapNotNull {
+                    it.type
+                }.distinct()
+
+        val resolvedType = types.firstOrNull {
+            it != NodeType.Folder && it != NodeType.Unknown
+        } ?: types.firstOrNull {
+            it != NodeType.Unknown
+        } ?: NodeType.Unknown
+
+        // Surface the ambiguity when nodes with more than one concrete (non-Unknown) type are merged onto
+        // one node — e.g. a File merged with a Folder. Type-aware UNION matching normally prevents this,
+        // so a warning here means an unexpected clash slipped through.
+        val concreteTypes = types.filter { it != NodeType.Unknown }
+        if (concreteTypes.size > 1) {
+            Logger.warn {
+                "Merged nodes named '${nodes.first().name}' have conflicting types $concreteTypes; using $resolvedType"
+            }
+        }
+
+        return resolvedType
+    }
+
+    private fun createName(nodes: MutableNode) = nodes.name
+
+    private fun createMergingStrategy(tree: MutableNode): NodeMergerStrategy = tree.nodeMergingStrategy
+
+    private fun createChildrenList(nodes: List<MutableNode>): Set<MutableNode> = when {
+        mergeChildrenList ->
+            nodes
+                .flatMap {
+                    it.children
+                }.toSet()
+
+        else -> setOf()
+    }
+
+    private fun maxValOrFirst(x: Any, y: Any): Any = when {
+        (x is Long || x is Int || x is Short || x is Byte) && (y is Long || y is Int || y is Short || y is Byte) ->
+            maxOf(
+                (x as Number).toLong(),
+                (y as Number).toLong()
+            )
+
+        x is Number && y is Number ->
+            maxOf(
+                x.toDouble(),
+                y.toDouble()
+            )
+
+        x !is Number && y is Number -> y
+        else -> x
+    }
+
+    private fun <K, V : Any> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { _, b -> b }): Map<K, V> =
+        this.toMutableMap().apply {
+            other.forEach {
+                merge(it.key, it.value, reduce)
+            }
+        }
+}

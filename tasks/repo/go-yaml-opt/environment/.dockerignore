@@ -1,0 +1,5 @@
+.git
+.hg
+__pycache__
+.pytest_cache
+.frf-fixtures

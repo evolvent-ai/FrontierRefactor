@@ -1,0 +1,59 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "repo/castl-javascript-to-lua-opt"
+description = "JavaScript to Lua compiler with runtime library.\n\nThe selected workload contains 17 scenario(s). Commands exercised: /app/run.sh. Input fixtures: harvest-inputs.tar.gz. Preserve exit status, standard output/error, and produced files for these repository-owned cases."
+authors = []
+keywords = [ "repo", "optimisation",]
+
+[metadata]
+scale = "repo"
+source_language = "javascript"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "repo", "optimisation",]
+provenance = "Reference is https://github.com/PaulBernier/castl.git at 7d6f6c5713493e9fe737fb1435c11f690497fe4c. The expectations are a frozen capture of that reference's own observable behaviour over 14 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+evidence_schema = "frf-evidence/1"
+evidence_digest = "sha256:9b6dccfe98f6d32575b6f4730876b39310bca34a0c53c3c705f69b6104238d47"
+evidence_checks_held = 9
+evidence_checks_total = 9
+evidence_backend = "remote"
+evidence_recorded_at = "2026-09-14T09:42:19.470682+00:00"
+
+[metadata.upstream]
+url = "https://github.com/PaulBernier/castl.git"
+commit = "7d6f6c5713493e9fe737fb1435c11f690497fe4c"
+committed_at = "2017-03-28T02:10:04Z"
+license_spdx = "LGPL-3.0"
+license_files = [ "LICENSE.txt",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 51200
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

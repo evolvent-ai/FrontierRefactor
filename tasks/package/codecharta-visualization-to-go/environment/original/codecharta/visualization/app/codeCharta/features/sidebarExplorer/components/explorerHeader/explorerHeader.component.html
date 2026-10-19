@@ -1,0 +1,34 @@
+<div class="flex items-center justify-between px-2 py-2 border-b border-base-300">
+    <span class="text-xs font-semibold uppercase tracking-wide">Explorer</span>
+    <button
+        type="button"
+        class="btn btn-ghost btn-xs btn-square"
+        (click)="collapse()"
+        title="Collapse explorer"
+        data-testid="explorer-collapse-button"
+    >
+        <i class="fa fa-angle-double-left"></i>
+    </button>
+</div>
+
+@if (showModeToggle) {
+    <cc-explorer-mode-toggle></cc-explorer-mode-toggle>
+}
+
+@if (showCounts) {
+    <div class="flex items-stretch border border-base-300 mx-2 mt-2 rounded-md overflow-hidden divide-x divide-base-300">
+        <cc-explorer-count-chip label="Shown" [count]="shown()" [tooltip]="shownTooltip()"></cc-explorer-count-chip>
+        <cc-explorer-count-chip
+            label="Flattened"
+            [count]="flattened()"
+            popoverId="explorer-flatten-rules"
+            anchorName="explorer-flat-chip"
+        ></cc-explorer-count-chip>
+        <cc-explorer-count-chip
+            label="Hidden"
+            [count]="hidden()"
+            popoverId="explorer-hidden-rules"
+            anchorName="explorer-hidden-chip"
+        ></cc-explorer-count-chip>
+    </div>
+}

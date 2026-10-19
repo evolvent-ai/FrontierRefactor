@@ -1,0 +1,22 @@
+import { Provider } from "@angular/core"
+import { EXPLORER_STORAGE_SCOPE, ExplorerStorageScope } from "./explorerStorageScope"
+import { ExplorerCollapseRepo } from "./repos/explorerCollapse.repo"
+import { ExplorerWidthRepo } from "./repos/explorerWidth.repo"
+import { ExplorerCollapseService } from "./services/explorerCollapse.service"
+import { ExplorerModeService } from "./services/explorerMode.service"
+import { ExplorerRevealService } from "./services/explorerReveal.service"
+import { ExplorerRowContextMenuService } from "./services/explorerRowContextMenu.service"
+import { ExplorerScrollHostService } from "./services/explorerScrollHost.service"
+import { ExplorerWidthService } from "./services/explorerWidth.service"
+
+export const provideViewScopedExplorerState = (scope: ExplorerStorageScope): Provider[] => [
+    { provide: EXPLORER_STORAGE_SCOPE, useValue: scope },
+    ExplorerCollapseRepo,
+    ExplorerCollapseService,
+    ExplorerModeService,
+    ExplorerWidthRepo,
+    ExplorerWidthService,
+    ExplorerRevealService,
+    ExplorerScrollHostService,
+    ExplorerRowContextMenuService
+]

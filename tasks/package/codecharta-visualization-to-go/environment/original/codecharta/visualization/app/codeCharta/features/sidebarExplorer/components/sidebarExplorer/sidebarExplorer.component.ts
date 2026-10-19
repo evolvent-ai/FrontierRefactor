@@ -1,0 +1,112 @@
+import { ChangeDetectionStrategy, Component, computed, ElementRef, effect, inject, OnDestroy, viewChild } from "@angular/core"
+import { CSS_VARIABLE_HOST } from "../../../shared/facade"
+import { EXPLORER_CAPABILITIES } from "../../explorerCapabilities"
+import { EXPLORER_METRIC_RULES } from "../../explorerMetricRules.port"
+import { ExplorerCollapseService } from "../../services/explorerCollapse.service"
+import { ExplorerModeService } from "../../services/explorerMode.service"
+import { ExplorerScrollHostService } from "../../services/explorerScrollHost.service"
+import { EXPLORER_WIDTH_CSS_VARIABLE, ExplorerWidthService } from "../../services/explorerWidth.service"
+import { ExplorerHeaderComponent } from "../explorerHeader/explorerHeader.component"
+import { ExplorerSearchBarComponent } from "../explorerSearchBar/explorerSearchBar.component"
+import { ExplorerSortControlComponent } from "../explorerSortControl/explorerSortControl.component"
+import { ExplorerTreeComponent } from "../explorerTree/explorerTree.component"
+import { MetricRuleEditorComponent } from "../metricRuleEditor/metricRuleEditor.component"
+import { RulesPopoverComponent } from "../rulesPopover/rulesPopover.component"
+
+export const COLLAPSED_STRIP_WIDTH_PX = 300
+
+@Component({
+    selector: "cc-sidebar-explorer",
+    templateUrl: "./sidebarExplorer.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        ExplorerHeaderComponent,
+        ExplorerSearchBarComponent,
+        ExplorerSortControlComponent,
+        ExplorerTreeComponent,
+        MetricRuleEditorComponent,
+        RulesPopoverComponent
+    ],
+    host: {
+        class: "fixed left-0 z-[60] bg-base-100 flex flex-col shadow-[2px_0_8px_-2px_rgba(0,0,0,0.15)]",
+        "[class.overflow-hidden]": "!isCollapsed()",
+        "[class.rounded-br-md]": "isCollapsed()",
+        "[style.width.px]": "displayWidth()",
+        "[style.top]": "'var(--cc-bars-height, 49px)'",
+        "[style.height]":
+            "isCollapsed() ? 'auto' : 'calc(100vh - var(--cc-bars-height, 49px) - var(--cc-file-extension-bar-height, 0px) - var(--cc-bottom-bar-height, 32px))'"
+    }
+})
+export class SidebarExplorerComponent implements OnDestroy {
+    private readonly collapseService = inject(ExplorerCollapseService)
+    private readonly widthService = inject(ExplorerWidthService)
+    private readonly cssVariableHost = inject(CSS_VARIABLE_HOST)
+    private readonly scrollHostService = inject(ExplorerScrollHostService)
+    private readonly modeService = inject(ExplorerModeService)
+
+    private readonly scrollHost = viewChild<ElementRef<HTMLElement>>("scrollHost")
+
+    readonly capabilities = inject(EXPLORER_CAPABILITIES)
+
+    /** Only views that provide metric values can offer the metric rule editor. */
+    readonly hasMetricRules = inject(EXPLORER_METRIC_RULES, { optional: true }) !== null
+
+    readonly isCollapsed = this.collapseService.isCollapsed
+    readonly isFilesMode = this.modeService.isFilesMode
+    readonly width = this.widthService.width
+    readonly displayWidth = computed(() => (this.isCollapsed() ? COLLAPSED_STRIP_WIDTH_PX : this.width()))
+
+    constructor() {
+        effect(() => this.publishWidthTheBottomBarsMustAvoid())
+        effect(() => this.scrollHostService.register(this.scrollHost()?.nativeElement ?? null))
+    }
+
+    private publishWidthTheBottomBarsMustAvoid() {
+        const occupiedWidth = this.isCollapsed() ? 0 : this.width()
+        this.cssVariableHost.style.setProperty(EXPLORER_WIDTH_CSS_VARIABLE, `${occupiedWidth}px`)
+    }
+
+    private isResizing = false
+    private readonly onPointerMove = (event: PointerEvent) => this.resize(event)
+    private readonly onPointerUp = () => this.stopResize()
+
+    toggle() {
+        this.collapseService.toggle()
+    }
+
+    startResize(event: PointerEvent) {
+        event.preventDefault()
+        this.isResizing = true
+        document.body.style.userSelect = "none"
+        globalThis.addEventListener("pointermove", this.onPointerMove)
+        globalThis.addEventListener("pointerup", this.onPointerUp)
+        globalThis.addEventListener("pointercancel", this.onPointerUp)
+    }
+
+    resetWidth() {
+        this.widthService.reset()
+    }
+
+    ngOnDestroy() {
+        this.stopResize()
+        this.cssVariableHost.style.removeProperty(EXPLORER_WIDTH_CSS_VARIABLE)
+    }
+
+    private resize(event: PointerEvent) {
+        if (!this.isResizing) {
+            return
+        }
+        this.widthService.setWidth(event.clientX)
+    }
+
+    private stopResize() {
+        if (!this.isResizing) {
+            return
+        }
+        this.isResizing = false
+        document.body.style.userSelect = ""
+        globalThis.removeEventListener("pointermove", this.onPointerMove)
+        globalThis.removeEventListener("pointerup", this.onPointerUp)
+        globalThis.removeEventListener("pointercancel", this.onPointerUp)
+    }
+}

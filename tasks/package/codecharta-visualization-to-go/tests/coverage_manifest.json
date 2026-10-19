@@ -1,0 +1,18 @@
+{
+  "graded_count": 82,
+  "operations": {
+    "colorForWord": 8,
+    "downloadPng": 8,
+    "formatShare": 7,
+    "getAsApiVersion": 8,
+    "getXMLmodel": 5,
+    "interpolateColor": 7,
+    "loadMaskImage": 8,
+    "settingCountLabel": 7,
+    "shapeMaskFromSvg": 8,
+    "toExportApiVersion": 8,
+    "viewIdForLink": 8
+  },
+  "probe_count": 85,
+  "timed_count": 3
+}

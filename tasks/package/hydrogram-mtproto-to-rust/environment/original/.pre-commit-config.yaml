@@ -1,0 +1,27 @@
+repos:
+  - repo: local
+    hooks:
+      - id: news-fragment-filenames
+        name: NEWS fragment
+        language: fail
+        entry: NEWS fragment files must be named *.(removal|feature|bugfix|doc|misc).rst
+        exclude: ^news/(.gitignore|.template.rst.jinja2|.*\.(removal|feature|bugfix|doc|misc).rst)
+        files: ^news/
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: check-toml
+      - id: check-yaml
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.7
+    hooks:
+      - id: ruff-check
+        args: [--fix, --ignore=E501, --unsafe-fixes, --exit-non-zero-on-fix]
+      - id: ruff-format

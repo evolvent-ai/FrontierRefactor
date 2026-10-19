@@ -1,0 +1,7 @@
+{
+  "image_id": "sha256:1c73d0c2b469acf6f17a096e5286b4fe701ba618519108b95f24d65febad5232",
+  "image_ref": "benchmark-runtime:2ed507cc928040d9f2188ff86908e45d76a885757160d9266c3ba0d182b0d691",
+  "recipe_sha256": "2ed507cc928040d9f2188ff86908e45d76a885757160d9266c3ba0d182b0d691",
+  "source_language": "typescript",
+  "target_language": "go"
+}

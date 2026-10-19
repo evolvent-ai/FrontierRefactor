@@ -1,0 +1,28 @@
+<div class="flex items-center gap-1 px-2 py-1">
+    <label class="input input-sm input-bordered flex items-center gap-1 flex-1">
+        <i class="fa fa-search opacity-60"></i>
+        <input
+            type="text"
+            class="grow"
+            [placeholder]="activeMode().searchPlaceholder"
+            [attr.aria-label]="activeMode().searchAriaLabel"
+            [value]="searchPattern()"
+            (input)="setSearchPattern($event)"
+        />
+        @if (!isSearchPatternEmpty()) {
+            <button
+                type="button"
+                class="btn btn-ghost btn-xs btn-square"
+                data-testid="search-bar-clear-button"
+                (click)="resetSearchPattern()"
+                title="Clear search"
+            >
+                <i class="fa fa-times"></i>
+            </button>
+        }
+    </label>
+
+    @if (showActions) {
+        <cc-explorer-search-actions></cc-explorer-search-actions>
+    }
+</div>

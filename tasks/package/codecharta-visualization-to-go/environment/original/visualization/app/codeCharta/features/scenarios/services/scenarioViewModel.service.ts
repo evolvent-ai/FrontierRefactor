@@ -1,0 +1,69 @@
+import { Injectable } from "@angular/core"
+import { MetricData } from "../../../model/codeCharta.model"
+import { getAvailableGroupKeys, Scenario } from "../model/scenario.model"
+import { ScenarioView } from "../model/scenarioView.model"
+import { ScenarioApplierService } from "./scenarioApplier.service"
+
+const GROUP_DEFINITIONS: { priority: number; label: string; icon: string }[] = [
+    { priority: 0, label: "Current Map", icon: "fa-map-pin" },
+    { priority: 1, label: "Global", icon: "fa-globe" },
+    { priority: 2, label: "Built-in", icon: "fa-cube" },
+    { priority: 3, label: "Other Maps", icon: "fa-map-o" }
+]
+
+interface RawScenarioGroup {
+    label: string
+    icon: string
+    scenarios: Scenario[]
+}
+
+@Injectable({ providedIn: "root" })
+export class ScenarioViewModelService {
+    constructor(private readonly scenarioApplier: ScenarioApplierService) {}
+
+    groupScenarios(scenarios: Scenario[], visibleFileNames: Set<string>): RawScenarioGroup[] {
+        const buckets = new Map<number, Scenario[]>()
+        for (const scenario of scenarios) {
+            const priority = this.getScenarioPriority(scenario, visibleFileNames)
+            const bucket = buckets.get(priority)
+            if (bucket) {
+                bucket.push(scenario)
+            } else {
+                buckets.set(priority, [scenario])
+            }
+        }
+        return GROUP_DEFINITIONS.filter(def => buckets.has(def.priority)).map(def => ({
+            label: def.label,
+            icon: def.icon,
+            scenarios: buckets.get(def.priority) ?? []
+        }))
+    }
+
+    toScenarioView(scenario: Scenario, visibleFileNames: Set<string>, metricData: MetricData): ScenarioView {
+        const mapBound = (scenario.mapFileNames?.length ?? 0) > 0
+        const mapMismatch = mapBound && !scenario.mapFileNames.some(name => visibleFileNames.has(name))
+        const warning = this.scenarioApplier.hasMissingMetrics(this.scenarioApplier.getMissingMetrics(scenario.settings, metricData))
+        return {
+            scenario,
+            warning,
+            mapMismatch,
+            mapBound,
+            groupKeys: getAvailableGroupKeys(scenario),
+            formattedDate: new Date(scenario.createdAt).toLocaleDateString()
+        }
+    }
+
+    getScenarioPriority(scenario: Scenario, visibleFileNames: Set<string>): number {
+        const isBound = (scenario.mapFileNames?.length ?? 0) > 0
+        if (isBound && scenario.mapFileNames?.some(name => visibleFileNames.has(name))) {
+            return 0
+        }
+        if (!isBound && !scenario.isBuiltIn) {
+            return 1
+        }
+        if (scenario.isBuiltIn) {
+            return 2
+        }
+        return 3
+    }
+}

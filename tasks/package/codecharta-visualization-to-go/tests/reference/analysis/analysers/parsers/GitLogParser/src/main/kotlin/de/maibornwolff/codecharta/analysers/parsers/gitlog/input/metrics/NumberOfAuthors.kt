@@ -1,0 +1,21 @@
+package de.maibornwolff.codecharta.analysers.parsers.gitlog.input.metrics
+
+import de.maibornwolff.codecharta.analysers.parsers.gitlog.input.Commit
+import de.maibornwolff.codecharta.model.AttributeType
+
+class NumberOfAuthors : Metric {
+    private val authors = mutableSetOf<String>()
+
+    override fun description(): String = "Number of Authors: Number of authors that contributed to this file."
+
+    override fun metricName(): String = "number_of_authors"
+
+    override fun registerCommit(commit: Commit) {
+        authors.add(commit.author)
+        authors.addAll(commit.coAuthors)
+    }
+
+    override fun value(): Number = authors.size
+
+    override fun attributeType(): AttributeType = AttributeType.RELATIVE
+}

@@ -1,0 +1,278 @@
+import { Injectable, OnDestroy } from "@angular/core"
+import { tap } from "rxjs"
+import { ArrowHelper, BufferGeometry, CubicBezierCurve3, Line, LineBasicMaterial, Object3D, Vector3 } from "three"
+import { EdgeVisibility, Node } from "../../../model/codeCharta.model"
+import { CodeMapBuilding, ThreeSceneService } from "../../../renderer/threeViewer/threeViewer.facade"
+import { SharedViewReadWindow } from "../../../stores/sharedView/sharedView.read.facade"
+import { ColorConverter } from "../../../util/color/colorConverter"
+import { debounce } from "../../../util/debounce"
+import { CodeMapStore } from "../stores/codeMap.store"
+
+@Injectable({ providedIn: "root" })
+export class CodeMapArrowService implements OnDestroy {
+    private map: Map<string, Node>
+    private readonly VERTICES_PER_LINE = 5
+    private arrows: Object3D[] = new Array<Object3D>()
+    private readonly HIGHLIGHT_BUILDING_DELAY = 1
+    private readonly debounceCalculation = debounce(
+        (hoveredBuilding: CodeMapBuilding) => this.resetEdgesOfBuildings(hoveredBuilding),
+        this.HIGHLIGHT_BUILDING_DELAY
+    )
+    private readonly hoveredNodeSubscription = this.sharedViewReadWindow.hoveredNodeId$
+        .pipe(
+            tap(hoveredNodeId => {
+                if (hoveredNodeId !== null) {
+                    const hoveredBuilding = this.threeSceneService.getMapMesh()?.getMeshDescription().getBuildingByPath(hoveredNodeId)
+                    this.onBuildingHovered(hoveredBuilding)
+                } else {
+                    this.onBuildingUnhovered()
+                }
+            })
+        )
+        .subscribe()
+
+    constructor(
+        private readonly codeMapStore: CodeMapStore,
+        private readonly sharedViewReadWindow: SharedViewReadWindow,
+        private readonly threeSceneService: ThreeSceneService
+    ) {
+        this.threeSceneService.subscribe("onBuildingSelected", this.onBuildingSelected)
+        this.threeSceneService.subscribe("onBuildingDeselected", this.onBuildingDeselected)
+    }
+
+    ngOnDestroy(): void {
+        this.hoveredNodeSubscription.unsubscribe()
+    }
+
+    private readonly resetEdgesOfBuildings = (hoveredBuilding: CodeMapBuilding) => {
+        if (!this.codeMapStore.getMapState().isEdgeMetricVisible) {
+            this.scale()
+            return
+        }
+        // Always clear on a hover change so arrows from the previously hovered building do not linger
+        // when moving onto a building that has no edges (e.g. a flat or hidden building). showEdgesOfBuildings
+        // then restores the selected building's edges or the edge preview, and adds the hovered building's
+        // edges only when it is edge-applicable.
+        this.clearArrows()
+        this.showEdgesOfBuildings(this.isEdgeApplicableForBuilding(hoveredBuilding) ? hoveredBuilding : undefined)
+        this.scale()
+    }
+
+    onBuildingSelected = (data: { building: CodeMapBuilding }) => {
+        if (this.isEdgeApplicableForBuilding(data.building)) {
+            this.clearArrows()
+            this.showEdgesOfBuildings()
+        }
+        this.scale()
+    }
+
+    onBuildingDeselected = () => {
+        this.debounceCalculation.cancel()
+        this.clearArrows()
+        this.addEdgePreview()
+    }
+
+    onBuildingHovered(hoveredBuilding: CodeMapBuilding) {
+        this.debounceCalculation(hoveredBuilding)
+    }
+
+    onBuildingUnhovered() {
+        this.debounceCalculation.cancel()
+        const { isEdgeMetricVisible } = this.codeMapStore.getMapState()
+
+        if (isEdgeMetricVisible) {
+            this.clearArrows()
+            this.showEdgesOfBuildings()
+        }
+        this.scale()
+    }
+
+    clearArrows() {
+        for (const arrow of this.arrows) {
+            arrow.traverse(child => {
+                if (child["geometry"]) {
+                    child["geometry"].dispose()
+                }
+                if (child["material"]) {
+                    child["material"].dispose()
+                }
+            })
+        }
+        this.arrows = []
+        this.threeSceneService.edgeArrows.children.length = 0
+    }
+
+    addArrow(arrowOriginNode: Node, arrowTargetNode: Node, buildingIsOriginNode: boolean) {
+        const mapState = this.codeMapStore.getMapState()
+        const curveScale = 100 * mapState.edgeHeight
+
+        // An edge is a relationship between two files; it is drawn from the layout geometry
+        // (edge points + building height) and does not depend on the selected height metric.
+        const curve = this.createCurve(arrowOriginNode, arrowTargetNode, curveScale)
+        const color = ColorConverter.getNumber(mapState.mapColors[buildingIsOriginNode ? "outgoingEdge" : "incomingEdge"])
+        this.highlightBuilding(buildingIsOriginNode ? arrowTargetNode : arrowOriginNode)
+        this.setCurveColor(curve, color)
+    }
+
+    addEdgePreview() {
+        const edges = this.codeMapStore.getEdgeVisibility()
+
+        for (const edge of edges) {
+            const originNode = this.map.get(edge.fromNodeName)
+            const targetNode = this.map.get(edge.toNodeName)
+            if (originNode && targetNode && edge.visible !== EdgeVisibility.none && edge.visible) {
+                const curveScale = 100 * this.codeMapStore.getMapState().edgeHeight
+                const curve = this.createCurve(originNode, targetNode, curveScale)
+                this.previewMode(curve, edge.visible)
+            }
+        }
+    }
+
+    addEdgeMapBasedOnNodes(nodes: Node[]) {
+        this.map = this.getNodesAsMap(nodes)
+    }
+
+    scale() {
+        const { scaling } = this.codeMapStore.getMapState()
+        for (const arrow of this.arrows) {
+            arrow.scale.x = scaling.x
+            arrow.scale.y = scaling.y
+            arrow.scale.z = scaling.z
+        }
+    }
+
+    private isEdgeApplicableForBuilding(codeMapBuilding: CodeMapBuilding) {
+        return this.codeMapStore.getMapState().isEdgeMetricVisible && codeMapBuilding && !codeMapBuilding.node.flat
+    }
+
+    private showEdgesOfBuildings(hoveredbuilding?: CodeMapBuilding) {
+        const buildings: Map<string, Node> = new Map()
+        const selectedBuilding = this.threeSceneService.getSelectedBuilding()
+
+        if (selectedBuilding) {
+            const { node } = selectedBuilding
+            buildings.set(node.path, node)
+        }
+        if (hoveredbuilding) {
+            const { node } = hoveredbuilding
+            buildings.set(node.path, node)
+        }
+        if (buildings.size > 0) {
+            this.buildPairingEdges(buildings)
+        } else {
+            this.addEdgePreview()
+        }
+    }
+
+    private buildPairingEdges(node: Map<string, Node>) {
+        const { showIncomingEdges, showOutgoingEdges, edgeMetric } = this.codeMapStore.getMapState()
+        if (!showIncomingEdges && !showOutgoingEdges) {
+            return
+        }
+        const edges = this.codeMapStore.getEdges()
+
+        for (const edge of edges) {
+            // A map can carry several edge metrics at once. Only the selected one contributes to the
+            // edge count shown for a building, so only its edges may be drawn — otherwise the arrows
+            // and the number disagree. This mirrors the predicate `setEdgeVisibility` applies to previews.
+            if (edge.attributes[edgeMetric] === undefined) {
+                continue
+            }
+            const originNode = this.map.get(edge.fromNodeName)
+            if (originNode === undefined) {
+                continue
+            }
+            const targetNode = this.map.get(edge.toNodeName)
+            if (targetNode === undefined) {
+                continue
+            }
+            if (showOutgoingEdges && node.has(originNode.path)) {
+                this.addArrow(originNode, targetNode, true)
+                this.threeSceneService.applyHighlights()
+            } else if (showIncomingEdges && node.has(targetNode.path)) {
+                this.addArrow(originNode, targetNode, false)
+                this.threeSceneService.applyHighlights()
+            }
+        }
+    }
+
+    private createCurve(arrowOriginNode: Node, arrowTargetNode: Node, curveScale) {
+        const bezierPoint2 = arrowOriginNode.outgoingEdgePoint.clone()
+        const bezierPoint3 = arrowTargetNode.incomingEdgePoint.clone()
+        const arrowHeight = Math.max(bezierPoint2.y + arrowTargetNode.height, bezierPoint3.y + 1) + curveScale
+        bezierPoint2.setY(arrowHeight)
+        bezierPoint3.setY(arrowHeight)
+        return new CubicBezierCurve3(arrowOriginNode.outgoingEdgePoint, bezierPoint2, bezierPoint3, arrowTargetNode.incomingEdgePoint)
+    }
+
+    private highlightBuilding(node: Node) {
+        const building = this.threeSceneService.getMapMesh().getMeshDescription().getBuildingByPath(node.path)
+        this.threeSceneService.addBuildingsToHighlightingList(building)
+    }
+
+    private setCurveColor(bezier: CubicBezierCurve3, color: number, bezierPoints = 50) {
+        const points = bezier.getPoints(bezierPoints)
+        const curveObject = this.buildLine(points, color)
+        curveObject.add(this.buildArrow(points))
+        this.threeSceneService.edgeArrows.add(curveObject)
+        this.arrows.push(curveObject)
+    }
+
+    private previewMode(curve, edgeVisibility: EdgeVisibility) {
+        if (edgeVisibility === EdgeVisibility.both || edgeVisibility === EdgeVisibility.from) {
+            const outgoingArrow: Object3D = this.makeArrowFromBezier(curve, false)
+            this.threeSceneService.edgeArrows.add(outgoingArrow)
+            this.arrows.push(outgoingArrow)
+        }
+
+        if (edgeVisibility === EdgeVisibility.both || edgeVisibility === EdgeVisibility.to) {
+            const incomingArrow: Object3D = this.makeArrowFromBezier(curve, true)
+            this.threeSceneService.edgeArrows.add(incomingArrow)
+            this.arrows.push(incomingArrow)
+        }
+    }
+
+    private getNodesAsMap(nodes: Node[]) {
+        const map: Map<string, Node> = new Map()
+        for (const node of nodes) {
+            map.set(node.path, node)
+        }
+        return map
+    }
+
+    private makeArrowFromBezier(bezier: CubicBezierCurve3, incoming: boolean, bezierPoints = 50) {
+        const points = bezier.getPoints(bezierPoints)
+        const { incomingEdge, outgoingEdge } = this.codeMapStore.getMapState().mapColors
+        const arrowColor = incoming ? incomingEdge : outgoingEdge
+        const pointsPreviews = incoming
+            ? points.slice(bezierPoints + 1 - this.VERTICES_PER_LINE)
+            : points.slice(0, points.length - (bezierPoints + 1 - this.VERTICES_PER_LINE))
+
+        return this.buildEdge(pointsPreviews, ColorConverter.getNumber(arrowColor))
+    }
+
+    private buildEdge(points: Vector3[], color: number): Object3D {
+        const curveObject = this.buildLine(points, color)
+        curveObject.add(this.buildArrow(points))
+
+        return curveObject
+    }
+
+    private buildLine(points: Vector3[], color = 0) {
+        const geometry = new BufferGeometry()
+        geometry.setFromPoints(points)
+
+        const material = new LineBasicMaterial({ color, linewidth: 1 })
+        return new Line(geometry, material)
+    }
+
+    private buildArrow(points: Vector3[], ARROW_COLOR = 0, headLength = 10, headWidth = 10) {
+        const direction = points.at(-1).clone().sub(points.at(-2).clone()).normalize()
+
+        const origin = points.at(-1).clone()
+        if (direction.y < 0) {
+            origin.y += headLength + 1
+        }
+        return new ArrowHelper(direction, origin, headLength + 1, ARROW_COLOR, headLength, headWidth)
+    }
+}

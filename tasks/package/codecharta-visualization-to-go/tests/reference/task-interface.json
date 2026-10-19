@@ -1,0 +1,16 @@
+{
+  "build_commands": [
+    "sh -c 'tsc --target ES2022 --module commonjs --skipLibCheck --allowJs $(find . -name '\"'\"'*.ts'\"'\"' -not -path '\"'\"'./node_modules/*'\"'\"' -not -name '\"'\"'*.d.ts'\"'\"' 2>/dev/null) ./subject.cts || tsc --target ES2022 --module commonjs --skipLibCheck ./subject.cts'"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.cts",
+  "runtime_argv": [
+    "node",
+    "--experimental-specifier-resolution=node",
+    "./serve.cjs",
+    "subject.cjs",
+    "entry"
+  ],
+  "launcher_builds": true
+}

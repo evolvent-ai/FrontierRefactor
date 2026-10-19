@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "package/pyarabic-text-to-go"
+description = "pyarabic"
+authors = []
+keywords = [ "package", "cross-language",]
+
+[metadata]
+scale = "package"
+source_language = "python"
+target_language = "go"
+cross_language = true
+category = "performance-optimization"
+tags = [ "package", "cross-language",]
+provenance = "Reference is https://github.com/linuxscout/pyarabic.git at f6c0ebef696b2bb7a56395c36c9066bdc6121d67. The expectations are a frozen capture of that reference's own observable behaviour over 197 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/linuxscout/pyarabic.git"
+commit = "f6c0ebef696b2bb7a56395c36c9066bdc6121d67"
+committed_at = "2026-01-16T09:40:41Z"
+license_spdx = "AGPL-3.0"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

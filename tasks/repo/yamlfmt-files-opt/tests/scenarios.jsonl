@@ -1,0 +1,15 @@
+{"probe_id": "harvest-0010", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-dstar", "internal/gitlab/testdata/changed_line/original.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0012", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-dstar", "internal/gitlab/testdata/changed_line/formatted.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0018", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-dstar", "integrationtest/command/testdata/kyaml_flag/after/x.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0022", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-dstar", "integrationtest/command/testdata/kyaml_flag/before/x.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0006", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-dstar", "formatters/kyaml/testdata/basic_case/before.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0016", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-dstar", "integrationtest/command/testdata/debug_diffs/before/a.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0009", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "internal/gitlab/testdata/changed_line/original.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0011", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "internal/gitlab/testdata/changed_line/formatted.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0017", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "integrationtest/command/testdata/kyaml_flag/after/x.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0002", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "-dstar", "formatters/kyaml/testdata/basic_case/after.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0001", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "formatters/kyaml/testdata/basic_case/after.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0021", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "integrationtest/command/testdata/kyaml_flag/before/x.yaml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0028", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--nonexistent-flag-frf"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0026", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--version"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0025", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--help"], "cwd": ".", "stdin": null}]}

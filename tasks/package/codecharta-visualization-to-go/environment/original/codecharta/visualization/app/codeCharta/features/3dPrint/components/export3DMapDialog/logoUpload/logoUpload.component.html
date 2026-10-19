@@ -1,0 +1,34 @@
+<div class="card bg-base-200">
+    <div class="card-body p-4">
+        <h3 class="card-title text-sm">Bottom left logo (SVG)</h3>
+        <input
+            #fileInput
+            type="file"
+            aria-label="Bottom left logo (SVG)"
+            class="file-input file-input-bordered file-input-sm w-full"
+            accept=".svg"
+            (change)="handleFileSelected($event)"
+        />
+        @if (isFileSelected()) {
+            <div class="flex flex-wrap gap-2 mt-2">
+                <button class="btn btn-sm btn-ghost" (click)="handleRemoveLogo()" title="Remove Logo">
+                    <i class="fa fa-times"></i> Remove
+                </button>
+                <button class="btn btn-sm btn-ghost" (click)="handleRotateLogo()" title="Rotate Logo">
+                    <i class="fa fa-rotate-right"></i> Rotate
+                </button>
+                <button class="btn btn-sm btn-ghost" (click)="handleFlipLogo()" title="Flip Logo">
+                    <i class="fa fa-arrows-h"></i> Flip
+                </button>
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+                <cc-inline-color-picker
+                    [hexColor]="logoColor()"
+                    ariaLabel="Logo color"
+                    (colorChange)="handleColorChange($event)"
+                ></cc-inline-color-picker>
+                <span class="text-sm">Color</span>
+            </div>
+        }
+    </div>
+</div>

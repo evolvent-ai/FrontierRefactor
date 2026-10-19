@@ -1,0 +1,108 @@
+{
+  "build_commands": [],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.py",
+  "runtime_argv": [
+    "python3",
+    "./serve.py",
+    "subject",
+    "entry"
+  ],
+  "launcher_builds": true,
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The first element of args selects the package operation; remaining elements are its positional arguments. Preserve all declared operations.",
+  "symbol": "entry",
+  "operations": [
+    "unit_conversion",
+    "to_inch",
+    "has_module",
+    "transform_to_matrices",
+    "hex_to_rgba"
+  ],
+  "dispatch": [
+    {
+      "name": "unit_conversion",
+      "module": "trimesh.units",
+      "symbol": "unit_conversion",
+      "signature": "(current, desired)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        },
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "to_inch",
+      "module": "trimesh.units",
+      "symbol": "to_inch",
+      "signature": "(unit)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "has_module",
+      "module": "trimesh.util",
+      "symbol": "has_module",
+      "signature": "(name)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "transform_to_matrices",
+      "module": "trimesh.path.exchange.svg_io",
+      "symbol": "transform_to_matrices",
+      "signature": "(transform)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    },
+    {
+      "name": "hex_to_rgba",
+      "module": "trimesh.visual.color",
+      "symbol": "hex_to_rgba",
+      "signature": "(color)",
+      "language": "python",
+      "json_safe": true,
+      "klass": "",
+      "params": [
+        {
+          "kind": "string",
+          "size": "n"
+        }
+      ],
+      "result": {}
+    }
+  ]
+}

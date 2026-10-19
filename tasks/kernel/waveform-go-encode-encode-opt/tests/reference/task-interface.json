@@ -1,0 +1,12 @@
+{
+  "build_commands": [
+    "env GOSUMDB=off GOFLAGS=-mod=mod GOTOOLCHAIN=auto go build -o ./serve.bin ./serve.go ./bridge.go ./subject.go"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.go",
+  "runtime_argv": [
+    "./serve.bin"
+  ],
+  "launcher_builds": true
+}

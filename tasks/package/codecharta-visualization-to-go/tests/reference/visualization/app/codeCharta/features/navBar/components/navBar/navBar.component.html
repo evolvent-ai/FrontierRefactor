@@ -1,0 +1,21 @@
+<div class="navbar relative bg-base-100 border-b border-base-300 min-h-12 px-2">
+    <div class="navbar-start gap-1">
+        <cc-nav-bar-logo></cc-nav-bar-logo>
+        <div class="divider divider-horizontal mx-0"></div>
+        <cc-nav-bar-folder-button></cc-nav-bar-folder-button>
+        @if (isDeltaState()) {
+            <cc-delta-selector></cc-delta-selector>
+        } @else {
+            <cc-map-selector></cc-map-selector>
+        }
+    </div>
+    <div class="navbar-center self-stretch">
+        <cc-view-switcher></cc-view-switcher>
+    </div>
+    <div class="navbar-end">
+        <cc-settings-button></cc-settings-button>
+    </div>
+</div>
+@if (isExportDialogOpen()) {
+    <cc-export-3D-map-dialog (closed)="closeExportDialog()" />
+}

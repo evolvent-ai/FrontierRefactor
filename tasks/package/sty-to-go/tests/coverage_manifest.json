@@ -1,0 +1,14 @@
+{
+  "graded_count": 62,
+  "operations": {
+    "eightbit_bg": 9,
+    "eightbit_fg": 9,
+    "mute": 10,
+    "rgb_bg": 6,
+    "rgb_fg": 9,
+    "sgr": 9,
+    "unmute": 10
+  },
+  "probe_count": 65,
+  "timed_count": 3
+}

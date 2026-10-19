@@ -1,0 +1,216 @@
+[project]
+name = "PyMemoryEditor"
+dynamic = ["version"]
+description = "Read, write and scan process memory in a few lines of Python — Cheat Engine-style scans, pointer chains and AOB search on Windows, Linux and macOS."
+authors = [
+    { name = "Jean Loui Bernard Silva de Jesus", email = "contact@jeanloui.dev" },
+]
+maintainers = [
+    { name = "Jean Loui Bernard Silva de Jesus", email = "contact@jeanloui.dev" },
+]
+license = "MIT"
+license-files = ["LICENSE*"]
+readme = "README.md"
+keywords = [
+    "cheat-engine",
+    "memory-scanner",
+    "memory-editor",
+    "process-memory",
+    "pointer-scan",
+    "aob-scan",
+    "pattern-scan",
+    "game-hacking",
+    "reverse-engineering",
+    "debugging",
+    "introspection",
+    "ctypes",
+    "mcp",
+    "model-context-protocol",
+    "ai-agent",
+    "llm-tools",
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Games/Entertainment",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Security",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+    "Typing :: Typed",
+]
+requires-python = ">=3.10"
+# The core library is dependency-free: process discovery and read/write/scan
+# are implemented natively per platform (CreateToolhelp32Snapshot on Windows,
+# /proc on Linux, libproc/Mach on macOS) via ctypes.
+dependencies = []
+
+[project.optional-dependencies]
+# Vectorized scan acceleration. Pulls in NumPy, which lights up the
+# NumPy fast path in PyMemoryEditor.util.scan automatically — no code change
+# needed. The library works identically without it (pure-Python fallback);
+# this just makes the ordered/range scans ~10-30x faster on large regions.
+speed = [
+  "numpy>=1.24",
+]
+tests = [
+  "pytest",
+  "pytest-xdist",
+]
+app = [
+  "PySide6>=6.5",
+  "psutil>=5.9,<7",
+]
+# The Model Context Protocol server (PyMemoryEditor.mcp), which lets an AI
+# assistant drive the scan/refine/read loop. Only the protocol layer needs the
+# SDK: PyMemoryEditor.mcp.toolset deliberately imports nothing from `mcp`, so
+# the tools stay testable and the core library stays dependency-free.
+# Pinned to 2.x — the SDK renamed FastMCP to MCPServer and switched its models
+# to snake_case in 2.0, so 1.x cannot run this server.
+mcp = [
+  "mcp>=2,<3",
+]
+# NOTE: NumPy is intentionally NOT listed here. The default test suite must
+# run on the pure-Python scan path so it stays covered. The NumPy fast path
+# (the `speed` extra) is exercised by a dedicated CI job that installs
+# `.[dev,speed]` — see the `build-speed` job in python-package.yml.
+dev = [
+  "pytest",
+  "pytest-xdist",
+  "pytest-cov",
+  "pytest-qt",
+  "hypothesis",
+  "flake8",
+  "mypy",
+  "build",
+  "twine",
+  # GUI deps: the app smoke/worker tests import the desktop modules, which use
+  # PySide6 and psutil (the latter only in the app, not the core library).
+  "PySide6>=6.5",
+  "psutil>=5.9,<7",
+  # MCP SDK: the toolset tests run without it, but the server-wiring tests
+  # (tool registration, schemas, the read-only gate) need the real SDK rather
+  # than a mock of it.
+  "mcp>=2,<3",
+]
+
+[project.scripts]
+# main_cli wraps main() with the SIGINT scope guard that makes Ctrl+C kill the
+# app from a terminal (#76). Library callers should use main() directly, which
+# installs no signal handler.
+pymemoryeditor = "PyMemoryEditor.app.application:main_cli"
+# The MCP server. MCP clients launch this by name (or as
+# `python -m PyMemoryEditor.mcp`) and speak the protocol over stdio.
+pymemoryeditor-mcp = "PyMemoryEditor.mcp.server:main"
+
+[project.urls]
+Homepage = "https://github.com/JeanExtreme002/PyMemoryEditor"
+Documentation = "https://pymemoryeditor.readthedocs.io"
+Repository = "https://github.com/JeanExtreme002/PyMemoryEditor"
+Issues = "https://github.com/JeanExtreme002/PyMemoryEditor/issues"
+Changelog = "https://github.com/JeanExtreme002/PyMemoryEditor/releases"
+Funding = "https://github.com/sponsors/JeanExtreme002"
+
+[tool.mypy]
+# The Qt app uses dynamic types and depends on the optional PySide6 GUI
+# toolkit, so it isn't worth annotating strictly. Library code under
+# PyMemoryEditor/ (excluding app/) is the surface that ships with
+# `py.typed` and should aim for clean mypy output over time.
+exclude = ["PyMemoryEditor/app/"]
+ignore_missing_imports = true
+# Initial pass: surface issues without immediately blocking CI. Tighten this
+# over time as the pre-existing type debt gets paid down.
+warn_unused_ignores = true
+
+# Platform-specific backends use symbols that only exist on their target OS
+# (`ctypes.windll`, `WINFUNCTYPE`, `WinError`, `set_last_error`, etc. on
+# Windows; Mach types on macOS). mypy running on a single OS sees the others
+# as undefined. The shared layer (process/, util/) is still type-checked.
+[[tool.mypy.overrides]]
+module = [
+    "PyMemoryEditor.win32.*",
+    "PyMemoryEditor.linux.*",
+    "PyMemoryEditor.macos.*",
+]
+ignore_errors = true
+
+[tool.hatch.version]
+path = "PyMemoryEditor/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["PyMemoryEditor"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"PyMemoryEditor/py.typed" = "PyMemoryEditor/py.typed"
+"PyMemoryEditor/app/assets/icon.svg" = "PyMemoryEditor/app/assets/icon.svg"
+
+# Maintainer-only tooling lives under scripts/ — keep it out of the source
+# distribution (the wheel already only ships the PyMemoryEditor package).
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "/.github",
+    "/codecov.yml",
+    "/.coveragerc-lib",
+    "/.coveragerc-mcp",
+    "/scripts",
+]
+
+# hatchling>=1.27 is required for PEP 639 metadata: the SPDX ``license = "MIT"``
+# expression and ``license-files`` glob above are only understood from that
+# version on. Older hatchling fails the build with a confusing error.
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+# Coverage scope: the Qt app is excluded — it's exercised manually, not by
+# the automated test suite. The library code (everything else) is what we
+# track regressions against.
+[tool.coverage.run]
+source = ["PyMemoryEditor"]
+omit = [
+    "PyMemoryEditor/app/*",
+    "PyMemoryEditor/__main__.py",
+    "PyMemoryEditor/mcp/__main__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+# Parallelize the suite with pytest-xdist. ``--dist=loadfile`` keeps each
+# ``test_*.py`` together on a single worker (module-scoped fixtures stay
+# valid), and ``-n auto`` picks one worker per available CPU. Override with
+# ``pytest -n 0`` for serial debugging.
+#
+# Fast vs slow split:
+#   pytest -m "not slow"        # ~30 s — unit/property/GUI tests only.
+#   pytest                      # everything, including the live self-process
+#                               # integration suite.
+#
+# CI splits by directory rather than by marker: the library/app jobs run
+# `pytest tests --ignore=tests/mcp_server` and `build-mcp` runs
+# `pytest tests/mcp_server`. The MCP suite attaches to the running test
+# process and scans its whole address space, which on macOS is ~390 GiB, so
+# paying that in all ten library cells timed the macOS job out. Locally the
+# two halves are ~60 s and ~22 s.
+# Mark a test (or set ``pytestmark = pytest.mark.slow`` at module scope) to
+# add it to the slow bucket — see tests/test_editor.py for the pattern.
+[tool.pytest.ini_options]
+addopts = "-n auto --dist=loadfile"
+markers = [
+    "slow: integration tests that read/scan the current process's whole address space (minutes, not seconds)",
+    "scan_heavy: tests that scan a *live* process's entire address space. Separated from `slow` because the cost is wildly platform-dependent: a macOS process exposes ~390 GiB across ~145 regions and a Windows one is not much better, so on a CI runner each scan is minutes rather than the ~1s it takes on a developer machine. CI runs these on Linux only (see the build-mcp job); the library's own live-scan coverage on the other two platforms comes from the build/build-macos jobs.",
+]

@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+/*!
+ * Yamlinc: v0.1.5
+ * Copyright(c) 2016-2018 Javanile.org
+ * MIT Licensed
+ */
+
+'use strict';
+
+const fs = require('fs')
+    , cwd = process.cwd()
+    , join = require('path').join
+    , local = join(cwd, './node_modules/yamlinc/src/yamlinc.js')
+    , yamlinc = fs.existsSync(local) ? local : '../src/yamlinc.js'
+
+require(yamlinc).run(process.argv.slice(2))

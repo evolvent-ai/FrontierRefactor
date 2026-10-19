@@ -1,0 +1,35 @@
+{
+  "build_commands": [
+    "/app/build.sh"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/implementation/src/main.rs",
+  "implementation_directory": "/app/implementation",
+  "launcher_builds": true,
+  "target_language": "rust",
+  "build_contract": "The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "symbol": "missing_ranges",
+  "parameters": {
+    "params": [
+      {
+        "kind": "int_array",
+        "low": -1000.0,
+        "high": 1000.0,
+        "dtype": "int64",
+        "size": "n"
+      },
+      {
+        "kind": "int",
+        "low": -1000.0,
+        "high": 1000.0
+      },
+      {
+        "kind": "int",
+        "low": -1000.0,
+        "high": 1000.0
+      }
+    ]
+  }
+}

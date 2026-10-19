@@ -1,0 +1,7 @@
+{
+  "image_id": "sha256:473a522418e22d8f1de2be949fee9edfa9f4d62554435f85be891a7186c9cb3a",
+  "image_ref": "benchmark-runtime:68e95b3f539cfa4200842944d11e2bd1be7a971e09bde98369c72af8b7846405",
+  "recipe_sha256": "68e95b3f539cfa4200842944d11e2bd1be7a971e09bde98369c72af8b7846405",
+  "source_language": "python",
+  "target_language": "go"
+}

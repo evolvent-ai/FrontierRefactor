@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "package/fuck-coding-interviews-to-rust"
+description = "How on earth can I ever think of a solution like that in an interview?!"
+authors = []
+keywords = [ "package", "cross-language",]
+
+[metadata]
+scale = "package"
+source_language = "python"
+target_language = "rust"
+cross_language = true
+category = "performance-optimization"
+tags = [ "package", "cross-language",]
+provenance = "Reference is https://github.com/vinta/fuck-coding-interviews.git at dfff746353781cf0fe8adbc886ff2dfd65e66d37. The expectations are a frozen capture of that reference's own observable behaviour over 166 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/vinta/fuck-coding-interviews.git"
+commit = "dfff746353781cf0fe8adbc886ff2dfd65e66d37"
+committed_at = "2023-03-30T17:53:43Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

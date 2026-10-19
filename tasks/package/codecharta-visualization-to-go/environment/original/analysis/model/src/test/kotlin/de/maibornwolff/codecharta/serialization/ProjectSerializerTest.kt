@@ -1,0 +1,144 @@
+package de.maibornwolff.codecharta.serialization
+
+import de.maibornwolff.codecharta.model.MutableNode
+import de.maibornwolff.codecharta.model.NodeType
+import de.maibornwolff.codecharta.model.Project
+import de.maibornwolff.codecharta.model.ProjectBuilder
+import de.maibornwolff.codecharta.util.Logger
+import io.mockk.called
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkAll
+import io.mockk.verify
+import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.OutputStream
+import kotlin.io.path.absolute
+import kotlin.io.path.createTempDirectory
+import kotlin.test.assertTrue
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class ProjectSerializerTest {
+    private val tempDir = createTempDirectory()
+    private val filename = tempDir.absolute().toString() + "test.cc.json"
+    private val project = Project("test")
+    private val lambdaSlot = mutableListOf<() -> String>()
+
+    @BeforeAll
+    fun beforeTests() {
+        mockkObject(Logger)
+        every { Logger.info(capture(lambdaSlot)) } returns Unit
+    }
+
+    @BeforeEach
+    fun beforeTest() {
+        lambdaSlot.clear()
+    }
+
+    @AfterAll
+    fun afterTests() {
+        unmockkAll()
+    }
+
+    @Test
+    fun `should create compressed json file when output file is specified and compress is true`() {
+        // given
+        val outputFilePath = "test.cc.json"
+        val outputFilePathCompressed = "test.cc.json.gz"
+        val outputFile = File(outputFilePathCompressed)
+        outputFile.deleteOnExit()
+        val mockStream = mockk<OutputStream>()
+
+        // when
+        ProjectSerializer.serializeToFileOrStream(project, outputFilePath, mockStream, true)
+
+        // then
+        assertTrue {
+            outputFile.exists()
+        }
+        verify {
+            mockStream wasNot called
+        }
+    }
+
+    @Test
+    fun `should create uncompressed json file when output file is specified and compress is false`() {
+        // given
+        val outputFilePath = "test.cc.json"
+        val outputFile = File(outputFilePath)
+        val absoluteOutputFilePath = outputFile.absolutePath
+        outputFile.deleteOnExit()
+        val mockStream = mockk<OutputStream>()
+
+        // when
+        ProjectSerializer.serializeToFileOrStream(project, outputFilePath, mockStream, false)
+
+        // then
+        assertTrue {
+            outputFile.exists()
+        }
+        // then
+        Assertions.assertThat(lambdaSlot.last()().endsWith(absoluteOutputFilePath)).isTrue()
+    }
+
+    @Test
+    fun `should write to stream when outputFilePath is empty`() {
+        // given
+        val stream = ByteArrayOutputStream()
+
+        // when
+        ProjectSerializer.serializeToFileOrStream(project, "", stream, true)
+        val result = stream.toString("UTF-8")
+
+        // then
+        assertTrue {
+            result.startsWith("{")
+        }
+    }
+
+    @Test
+    fun `should log the absolute path of the output file when output file is specified`() {
+        // given
+        val outputFilePath = "src/test/resources/output.cc.json"
+        val outputFile = File(outputFilePath)
+        val absoluteOutputFilePath = outputFile.absolutePath
+        outputFile.deleteOnExit()
+        val mockStream = mockk<OutputStream>()
+
+        // when
+        ProjectSerializer.serializeToFileOrStream(project, outputFilePath, mockStream, false)
+
+        // then
+        Assertions.assertThat(lambdaSlot.last()().endsWith(absoluteOutputFilePath)).isTrue()
+    }
+
+    @Test
+    fun `should include checksum in serialized json`() {
+        // given
+        val sampleChecksum = "abc123def456"
+        val rootNode = MutableNode("root", NodeType.Folder)
+        val fileNode = MutableNode(
+            name = "TestFile.java",
+            type = NodeType.File,
+            attributes = mapOf("rloc" to 100),
+            checksum = sampleChecksum
+        )
+        rootNode.children.add(fileNode)
+        val testProject = ProjectBuilder(listOf(rootNode)).build()
+
+        // when
+        val stream = ByteArrayOutputStream()
+        ProjectSerializer.serializeProject(testProject, stream, false)
+        val serializedJson = stream.toString("UTF-8")
+
+        // then the per-file checksum is carried as contentHash on the 2.0 file node
+        Assertions.assertThat(serializedJson).contains("\"contentHash\":\"$sampleChecksum\"")
+    }
+}

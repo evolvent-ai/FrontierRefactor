@@ -1,0 +1,19 @@
+hell()
+Hello
+world
+World
+hell() w()rld
+hell() W()rld
+Hello world
+Hello World
+hell()w()rld
+HelloWorld
+worldhello
+world hello
+world Hello
+*
+-
+/
+\n
+\t
+

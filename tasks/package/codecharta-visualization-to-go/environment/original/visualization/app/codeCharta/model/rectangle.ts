@@ -1,0 +1,31 @@
+import { Vector2 } from "three"
+
+export default class Rectangle {
+    topLeft: Vector2
+    width: number
+    height: number
+    protected bottomRight: Vector2
+
+    constructor(topLeft: Vector2, width: number, height: number) {
+        this.topLeft = topLeft
+        this.bottomRight = topLeft.clone().add(new Vector2(width, height))
+        this.width = width
+        this.height = height
+    }
+
+    shorterSide(): number {
+        return Math.min(this.width, this.height)
+    }
+
+    isVertical(): boolean {
+        return this.height > this.width
+    }
+
+    area(): number {
+        return this.width * this.height
+    }
+
+    getBottomRight(): Vector2 {
+        return this.bottomRight
+    }
+}

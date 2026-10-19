@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "module/algorithms-missing-ranges-to-rust"
+description = "Find gaps between low and high not covered by elements in array."
+authors = []
+keywords = [ "module", "cross-language",]
+
+[metadata]
+scale = "module"
+source_language = "python"
+target_language = "rust"
+cross_language = true
+category = "performance-optimization"
+tags = [ "module", "cross-language",]
+provenance = "Reference is https://github.com/keon/algorithms.git at 7f71a911232b2ef4f5396f16f5ea704d4315ce0c. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/keon/algorithms.git"
+commit = "7f71a911232b2ef4f5396f16f5ea704d4315ce0c"
+committed_at = "2026-08-30T06:50:03Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

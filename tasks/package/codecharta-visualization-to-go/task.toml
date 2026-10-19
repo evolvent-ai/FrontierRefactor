@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "package/codecharta-visualization-to-go"
+description = "CodeCharta is a visualization tool that transforms complex software architecture and code metrics into interactive, customizable visual maps, empowering everyone to communicate and analyze your codebase. Improve code quality, maintainability, and architectural decisions"
+authors = []
+keywords = [ "package", "cross-language",]
+
+[metadata]
+scale = "package"
+source_language = "typescript"
+target_language = "go"
+cross_language = true
+category = "performance-optimization"
+tags = [ "package", "cross-language",]
+provenance = "Reference is https://github.com/MaibornWolff/codecharta.git at 5ee9b0e374ea95e17370bc60583ac89076d167af. The expectations are a frozen capture of that reference's own observable behaviour over 82 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/MaibornWolff/codecharta.git"
+commit = "5ee9b0e374ea95e17370bc60583ac89076d167af"
+committed_at = "2026-09-16T16:34:33Z"
+license_spdx = "BSD-2-Clause OR AGPL-3.0"
+license_files = [ "LICENSE.md", "license_policy.json",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

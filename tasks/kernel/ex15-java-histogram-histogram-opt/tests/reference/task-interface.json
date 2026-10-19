@@ -1,0 +1,15 @@
+{
+  "build_commands": [
+    "javac -d . ./Serve.java ./Subject.java"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/Subject.java",
+  "runtime_argv": [
+    "java",
+    "-cp",
+    ".",
+    "Serve"
+  ],
+  "launcher_builds": true
+}

@@ -1,0 +1,113 @@
+import { NgClass } from "@angular/common"
+import { ChangeDetectionStrategy, Component, computed, ElementRef, effect, viewChild } from "@angular/core"
+import { ChangelogCategory, ChangelogParserService } from "../../services/changelogParser.service"
+import { VersionService } from "../../services/version.service"
+
+const CATEGORY_CONFIG: Record<string, { emoji: string; label: string; type: string }> = {
+    "Added 🚀": { emoji: "🚀", label: "Added", type: "added" },
+    "Fixed 🐞": { emoji: "🐞", label: "Fixed", type: "fixed" },
+    Changed: { emoji: "✨", label: "Changed", type: "changed" },
+    "Removed 🗑": { emoji: "🗑", label: "Removed", type: "removed" },
+    "Chore 👨‍💻 👩‍💻": { emoji: "🔧", label: "Maintenance", type: "chore" }
+}
+
+const CATEGORY_STYLES: Record<string, { header: string; icon: string; count: string }> = {
+    added: {
+        header: "bg-success/5",
+        icon: "bg-success/10",
+        count: "bg-success/10 text-success"
+    },
+    fixed: {
+        header: "bg-info/5",
+        icon: "bg-info/10",
+        count: "bg-info/10 text-info"
+    },
+    changed: {
+        header: "bg-warning/5",
+        icon: "bg-warning/10",
+        count: "bg-warning/10 text-warning"
+    },
+    removed: {
+        header: "bg-error/5",
+        icon: "bg-error/10",
+        count: "bg-error/10 text-error"
+    },
+    chore: {
+        header: "bg-neutral/5",
+        icon: "bg-neutral/10",
+        count: "bg-neutral/10 text-neutral"
+    }
+}
+
+@Component({
+    selector: "cc-changelog-dialog",
+    templateUrl: "./changelogDialog.component.html",
+    imports: [NgClass],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ChangelogDialogComponent {
+    dialogElement = viewChild.required<ElementRef<HTMLDialogElement>>("dialog")
+
+    previousVersion = this.versionService.previousVersion
+    currentVersion = this.versionService.currentVersion
+    shouldShowChangelog = this.versionService.shouldShowChangelog
+
+    changes = computed<ChangelogCategory[]>(() => {
+        const prev = this.previousVersion()
+        if (!prev) {
+            return []
+        }
+        return this.changelogParserService.parseChangesBetweenVersions(prev, this.currentVersion)
+    })
+
+    constructor(
+        private readonly versionService: VersionService,
+        private readonly changelogParserService: ChangelogParserService
+    ) {
+        effect(() => {
+            if (this.shouldShowChangelog()) {
+                this.open()
+            }
+        })
+    }
+
+    open() {
+        this.dialogElement().nativeElement.showModal()
+    }
+
+    close() {
+        this.versionService.acknowledgeChangelog()
+        this.dialogElement().nativeElement.close()
+    }
+
+    getCategoryEmoji(title: string): string {
+        return CATEGORY_CONFIG[title]?.emoji ?? "📝"
+    }
+
+    getCategoryLabel(title: string): string {
+        return CATEGORY_CONFIG[title]?.label ?? title
+    }
+
+    getCategoryType(title: string): string {
+        return CATEGORY_CONFIG[title]?.type ?? "default"
+    }
+
+    getCategoryHeaderClass(title: string): string {
+        const type = this.getCategoryType(title)
+        return CATEGORY_STYLES[type]?.header ?? "bg-base-200"
+    }
+
+    getCategoryIconClass(title: string): string {
+        const type = this.getCategoryType(title)
+        return CATEGORY_STYLES[type]?.icon ?? "bg-base-300"
+    }
+
+    getCategoryCountClass(title: string): string {
+        const type = this.getCategoryType(title)
+        return CATEGORY_STYLES[type]?.count ?? "bg-base-300 text-base-content"
+    }
+
+    getChangeCount(changesHtml: string): number {
+        return (changesHtml.match(/<li>/gi) || []).length
+    }
+}

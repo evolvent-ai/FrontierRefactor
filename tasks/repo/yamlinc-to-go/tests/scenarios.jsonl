@@ -1,0 +1,14 @@
+{"probe_id": "harvest-0007", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample2-verify.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0015", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample2-include1.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0023", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample3-verify.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0031", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample8-verify.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0039", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample4-verify.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0003", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/merge2files-verify.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0027", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/merge2files2.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0019", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/merge2files1.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0047", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample1.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0043", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample1-verify.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0011", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/merge2files.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "harvest-0035", "fixture": "harvest-inputs.tar.gz", "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--strict", "test/samples/sample1-include1.yml"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0049", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--version"], "cwd": ".", "stdin": null}]}
+{"probe_id": "cli-0048", "fixture": null, "environment": {}, "steps": [{"argv": ["{PROGRAM}", "--help"], "cwd": ".", "stdin": null}]}

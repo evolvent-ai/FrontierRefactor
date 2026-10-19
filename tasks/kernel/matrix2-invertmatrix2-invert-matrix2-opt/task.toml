@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "kernel/matrix2-invertmatrix2-invert-matrix2-opt"
+description = "the invertMatrix2 function from amkraft/Math"
+authors = []
+keywords = [ "kernel", "optimisation",]
+
+[metadata]
+scale = "kernel"
+source_language = "javascript"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "kernel", "optimisation",]
+provenance = "Reference is https://github.com/amkraft/Math.git at a7723c903f46fb973497925c0e47b6e9a2f67092. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/amkraft/Math.git"
+commit = "a7723c903f46fb973497925c0e47b6e9a2f67092"
+committed_at = "2023-08-31T16:45:43Z"
+license_spdx = "NOASSERTION"
+license_files = []
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

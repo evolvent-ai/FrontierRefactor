@@ -1,0 +1,252 @@
+import { strToU8, zipSync } from "fflate"
+import {
+    BufferAttribute,
+    BufferGeometry,
+    Float32BufferAttribute,
+    Material,
+    Matrix4,
+    Mesh,
+    MeshBasicMaterial,
+    ShaderMaterial,
+    Vector3
+} from "three"
+import { getXMLmodel } from "./generateXML/build3mfModel"
+import { getXMLmodelConfig } from "./generateXML/build3mfModelConfig"
+import { getXMLcontentType, getXMLrelationships } from "./generateXML/build3mfStatics"
+import { Volume } from "./generateXML/volume"
+
+export async function serialize3mf(mesh: Mesh): Promise<string> {
+    const { vertices, triangles, volumes } = extractMeshData(mesh)
+    const model = getXMLmodel(vertices, triangles)
+    const modelConfig = getXMLmodelConfig(volumes)
+    const contentType = getXMLcontentType()
+    const relationships = getXMLrelationships()
+
+    // tl&dr: We use latin1 encoding here, because the default TextEncode doesn't work during the test environment with fflate zip/unzip.
+    //
+    // Strings get encoded either via latin1, TextEncode or Fallback.
+    // The TextEncode works fine during Prod/Dev usage, but in the test environment, is produces an array that is not "native" u8int
+    // which causes the zip/unzip process to missinterpret the data.
+    // This could be an issue cause by our config stack, angular-jest-preset or fflate. Issue for further investigation: https://github.com/101arrowz/fflate/issues/234
+    const useLatinEncoding = true
+
+    const data = {
+        "3D": {
+            "3dmodel.model": strToU8(model, useLatinEncoding)
+        },
+        _rels: {
+            ".rels": strToU8(relationships, useLatinEncoding)
+        },
+        Metadata: {
+            "Slic3r_PE_model.config": strToU8(modelConfig, useLatinEncoding)
+        },
+        "[Content_Types].xml": strToU8(contentType, useLatinEncoding)
+    }
+    const options = {
+        comment: "created by CodeCharta"
+    }
+
+    const compressed3mf = zipSync(data, options).buffer
+    return compressed3mf as unknown as string
+}
+
+function extractMeshData(mesh: Mesh): {
+    vertices: string[]
+    triangles: string[]
+    volumes: Volume[]
+} {
+    const vertices: string[] = []
+    const triangles: string[] = []
+    const volumes: Volume[] = []
+    const vertexToNewVertexIndex: Map<string, number> = new Map()
+    const colorToExtruder: Map<string, number> = new Map()
+
+    for (const child of mesh.children as Mesh[]) {
+        extractChildMeshData(child, vertices, triangles, vertexToNewVertexIndex, colorToExtruder, volumes)
+    }
+
+    return { vertices, triangles, volumes }
+}
+
+function extractChildMeshData(
+    mesh: Mesh,
+    vertices: string[],
+    triangles: string[],
+    vertexToNewVertexIndex: Map<string, number>,
+    colorToExtruder: Map<string, number>,
+    volumes: Volume[],
+    parentMatrix: Matrix4 = undefined
+): void {
+    if (!mesh.visible) {
+        return
+    }
+
+    for (const child of mesh.children as Mesh[]) {
+        let newParentMatrix = mesh.matrix
+        if (parentMatrix) {
+            newParentMatrix = parentMatrix.clone().multiply(mesh.matrix)
+        }
+        extractChildMeshData(child, vertices, triangles, vertexToNewVertexIndex, colorToExtruder, volumes, newParentMatrix)
+    }
+
+    const colorToVertexIndices = groupMeshVerticesByColor(mesh)
+    const vertexIndexToNewVertexIndex: Map<number, number> = new Map()
+    let volumeCount = 1
+
+    for (const [color, vertexIndexes] of colorToVertexIndices.entries()) {
+        const firstTriangleId = triangles.length
+
+        constructVertices(vertices, vertexToNewVertexIndex, vertexIndexToNewVertexIndex, vertexIndexes, mesh, parentMatrix)
+
+        constructTriangles(mesh.geometry, triangles, vertexIndexToNewVertexIndex, vertexIndexes)
+
+        constructVolume(mesh, color, firstTriangleId, triangles.length - 1, volumes, volumeCount, colorToExtruder)
+        volumeCount++
+    }
+}
+
+function groupMeshVerticesByColor(mesh: Mesh): Map<string, number[]> {
+    const colorToVertexIndices: Map<string, number[]> = new Map()
+    if (mesh.geometry.attributes.color) {
+        for (let index = 0; index < mesh.geometry.attributes.color.count; index++) {
+            const hexColorString = convertColorArrayToHexString(mesh.geometry.attributes.color as Float32BufferAttribute, index)
+
+            if (colorToVertexIndices.has(hexColorString)) {
+                colorToVertexIndices.get(hexColorString).push(index)
+            } else {
+                colorToVertexIndices.set(hexColorString, [index])
+            }
+        }
+    } else if (mesh.geometry.attributes.position) {
+        const material = mesh.material as Material
+        let hexColorString: string
+        if ((material as MeshBasicMaterial).color) {
+            hexColorString = (material as MeshBasicMaterial).color.getHexString()
+        } else if ((material as ShaderMaterial).isShaderMaterial) {
+            const colorArray = (material as ShaderMaterial).defaultAttributeValues.color
+            hexColorString = convertColorArrayToHexString(colorArray, 0)
+        }
+        const indexArray = Array.from({ length: mesh.geometry.attributes.position.count }, (_, index) => index)
+        colorToVertexIndices.set(hexColorString, indexArray)
+    }
+    return colorToVertexIndices
+}
+
+function constructVertices(
+    vertices: string[],
+    vertexToNewVertexIndex: Map<string, number>,
+    vertexIndexToNewVertexIndex: Map<number, number>,
+    vertexIndexes: number[],
+    mesh: Mesh,
+    parentMatrix: Matrix4
+) {
+    const positionAttribute = mesh.geometry.attributes.position
+
+    for (const vertexIndex of vertexIndexes) {
+        const vertex = new Vector3(
+            positionAttribute.getX(vertexIndex),
+            positionAttribute.getY(vertexIndex),
+            positionAttribute.getZ(vertexIndex)
+        )
+        vertex.applyMatrix4(mesh.matrix)
+
+        if (parentMatrix) {
+            vertex.applyMatrix4(parentMatrix)
+        }
+
+        const vertexString = `<vertex x="${vertex.x}" y="${vertex.y}" z="${vertex.z}"/>`
+
+        if (!vertexToNewVertexIndex.has(vertexString)) {
+            vertices.push(vertexString)
+            vertexToNewVertexIndex.set(vertexString, vertices.length - 1)
+            vertexIndexToNewVertexIndex.set(vertexIndex, vertices.length - 1)
+        } else {
+            vertexIndexToNewVertexIndex.set(vertexIndex, vertexToNewVertexIndex.get(vertexString))
+        }
+    }
+}
+
+function constructTriangles(
+    geometry: BufferGeometry,
+    triangles: string[],
+    vertexIndexToNewVertexIndex: Map<number, number>,
+    vertexIndexes: number[]
+): void {
+    if (!geometry.index) {
+        for (let index = 0; index < vertexIndexToNewVertexIndex.size; index += 3) {
+            const triangle = `<triangle v1="${vertexIndexToNewVertexIndex.get(index)}" v2="${vertexIndexToNewVertexIndex.get(
+                index + 1
+            )}" v3="${vertexIndexToNewVertexIndex.get(index + 2)}" />`
+            triangles.push(triangle)
+        }
+    } else {
+        const vertexIndices = geometry.index
+        for (let index = 0; index < vertexIndices.count; index += 3) {
+            const vertexIndex1 = vertexIndices.getX(index)
+            const vertexIndex2 = vertexIndices.getY(index)
+            const vertexIndex3 = vertexIndices.getZ(index)
+
+            if (vertexIndexes.includes(vertexIndex1) && vertexIndexes.includes(vertexIndex2) && vertexIndexes.includes(vertexIndex3)) {
+                const triangle = `<triangle v1="${vertexIndexToNewVertexIndex.get(vertexIndex1)}" v2="${vertexIndexToNewVertexIndex.get(
+                    vertexIndex2
+                )}" v3="${vertexIndexToNewVertexIndex.get(vertexIndex3)}" />`
+
+                triangles.push(triangle)
+            }
+        }
+    }
+}
+
+function constructVolume(
+    child: Mesh,
+    color: string,
+    firstTriangleId: number,
+    lastTriangleId: number,
+    volumes: Volume[],
+    volumeCount: number,
+    colorToExtruder: Map<string, number>
+): void {
+    if (!colorToExtruder.has(color)) {
+        colorToExtruder.set(color, colorToExtruder.size + 1)
+    }
+    const extruder = colorToExtruder.get(color)
+    const volumeName = child.name === "Map" ? `${child.name} 0x${color}` : child.name
+    const volume: Volume = {
+        id: volumeCount,
+        name: volumeName,
+        color,
+        extruder,
+        firstTriangleId,
+        lastTriangleId
+    }
+    volumes.push(volume)
+}
+
+function convertColorArrayToHexString(color: Float32BufferAttribute | number[], index: number): string {
+    const colorsArray: number[] =
+        color instanceof BufferAttribute
+            ? [
+                  (color as Float32BufferAttribute).getX(index),
+                  (color as Float32BufferAttribute).getY(index),
+                  (color as Float32BufferAttribute).getZ(index)
+              ]
+            : [color[index], color[index + 1], color[index + 2]]
+
+    return colorsArray
+        .map(c =>
+            Math.round(c * 255)
+                .toString(16)
+                .padStart(2, "0")
+        )
+        .join("")
+}
+
+export const exportedForTesting = {
+    extractMeshData,
+    extractChildMeshData,
+    groupMeshVerticesByColor,
+    constructVertices,
+    constructTriangles,
+    constructVolume,
+    convertColorArrayToHexString
+}

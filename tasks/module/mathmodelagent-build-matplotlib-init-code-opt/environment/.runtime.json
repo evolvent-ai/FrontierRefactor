@@ -1,0 +1,7 @@
+{
+  "image_id": "sha256:811953937e2fd0b089153c3b72fb690d2b8d9bf19a034e6027a062477e1f8ef7",
+  "image_ref": "benchmark-runtime:a48aa264fe02da271aad247d16928146e9bfaec12041c4db3b83ff420f8744ed",
+  "recipe_sha256": "a48aa264fe02da271aad247d16928146e9bfaec12041c4db3b83ff420f8744ed",
+  "source_language": "python",
+  "target_language": "python"
+}

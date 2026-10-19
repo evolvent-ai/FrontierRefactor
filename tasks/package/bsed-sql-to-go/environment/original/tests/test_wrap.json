@@ -1,0 +1,44 @@
+{
+  "test_wrap_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_wrap_hello_with_ANDREW BIHL.txt",
+      "command": ["wrap", "hello", "with", "ANDREW BIHL"]
+    }
+  ],
+  "test_wrap_pattern": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_wrap_{}orld_with_ANDREW.txt",
+      "command": ["wrap", ".orld", "with", "ANDREW"]
+    }
+  ],
+  "test_wrap_lines_containing_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_wrap_lines_containing_hello_with_ANDREW BIHL.txt",
+      "command": ["wrap", "lines", "containing", "hello", "with", "ANDREW BIHL"]
+    }
+  ],
+  "test_wrap_lines_starting_with_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_wrap_lines_starting_with_hello_with_ANDREW BIHL.txt",
+      "command": ["wrap", "lines", "starting", "with", "hello", "with", "ANDREW BIHL"]
+    }
+  ],
+  "test_wrap_lines_ending_with_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_wrap_lines_ending_with_hello_with_ANDREW BIHL.txt",
+      "command": ["wrap", "lines", "ending", "with", "hello", "with", "ANDREW BIHL"]
+    }
+  ],
+  "test_wrap_lines_m_to_n_with_word": [
+    {
+      "input": "hello-world.txt",
+      "expected": "hello-world_wrap_lines_10_to_1000_with_ANDREW BIHL.txt",
+      "command": ["wrap", "lines", "10", "to", "1000", "with", "ANDREW BIHL"]
+    }
+  ]
+}

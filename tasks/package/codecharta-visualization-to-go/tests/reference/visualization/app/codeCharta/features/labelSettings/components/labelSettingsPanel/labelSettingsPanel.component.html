@@ -1,0 +1,111 @@
+<div [title]="topLabelsTitle()">
+    <span class="text-sm">Top Labels</span>
+    <div class="flex items-center gap-2">
+        <input type="range" class="range range-primary range-sm flex-1" aria-label="Top Labels"
+            min="0" max="50" [value]="amountOfTopLabels()"
+            (input)="handleTopLabelsInput($event)" />
+        <input type="number" class="input input-sm input-bordered w-16 text-center" aria-label="Top Labels"
+            min="0" max="50" [value]="amountOfTopLabels()"
+            (input)="handleTopLabelsInput($event)" />
+    </div>
+</div>
+
+@if (areMultipleMapsVisible()) {
+    <div class="join w-full" aria-label="Top labels scope"
+        title="Pick the top labels across all maps combined or separately for each map">
+        <input type="radio" name="labelsPerMap"
+            class="join-item btn btn-sm flex-1"
+            aria-label="All maps"
+            [checked]="!labelsPerMap()"
+            (change)="setLabelsPerMap(false)" />
+        <input type="radio" name="labelsPerMap"
+            class="join-item btn btn-sm flex-1"
+            aria-label="Per map"
+            [checked]="labelsPerMap()"
+            (change)="setLabelsPerMap(true)" />
+    </div>
+}
+
+<div title="Scale floating label font size">
+    <span class="text-sm">Label Size</span>
+    <div class="flex items-center gap-2">
+        <input type="range" class="range range-primary range-sm flex-1" aria-label="Label Size"
+            [min]="MIN_LABEL_SIZE" [max]="MAX_LABEL_SIZE" [step]="LABEL_SIZE_STEP" [value]="labelSize()"
+            (input)="handleLabelSizeInput($event)" />
+        <input type="number" class="input input-sm input-bordered w-16 text-center" aria-label="Label Size"
+            [min]="MIN_LABEL_SIZE" [max]="MAX_LABEL_SIZE" [step]="LABEL_SIZE_STEP" [value]="labelSize()"
+            (input)="handleLabelSizeInput($event)" />
+    </div>
+</div>
+
+<div class="join w-full" aria-label="Label mode">
+    <input type="radio" name="labelMode"
+        class="join-item btn btn-sm flex-1"
+        aria-label="Height"
+        [checked]="labelMode() === LabelMode.Height"
+        (change)="setLabelMode(LabelMode.Height)" />
+    <input type="radio" name="labelMode"
+        class="join-item btn btn-sm flex-1"
+        aria-label="Color"
+        [checked]="labelMode() === LabelMode.Color"
+        (change)="setLabelMode(LabelMode.Color)" />
+</div>
+
+<label class="flex items-center gap-2 cursor-pointer">
+    <input type="checkbox" class="checkbox checkbox-sm checkbox-primary"
+        [checked]="showMetricLabelNodeName()"
+        (change)="setShowMetricLabelNodeName($event)" />
+    <span>Show node names</span>
+</label>
+
+<label class="flex items-center gap-2 cursor-pointer">
+    <input type="checkbox" class="checkbox checkbox-sm checkbox-primary"
+        [checked]="showMetricLabelNodeValue()"
+        (change)="setShowMetricLabelNameValue($event)" />
+    <span>Show metric values</span>
+</label>
+
+<label class="flex items-center gap-2 cursor-pointer">
+    <input type="checkbox" class="checkbox checkbox-sm checkbox-primary"
+        [checked]="groupLabelCollisions()"
+        (change)="setGroupLabelCollisions($event)" />
+    <span>Group overlapping labels</span>
+</label>
+
+@if (showColorLabels()) {
+    <div class="flex flex-col gap-1">
+        <span class="text-xs opacity-60 mb-0.5">By Color Metric</span>
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="checkbox checkbox-sm checkbox-primary"
+                [checked]="colorLabels().positive"
+                [disabled]="colorCategoryCounts().positive === 0"
+                (change)="setColorLabel($event, 'positive')"
+                aria-label="positive color label" />
+            <span class="inline-block w-4 h-4 rounded-sm" [style.background-color]="mapColors().positive"></span>
+            <span class="text-xs opacity-60">({{ colorCategoryCounts().positive }})</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="checkbox checkbox-sm checkbox-primary"
+                [checked]="colorLabels().neutral"
+                [disabled]="colorCategoryCounts().neutral === 0"
+                (change)="setColorLabel($event, 'neutral')"
+                aria-label="neutral color label" />
+            <span class="inline-block w-4 h-4 rounded-sm" [style.background-color]="mapColors().neutral"></span>
+            <span class="text-xs opacity-60">({{ colorCategoryCounts().neutral }})</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="checkbox checkbox-sm checkbox-primary"
+                [checked]="colorLabels().negative"
+                [disabled]="colorCategoryCounts().negative === 0"
+                (change)="setColorLabel($event, 'negative')"
+                aria-label="negative color label" />
+            <span class="inline-block w-4 h-4 rounded-sm" [style.background-color]="mapColors().negative"></span>
+            <span class="text-xs opacity-60">({{ colorCategoryCounts().negative }})</span>
+        </label>
+    </div>
+}
+
+<button class="btn btn-outline btn-error gap-2" (click)="resetSettings()" title="Reset label settings to their defaults">
+    <i class="fa fa-undo"></i>
+    <span>Reset label settings</span>
+</button>

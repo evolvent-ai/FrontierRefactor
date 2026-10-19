@@ -1,0 +1,34 @@
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
+
+include("ccsh")
+include("dialogProvider")
+include("model")
+include("analysers:AnalyserInterface")
+include("analysers:filters:MergeFilter", "analysers:filters:EdgeFilter", "analysers:filters:StructureModifier")
+include(
+    "analysers:importers:CodeMaatImporter",
+    "analysers:importers:CoverageImporter",
+    "analysers:importers:CSVImporter",
+    "analysers:importers:SonarImporter",
+    "analysers:importers:SourceMonitorImporter",
+    "analysers:importers:TokeiImporter",
+    "analysers:importers:DependaChartaImporter"
+)
+include(
+    "analysers:parsers:RawTextParser",
+    "analysers:parsers:GitLogParser",
+    "analysers:parsers:SVNLogParser",
+    "analysers:parsers:UnifiedParser",
+    "analysers:parsers:DomainLanguageParser"
+)
+include("analysers:exporters:CSVExporter")
+include(
+    "analysers:tools:ValidationTool",
+    "analysers:tools:InspectionTool",
+    "analysers:tools:ConvertTool"
+)
+
+rootProject.name = "codecharta"
+include("analysers")

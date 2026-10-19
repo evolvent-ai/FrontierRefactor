@@ -1,0 +1,113 @@
+{
+  "main": {
+    "$translations_file_name": "command_translations.json",
+
+    "on": {
+      "$EXPR__line-filters": {
+        "$var_name": "line_filter",
+        "$EVAL__word-operations": {}
+      }
+    },
+    "select": {
+      "$EXPR__line-filters": {"$var_name": "line_filter"}
+    },
+    "delete": {
+      "$EXPR__line-filters": {"$var_name": "line_filter"},
+      "$USER_TEXT_INPUT": {"$var_name": "search_pattern"}
+    },
+    "clear": {
+      "$EXPR__line-filters": {"$var_name": "line_filter"}
+    },
+    "replace": {
+      "$EXPR__line-filters": {
+        "$var_name": "line_filter",
+        "with": {
+          "$USER_TEXT_INPUT": {"$var_name": "insert_text"}
+        }
+      },
+      "$EVAL__text-with-text": {}
+    },
+    "append": {
+      "$EXPR__line-filters": {
+        "$var_name": "line_filter",
+        "with": {
+          "$USER_TEXT_INPUT": {"$var_name": "insert_text"}
+        }
+      },
+      "$EVAL__text-with-text": {}
+    },
+    "prepend": {
+      "$EXPR__line-filters": {
+        "$var_name": "line_filter",
+        "with": {
+          "$USER_TEXT_INPUT": {"$var_name": "insert_text"}
+        }
+      },
+      "$EVAL__text-with-text": {}
+    },
+    "wrap": {
+      "$EXPR__line-filters": {
+        "$var_name": "line_filter",
+        "with": {
+          "$USER_TEXT_INPUT": {"$var_name": "insert_text"}
+        }
+      },
+      "$EVAL__text-with-text": {}
+    }
+  },
+  "text-with-text": {
+    "$USER_TEXT_INPUT": {
+      "$var_name": "search_pattern",
+      "with": {
+        "$USER_TEXT_INPUT": {"$var_name": "insert_text"}
+      }
+    }
+  },
+  "word-operations": {
+    "select": {
+      "$USER_TEXT_INPUT": {"$var_name": "search_pattern"}
+    },
+    "delete": {
+      "$USER_TEXT_INPUT": {"$var_name": "search_pattern"}
+    },
+    "replace": {
+      "$EVAL__text-with-text": {}
+    },
+    "append": {
+      "$EVAL__text-with-text": {}
+    },
+    "prepend": {
+      "$EVAL__text-with-text": {}
+    },
+    "wrap": {
+      "$EVAL__text-with-text": {}
+    }
+  },
+
+  "line-filters": {
+    "$translations_file_name": "line_condition_translations.json",
+    "$var_name": "line_filter",
+
+    "lines": {
+      "$USER_LINE_START_INDEX": {
+        "$var_name": "start_index",
+        "to": {
+          "$USER_LINE_END_INDEX": {"$var_name": "end_index"}
+        }
+      },
+      "starting": {
+        "with": {
+          "$USER_TEXT_INPUT": {"$var_name": "search_pattern"}
+        }
+      },
+      "ending": {
+        "with": {
+          "$USER_TEXT_INPUT": {"$var_name": "search_pattern"}
+        }
+      },
+      "containing": {
+        "$USER_TEXT_INPUT": {"$var_name": "search_pattern"}
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "graded_count": 63,
+  "operations": {
+    "ar_to_fa": 11,
+    "en_to_fa": 11,
+    "fa_to_ar": 11,
+    "fa_to_en": 11,
+    "replace": 8,
+    "to_word": 11
+  },
+  "probe_count": 66,
+  "timed_count": 3
+}

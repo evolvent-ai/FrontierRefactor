@@ -1,0 +1,18 @@
+<cc-settings-popover-shell
+    [popoverId]="popoverId()"
+    [anchorName]="anchorName()"
+    [widthClass]="'max-w-[95vw] ' + (hasRangeSection() ? 'w-[420px]' : 'w-80')"
+>
+    <cc-color-settings-header></cc-color-settings-header>
+
+    @if (hasRangeSection()) {
+        <cc-color-range-section></cc-color-range-section>
+        <cc-gradient-mode-picker [groupName]="popoverId() + '-gradient-mode'"></cc-gradient-mode-picker>
+    }
+
+    <cc-color-bands-section></cc-color-bands-section>
+
+    <cc-invert-reset-row></cc-invert-reset-row>
+
+    <cc-folder-overrides></cc-folder-overrides>
+</cc-settings-popover-shell>

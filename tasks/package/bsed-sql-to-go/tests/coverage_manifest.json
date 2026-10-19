@@ -1,0 +1,13 @@
+{
+  "graded_count": 57,
+  "operations": {
+    "default_interpreter": 10,
+    "keyword_to_user_input_type": 8,
+    "main": 10,
+    "parse_special_chars": 9,
+    "print_commands": 10,
+    "print_help": 10
+  },
+  "probe_count": 60,
+  "timed_count": 3
+}

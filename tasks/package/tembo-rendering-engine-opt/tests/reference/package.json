@@ -1,0 +1,33 @@
+{
+  "name": "tambo",
+  "version": "0.0.0",
+  "description": "Tembo",
+  "author": "Guilherme (Coder) de Souza",
+  "homepage": "https://github.com/guisouza/tembo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guisouza/tembo.git"
+  },
+  "main": "src/Tembo.js",
+  "scripts": {
+    "test": "./node_modules/.bin/grunt"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.1",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-jasmine": "^0.9.1",
+    "grunt-contrib-jshint": "0.11.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscs": "^2.7.0",
+    "grunt-tape": "0.0.2",
+    "tap": "^5.7.0"
+  },
+  "dependencies": {
+    "setimmediate": "latest"
+  }
+}

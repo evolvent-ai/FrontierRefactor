@@ -1,0 +1,42 @@
+<cc-settings-popover-shell [popoverId]="popoverId()" [anchorName]="anchorName()" ariaLabel="Shape Settings">
+    <label class="form-control w-full gap-1" title="The outline the words are laid out in">
+        <span class="text-sm">Shape</span>
+        <select class="select select-bordered select-sm w-full" data-testid="domain-bar-shape" (change)="onShapeChange($any($event.target).value)">
+            @for (shape of shapes; track shape) {
+                <option [value]="shape" [selected]="shape === settings().shape">{{ shapeLabels[shape] }}</option>
+            }
+        </select>
+    </label>
+
+    @if (isCustomShape()) {
+        <label class="form-control w-full gap-1">
+            <span class="text-sm">SVG file</span>
+            <input
+                type="file"
+                accept="image/svg+xml,.svg"
+                class="file-input file-input-bordered file-input-sm w-full"
+                data-testid="domain-bar-shape-upload"
+                (change)="onShapeFileChosen($event)"
+            />
+        </label>
+
+        @if (rejection(); as rejection) {
+            <p class="text-xs text-error" data-testid="domain-bar-shape-rejection">{{ rejection }}</p>
+        } @else if (uploadedMask(); as mask) {
+            <p class="text-xs opacity-60" data-testid="domain-bar-shape-file">
+                {{ mask.fileName }} — words fill the opaque areas of the shape.
+            </p>
+        } @else {
+            <p class="text-xs opacity-60" data-testid="domain-bar-shape-hint">
+                The cloud stays round until you upload a shape, and an uploaded one is forgotten on reload.
+            </p>
+        }
+    }
+
+    <cc-reset-settings-button
+        [settingsKeys]="resetKeys"
+        tooltip="Reset the shape to its default"
+        label="Reset shape"
+        [small]="true"
+    ></cc-reset-settings-button>
+</cc-settings-popover-shell>

@@ -1,0 +1,704 @@
+# Copyright 2025 The go-yaml Project Contributors
+# SPDX-License-Identifier: Apache-2.0
+
+# Emitter test cases for libyaml emitter
+#
+# Purpose: Tests the YAML emitter that converts events into YAML text output.
+#
+# Format: Test cases use type-as-key format:
+#   - test-type:
+#       name: Test case name
+#       ...
+#
+# Test Types:
+#   emit        - Emit events to string, verify output contains expected strings
+#   emit-config - Emit events with specific emitter configuration
+#   roundtrip   - Parse input YAML, emit it back, verify output contains expected strings
+#   emit-writer - Emit events to io.Writer, verify output contains expected strings
+#
+# Common Keys:
+#   name - Test case name (string)
+#   data - List of event specifications to emit (for emit, emit-config, emit-writer)
+#   conf - Emitter configuration map (for emit-config type only):
+#          * canonical - Boolean, emit in canonical YAML form
+#          * indent    - Integer (2-9), indentation width in spaces
+#          * width     - Integer, line width (-1 for unlimited, or positive number)
+#          * unicode   - Boolean, enable Unicode character output
+#   yaml - Input YAML string (for roundtrip type only)
+#   want - Expected result (format varies by test type)
+#
+# Event Specification Format (for data lists):
+#   Simplified (type only): - EVENT_TYPE
+#   Detailed (with fields): - EVENT_TYPE:
+#                               encoding: ...  (for STREAM_START_EVENT)
+#                               value: ...     (for SCALAR_EVENT)
+#                               anchor: ...    (for SCALAR_EVENT, ALIAS_EVENT)
+#                               tag: ...       (for SCALAR_EVENT)
+#                               implicit: ...  (for various events)
+#                               style: ...     (PLAIN_SCALAR_STYLE, SINGLE_QUOTED_SCALAR_STYLE,
+#                                               DOUBLE_QUOTED_SCALAR_STYLE, LITERAL_SCALAR_STYLE,
+#                                               FOLDED_SCALAR_STYLE, BLOCK_SEQUENCE_STYLE,
+#                                               FLOW_SEQUENCE_STYLE, BLOCK_MAPPING_STYLE,
+#                                               FLOW_MAPPING_STYLE)
+
+# Simple emit tests
+- emit:
+    name: Simple scalar
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SCALAR_EVENT:
+        value: hello
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: hello
+
+- emit:
+    name: Simple mapping
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: BLOCK_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: key
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: value
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - MAPPING_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want:
+    - key
+    - value
+
+- emit:
+    name: Block sequence
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SEQUENCE_START_EVENT:
+        implicit: true
+        style: BLOCK_SEQUENCE_STYLE
+    - SCALAR_EVENT:
+        value: item1
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: item2
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SEQUENCE_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want:
+    - item1
+    - item2
+    - '-'
+
+- emit:
+    name: Flow sequence
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SEQUENCE_START_EVENT:
+        implicit: true
+        style: FLOW_SEQUENCE_STYLE
+    - SCALAR_EVENT:
+        value: '1'
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: '2'
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: '3'
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SEQUENCE_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want:
+    - '['
+    - ']'
+
+- emit:
+    name: Flow mapping
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: FLOW_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: a
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: '1'
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: b
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: '2'
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - MAPPING_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want:
+    - '{'
+    - '}'
+
+- emit:
+    name: Explicit document
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: false
+    - SCALAR_EVENT:
+        value: value
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: false
+    - STREAM_END_EVENT
+    want:
+    - '---'
+    - '...'
+
+- emit:
+    name: Anchor and alias
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SEQUENCE_START_EVENT:
+        implicit: true
+        style: BLOCK_SEQUENCE_STYLE
+    - SCALAR_EVENT:
+        anchor: myanchor
+        value: value
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - ALIAS_EVENT:
+        anchor: myanchor
+    - SEQUENCE_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want:
+    - '&myanchor'
+    - '*myanchor'
+
+- emit:
+    name: Tag
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SCALAR_EVENT:
+        tag: 'tag:yaml.org,2002:str'
+        value: value
+        implicit: false
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: '!!str'
+
+- emit:
+    name: Single quoted scalar
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SCALAR_EVENT:
+        value: quoted value
+        implicit: true
+        style: SINGLE_QUOTED_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: "'"
+
+- emit:
+    name: Double quoted scalar
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SCALAR_EVENT:
+        value: quoted value
+        implicit: true
+        style: DOUBLE_QUOTED_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: '"'
+
+- emit:
+    name: Literal scalar
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: BLOCK_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: key
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: "line1\nline2\n"
+        implicit: true
+        style: LITERAL_SCALAR_STYLE
+    - MAPPING_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: '|'
+
+- emit:
+    name: Folded scalar
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: BLOCK_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: key
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: "folded text\n"
+        implicit: true
+        style: FOLDED_SCALAR_STYLE
+    - MAPPING_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: '>'
+
+# Config tests
+- emit-config:
+    name: Canonical mode
+    conf:
+      canonical: true
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: false
+    - SCALAR_EVENT:
+        value: value
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: false
+    - STREAM_END_EVENT
+    want: ---
+
+- emit-config:
+    name: Custom indent
+    conf:
+      indent: 4
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: BLOCK_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: key
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: BLOCK_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: nested
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: value
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - MAPPING_END_EVENT
+    - MAPPING_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: key
+
+- emit-config:
+    name: Custom width
+    conf:
+      width: 40
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SCALAR_EVENT:
+        value: short
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: short
+
+- emit-config:
+    name: Unicode mode
+    conf:
+      unicode: true
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SCALAR_EVENT:
+        value: "unicode: \u00e9"
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: unicode
+
+- emit:
+    name: Multiple documents
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: false
+    - SCALAR_EVENT:
+        value: doc1
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: false
+    - DOCUMENT_START_EVENT:
+        implicit: false
+    - SCALAR_EVENT:
+        value: doc2
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: false
+    - STREAM_END_EVENT
+    want: ---
+
+- emit:
+    name: Nested structures
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: BLOCK_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: parent
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SEQUENCE_START_EVENT:
+        implicit: true
+        style: BLOCK_SEQUENCE_STYLE
+    - MAPPING_START_EVENT:
+        implicit: true
+        style: BLOCK_MAPPING_STYLE
+    - SCALAR_EVENT:
+        value: child
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - SCALAR_EVENT:
+        value: value
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - MAPPING_END_EVENT
+    - SEQUENCE_END_EVENT
+    - MAPPING_END_EVENT
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want:
+    - parent
+    - child
+
+# Roundtrip test
+- roundtrip:
+    name: Roundtrip
+    yaml: |
+      key: value
+      list:
+      - item1
+      - item2
+    want:
+    - key
+    - value
+    - item1
+
+# Regression test for https://github.com/google/yamlfmt/issues/110: a foot
+# comment attached to a flow mapping must not add a superfluous trailing
+# comma before the closing '}'.
+- roundtrip:
+    name: Flow mapping with foot comment has no superfluous comma
+    yaml: |
+      ---
+      - {foo: bar}
+      # comment
+    want: |
+      ---
+      - {foo: bar}
+      # comment
+
+# Regression tests for https://github.com/yaml/go-yaml/issues/337
+- roundtrip:
+    name: Folded scalar preserves newlines
+    yaml: |
+      key: >
+        Heading:
+
+          * first item
+          * second item
+    want: |
+      key: >
+        Heading:
+
+          * first item
+          * second item
+
+- roundtrip:
+    name: Folded scalar single newline between plain lines
+    yaml: |
+      key: >
+        one
+
+        two
+    want: |
+      key: >
+        one
+
+        two
+
+- roundtrip:
+    name: Folded scalar trailing more-indented block
+    yaml: |
+      key: >
+        intro
+
+          indented tail
+    want: |
+      key: >
+        intro
+
+          indented tail
+
+# Writer test
+- emit-writer:
+    name: Writer
+    data:
+    - STREAM_START_EVENT:
+        encoding: UTF8_ENCODING
+    - DOCUMENT_START_EVENT:
+        implicit: true
+    - SCALAR_EVENT:
+        value: test
+        implicit: true
+        style: PLAIN_SCALAR_STYLE
+    - DOCUMENT_END_EVENT:
+        implicit: true
+    - STREAM_END_EVENT
+    want: test
+
+# Emitter API tests (from api.yaml)
+- api-new:
+    name: New emitter
+    with: NewEmitter
+    test:
+    - nil: [buffer, false]
+    - len: [buffer, 128]  # output_buffer_size
+    - nil: [raw-buffer, false]
+    - nil: [states, false]
+    - nil: [events, false]
+    - eq: [best-width, -1]
+
+- api-method:
+    name: Emitter set canonical true
+    with: NewEmitter
+    call: [SetCanonical, true]
+    test:
+    - eq: [canonical, true]
+
+- api-method:
+    name: Emitter set canonical false
+    with: NewEmitter
+    call: [SetCanonical, false]
+    test:
+    - eq: [canonical, false]
+
+- api-method:
+    name: Emitter set indent 2
+    with: NewEmitter
+    call: [SetIndent, 2]
+    test:
+    - eq: [BestIndent, 2]
+
+- api-method:
+    name: Emitter set indent 5
+    with: NewEmitter
+    call: [SetIndent, 5]
+    test:
+    - eq: [BestIndent, 5]
+
+- api-method:
+    name: Emitter set indent clamp low
+    with: NewEmitter
+    call: [SetIndent, 1]
+    test:
+    - eq: [BestIndent, 2]
+
+- api-method:
+    name: Emitter set indent clamp high
+    with: NewEmitter
+    call: [SetIndent, 10]
+    test:
+    - eq: [BestIndent, 2]
+
+- api-method:
+    name: Emitter set width 80
+    with: NewEmitter
+    call: [SetWidth, 80]
+    test:
+    - eq: [best-width, 80]
+
+- api-method:
+    name: Emitter set width -1
+    with: NewEmitter
+    call: [SetWidth, -1]
+    test:
+    - eq: [best-width, -1]
+
+- api-method:
+    name: Emitter set width clamp
+    with: NewEmitter
+    call: [SetWidth, -10]
+    test:
+    - eq: [best-width, -1]
+
+- api-method:
+    name: Emitter set unicode true
+    with: NewEmitter
+    call: [SetUnicode, true]
+    test:
+    - eq: [unicode, true]
+
+- api-method:
+    name: Emitter set unicode false
+    with: NewEmitter
+    call: [SetUnicode, false]
+    test:
+    - eq: [unicode, false]
+
+- api-method:
+    name: Emitter set line break
+    with: NewEmitter
+    call: [SetLineBreak, LN_BREAK]
+    test:
+    - eq: [line-break, LN_BREAK]
+
+- api-panic:
+    name: Emitter set encoding twice
+    with: NewEmitter
+    init: [SetEncoding, UTF8_ENCODING]
+    call: [SetEncoding, UTF16LE_ENCODING]
+    want: must set the output encoding only once
+
+- api-delete:
+    name: Emitter delete
+    with: NewEmitter
+    test:
+    - nil: [output-buffer, true]
+    - len: [buffer, 0]
+
+# Event constructor tests
+- api-new-event:
+    name: New stream start event
+    call: [NewStreamStartEvent, UTF8_ENCODING]
+    test:
+    - eq: [Type, STREAM_START_EVENT]
+    - eq: [encoding, UTF8_ENCODING]
+
+- api-new-event:
+    name: New stream end event
+    call: [NewStreamEndEvent]
+    test:
+    - eq: [Type, STREAM_END_EVENT]
+
+- api-new-event:
+    name: New document end event
+    call: [NewDocumentEndEvent, false]
+    test:
+    - eq: [Type, DOCUMENT_END_EVENT]
+    - eq: [Implicit, false]
+
+- api-new-event:
+    name: New alias event
+    byte: true
+    call: [NewAliasEvent, myanchor]
+    test:
+    - eq: [Type, ALIAS_EVENT]
+    - eq: [Anchor, myanchor]
+
+- api-new-event:
+    name: New sequence end event
+    call: [NewSequenceEndEvent]
+    test:
+    - eq: [Type, SEQUENCE_END_EVENT]
+
+- api-new-event:
+    name: New mapping end event
+    call: [NewMappingEndEvent]
+    test:
+    - eq: [Type, MAPPING_END_EVENT]

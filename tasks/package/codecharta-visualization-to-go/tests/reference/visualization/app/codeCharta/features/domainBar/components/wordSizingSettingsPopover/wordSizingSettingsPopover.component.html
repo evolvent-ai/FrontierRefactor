@@ -1,0 +1,19 @@
+<cc-settings-popover-shell
+    [popoverId]="popoverId()"
+    [anchorName]="anchorName()"
+    ariaLabel="Word Sizing Settings"
+    widthClass="w-80"
+    contentClass="gap-3 py-3 px-4"
+>
+    <cc-word-sizing-mode-control></cc-word-sizing-mode-control>
+    <cc-word-count-control></cc-word-count-control>
+    <cc-word-size-range-control></cc-word-size-range-control>
+    <cc-word-spacing-control></cc-word-spacing-control>
+
+    <cc-reset-settings-button
+        [settingsKeys]="resetKeys"
+        tooltip="Reset the word sizing settings to their defaults"
+        label="Reset word sizing"
+        [small]="true"
+    ></cc-reset-settings-button>
+</cc-settings-popover-shell>

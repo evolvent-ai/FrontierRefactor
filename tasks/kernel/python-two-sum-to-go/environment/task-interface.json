@@ -1,0 +1,38 @@
+{
+  "build_commands": [
+    "/app/build.sh"
+  ],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/implementation/main.go",
+  "implementation_directory": "/app/implementation",
+  "launcher_builds": true,
+  "target_language": "go",
+  "build_contract": "The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation.",
+  "interface": "Run /app/run.sh as a JSON-lines service. Requests contain id, op=\"run\", call=\"entry\", and args (an array of positional arguments). Return one JSON object per request, preserving id: {\"id\": id, \"ok\": true, \"value\": result} or {\"id\": id, \"ok\": false, \"error\": message}. Do not write diagnostics to the response stream. The evaluator builds the target sources in /app/implementation with its trusted offline toolchain and executes that product directly. /app/run.sh and /app/build.sh are development entrypoints; replacing them does not replace the graded program. Put implementation sources and build inputs under /app/implementation. For each floating-point result, abs(candidate - reference) <= 1e-12 + 1e-09 * abs(reference). Integer values, booleans, strings, field names, and array shapes must match exactly. Infinities must match in sign and position. NaN is accepted only at matching NaN positions.",
+  "symbol": "twoSum",
+  "numeric_policy": {
+    "kind": "float-tolerance",
+    "rtol": 1e-09,
+    "atol": 1e-12,
+    "equal_nan": true,
+    "basis": "declared-precision default",
+    "precision": "float64"
+  },
+  "parameters": {
+    "params": [
+      {
+        "kind": "int_array",
+        "low": -1000.0,
+        "high": 1000.0,
+        "dtype": "int64",
+        "size": "n"
+      },
+      {
+        "kind": "int",
+        "low": -1000.0,
+        "high": 1000.0
+      }
+    ]
+  }
+}

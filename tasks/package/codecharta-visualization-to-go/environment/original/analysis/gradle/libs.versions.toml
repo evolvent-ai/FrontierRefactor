@@ -1,0 +1,66 @@
+[versions]
+kotlin-logging = "8.0.01"
+boon = "0.34"
+commons-lang3 = "3.20.0"
+cyclonedx = "3.2.0"
+gson = "2.13.2"
+jacoco = "0.8.11"
+jersey = "4.0.2"
+json-schema = "1.14.4"
+json = "20251224"
+juniversalchardet = "1.0.3"
+kotlin = "2.3.10"
+kotlinx-coroutines = "1.10.2"
+kasechange = "1.4.1"
+kotlinx-serialization-json = "1.7.3"
+kotter = "1.2.1"
+picocli = "4.7.7"
+tree-sitter-excavation-site = "v0.12.0"
+slf4j = "2.0.17"
+sonarqube = "7.2.2.6593"
+univocity-parsers = "2.9.1"
+appmattus-crypto = "1.0.2"
+assertj = "3.27.7"
+junit5 = "6.0.3"
+ktlint = "14.0.1"
+mockk = "1.14.9"
+wiremock = "3.13.2"
+
+[libraries]
+kotlin-logging-jvm = { group = "io.github.oshai", name = "kotlin-logging-jvm", version.ref = "kotlin-logging" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit5" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit5" }
+junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit5" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit5" }
+boon = { group = "io.fastjson", name = "boon", version.ref = "boon" }
+slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
+picocli = { group = "info.picocli", name = "picocli", version.ref = "picocli" }
+univocity-parsers = { group = "com.univocity", name = "univocity-parsers", version.ref = "univocity-parsers" }
+kotter = { group = "com.varabyte.kotter", name = "kotter-jvm", version.ref = "kotter" }
+kotter-test = { group = "com.varabyte.kotterx", name = "kotter-test-support-jvm", version.ref = "kotter" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+assertj-core = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+jsonassert = { group = "org.skyscreamer", name = "jsonassert", version = "1.5.3" }
+commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commons-lang3" }
+juniversalchardet = { group = "com.googlecode.juniversalchardet", name = "juniversalchardet", version.ref = "juniversalchardet" }
+rxjava2 = { group = "io.reactivex.rxjava2", name = "rxjava", version = "2.2.21" }
+jersey-client = { group = "org.glassfish.jersey.core", name = "jersey-client", version.ref = "jersey" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+jakarta-ws-rs-api = { group = "jakarta.ws.rs", name = "jakarta.ws.rs-api", version = "4.0.0" }
+wiremock = { group = "org.wiremock", name = "wiremock", version.ref = "wiremock" }
+json = { group = "org.json", name = "json", version.ref = "json" }
+commons-text = { group = "org.apache.commons", name = "commons-text", version = "1.15.0" }
+json-schema = { group = "com.github.everit-org.json-schema", name = "org.everit.json.schema", version.ref = "json-schema" }
+appmattus-crypto = { group = "com.appmattus.crypto", name = "cryptohash", version.ref = "appmattus-crypto"}
+tree-sitter-excavation-site = { group = "com.github.MaibornWolff", name = "TreeSitterExcavationSite", version.ref = "tree-sitter-excavation-site" }
+kasechange = { group = "net.pearx.kasechange", name = "kasechange", version.ref = "kasechange" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+
+[plugins]
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+cyclonedx = { id = "org.cyclonedx.bom", version.ref = "cyclonedx" }

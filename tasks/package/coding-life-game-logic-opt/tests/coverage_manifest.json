@@ -1,0 +1,25 @@
+{
+  "graded_count": 136,
+  "operations": {
+    "Achievement": 8,
+    "App": 8,
+    "Event": 8,
+    "Life": 8,
+    "Property": 8,
+    "Talent": 8,
+    "average": 7,
+    "checkCondition": 8,
+    "clone": 7,
+    "default": 8,
+    "extractMaxTriggers": 8,
+    "getGrade": 7,
+    "getRate": 8,
+    "map": 7,
+    "max": 7,
+    "min": 7,
+    "sum": 7,
+    "summary": 7
+  },
+  "probe_count": 139,
+  "timed_count": 3
+}

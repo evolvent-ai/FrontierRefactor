@@ -1,0 +1,101 @@
+[package]
+name = "xmloxide"
+version = "0.5.0"
+edition = "2021"
+rust-version = "1.81"
+license = "MIT"
+description = "A pure Rust reimplementation of libxml2 — memory-safe XML/HTML parsing"
+repository = "https://github.com/jonwiggins/xmloxide"
+homepage = "https://github.com/jonwiggins/xmloxide"
+documentation = "https://docs.rs/xmloxide"
+readme = "README.md"
+keywords = ["xml", "html", "parser", "dom", "xpath"]
+categories = ["parser-implementations", "web-programming"]
+include = [
+    "src/**/*.rs",
+    "examples/**/*.rs",
+    "examples/**/*.c",
+    "benches/**/*.rs",
+    "include/*.h",
+    "Makefile",
+    "Cargo.toml",
+    "LICENSE",
+    "README.md",
+    "!tests/html5lib-tests/**",
+]
+
+[features]
+default = ["cli"]
+cli = ["dep:clap"]
+ffi = []
+serde = ["dep:serde"]
+async = ["dep:tokio"]
+bench-libxml2 = ["dep:libxml"]
+bench-rust-xml = ["dep:roxmltree", "dep:quick-xml"]
+
+[dependencies]
+clap = { version = "4", features = ["derive"], optional = true }
+encoding_rs = "0.8"
+libxml = { version = "0.3", optional = true }
+quick-xml = { version = "0.37", optional = true }
+roxmltree = { version = "0.20", optional = true }
+serde = { version = "1", optional = true }
+tokio = { version = "1", features = ["io-util"], optional = true }
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+pretty_assertions = "1"
+# Pin proptest to 1.6.x — 1.7+ requires Rust 1.84+, breaking MSRV 1.81
+proptest = ">=1,<1.7"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Pin tempfile <3.20 to avoid getrandom 0.4 which requires edition2024 (Rust 1.85+),
+# breaking our MSRV of 1.81. Pulled in transitively by proptest.
+tempfile = ">=3,<3.20"
+tokio = { version = "1", features = ["io-util", "rt", "macros", "fs"] }
+
+[lints.rust]
+unsafe_code = "deny"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+# Allow these pedantic lints with justification
+module_name_repetitions = "allow"   # e.g., tree::TreeNode is fine
+must_use_candidate = "allow"        # too noisy for builder methods
+missing_errors_doc = "allow"        # we document errors but not on every fn
+missing_panics_doc = "allow"        # we don't panic in library code anyway
+# Deny these — they indicate real bugs
+unwrap_used = "warn"
+expect_used = "warn"
+
+[lib]
+crate-type = ["lib"]
+
+[package.metadata.docs.rs]
+features = ["cli", "ffi", "serde", "async"]
+
+[[bin]]
+name = "xmllint"
+path = "src/bin/xmllint.rs"
+required-features = ["cli"]
+
+[profile.release]
+strip = true
+
+[profile.bench]
+lto = "thin"
+codegen-units = 1
+
+[[bench]]
+name = "parser_bench"
+harness = false
+
+[[bench]]
+name = "comparison_bench"
+harness = false
+required-features = ["bench-libxml2"]
+
+[[bench]]
+name = "ecosystem_bench"
+harness = false
+required-features = ["bench-rust-xml"]

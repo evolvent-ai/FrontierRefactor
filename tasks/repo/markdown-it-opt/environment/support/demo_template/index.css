@@ -1,0 +1,122 @@
+body {
+  overflow-x: hidden;
+  background-color: #fbfbfb;
+}
+
+/* hack to allign emojies to line height */
+.emoji {
+  height: 1.2em;
+}
+
+.opt__strict .not-strict {
+  opacity: 0.3;
+}
+
+.demo-column {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.source {
+  min-height: 0;
+  padding: 2px 6px;
+  resize: none;
+}
+
+.result-html,
+.result-src,
+.result-debug {
+  margin: 0;
+  padding: 2px 10px;
+  border: 1px solid #ccc;
+}
+
+.result-html {
+  background-color: #fff;
+}
+.result-html img {
+  max-width: 35%;
+}
+
+.result-html pre {
+  padding: 8px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.result-html pre code.hljs{
+  background-color: transparent;
+}
+
+.result-html blockquote {
+  padding: 10px 20px 1px;
+  border-left: 5px solid #ddd;
+}
+
+.result-src,
+.result-debug {
+  display: none;
+  background-color: #f8f8f8;
+}
+
+.result-src-content,
+.result-debug-content {
+  white-space: pre;
+}
+
+.result-as-html .result-html { display: block; }
+.result-as-html .result-src,
+.result-as-html .result-debug { display: none; }
+
+.result-as-src .result-src { display: block; }
+.result-as-src .result-html,
+.result-as-src .result-debug { display: none; }
+
+.result-as-debug .result-debug { display: block; }
+.result-as-debug .result-html,
+.result-as-debug .result-src { display: none; }
+
+.demo-control {
+  align-self: flex-end;
+  border-radius: 6px 6px 0 0;
+  font-size: 12px;
+  background-color: #ddd;
+}
+.demo-control a {
+  padding: 0 20px;
+}
+.demo-control a:first-child {
+  padding-left: 30px;
+}
+.demo-control a:last-child {
+  padding-right: 30px;
+}
+
+.footnotes {
+  -moz-column-count: 2;
+  column-count: 2;
+}
+.footnotes-list {
+  padding-left: 2em;
+}
+
+/* custom container */
+.warning {
+  background-color: #ff8;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.github-link {
+  color: #333;
+}
+.github-link:hover {
+  color: #000;
+}
+.github-link svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}

@@ -1,0 +1,64 @@
+{
+  "extends": ["config:recommended", ":preserveSemverRanges"],
+  "minimumReleaseAge": "3 days",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "schedule": ["before 3am on Monday"]
+  },
+  "rangeStrategy": "update-lockfile",
+  "vulnerabilityAlerts": {
+    "labels": ["security", "dependencies"],
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "matchFileNames": ["build.gradle"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "gradle dependencies not Major update",
+      "enabled": true,
+      "matchPackageNames": ["!org.sonarsource.java:sonar-java-plugin"]
+    },
+    {
+      "matchFileNames": ["package.json"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "npm dependencies not Major update",
+      "enabled": true,
+      "matchPackageNames": ["!three", "!@types/three"]
+    },
+    {
+      "matchPackageNames": [
+        "JamesIves/github-pages-deploy-action",
+        "SonarSource/sonarcloud-github-action",
+        "actions/setup-java",
+        "alexellis/upload-assets",
+        "rasmus-saks/release-a-changelog-action",
+        "gradle",
+        "nginx",
+        "ruby"
+      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "other updates",
+      "enabled": true
+    },
+    {
+      "matchPackageNames": ["@types/three", "org.sonarsource.java:sonar-java-plugin", "three"],
+      "groupName": "Almost always breaking changes",
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["org.json:json"],
+      "versioning": "regex:^(?<major>\\d{4})(?<minor>\\d{2})(?<patch>\\d{2})$",
+      "enabled": true,
+      "automerge": true
+    }
+  ],
+  "timezone": "Europe/Berlin",
+  "schedule": ["* * * * *"],
+  "prConcurrentLimit": 5
+}

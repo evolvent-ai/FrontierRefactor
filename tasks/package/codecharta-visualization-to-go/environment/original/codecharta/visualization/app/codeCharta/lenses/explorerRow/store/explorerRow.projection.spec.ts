@@ -1,0 +1,158 @@
+import { CodeMapNode, NodeType } from "../../../model/codeCharta.model"
+import { projectExplorerRow } from "./explorerRow.projection"
+
+const FOLDER = {
+    name: "src",
+    path: "/root/src",
+    id: 1,
+    type: NodeType.FOLDER,
+    attributes: { rloc: 10, unary: 5 },
+    children: [{ name: "a.ts", path: "/root/src/a.ts", id: 2, type: NodeType.FILE, attributes: { rloc: 4 } }]
+} as unknown as CodeMapNode
+
+const LEAF_WITH_BUILDING = { name: "a.ts", path: "/root/src/a.ts", id: 2, type: NodeType.FILE, attributes: { rloc: 4 } } as CodeMapNode
+const LEAF_WITHOUT_BUILDING = { name: "b.ts", path: "/root/src/b.ts", id: 9, type: NodeType.FILE, attributes: { rloc: 4 } } as CodeMapNode
+const LEAF_WITHOUT_AREA = { name: "c.ts", path: "/root/src/c.ts", id: 2, type: NodeType.FILE, attributes: { rloc: 0 } } as CodeMapNode
+const EXCLUDED_LEAF = {
+    name: "d.ts",
+    path: "/root/src/d.ts",
+    id: 3,
+    type: NodeType.FILE,
+    attributes: { rloc: 4 },
+    isExcluded: true
+} as CodeMapNode
+
+describe("projectExplorerRow", () => {
+    describe("with the metrics (3D map) inputs", () => {
+        const inputs = { areaMetric: "rloc", buildingIds: new Set([1, 2]), rootUnary: 10 }
+
+        it("should make a leaf with a building selectable", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(LEAF_WITH_BUILDING, inputs).isSelectable).toBe(true)
+        })
+
+        it("should not make a leaf without a building selectable", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(LEAF_WITHOUT_BUILDING, inputs).isSelectable).toBe(false)
+        })
+
+        it("should keep folders selectable so they can still toggle open", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(FOLDER, inputs).isSelectable).toBe(true)
+        })
+
+        it("should dim and italicize a row whose node has no area in the current area metric", () => {
+            // Arrange & Act
+            const projection = projectExplorerRow(LEAF_WITHOUT_AREA, inputs)
+
+            // Assert
+            expect(projection).toMatchObject({ isInactive: true, isItalic: true, title: "No Node Area for Chosen Metric" })
+        })
+
+        it("should leave a row with area undimmed and untitled", () => {
+            // Arrange & Act
+            const projection = projectExplorerRow(LEAF_WITH_BUILDING, inputs)
+
+            // Assert
+            expect(projection).toMatchObject({ isInactive: false, isItalic: false, title: "" })
+        })
+
+        it("should decorate a folder with its share of the root unary count", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(FOLDER, inputs).decoration).toBe("50% / 5")
+        })
+
+        it("should not decorate a leaf", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(LEAF_WITH_BUILDING, inputs).decoration).toBeNull()
+        })
+
+        it("should hide an excluded node when the view hides excluded nodes", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(EXCLUDED_LEAF, { ...inputs, hidesExcludedNodes: true }).isHidden).toBe(true)
+        })
+
+        it("should not hide an included node when the view hides excluded nodes", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(LEAF_WITH_BUILDING, { ...inputs, hidesExcludedNodes: true }).isHidden).toBe(false)
+        })
+    })
+
+    describe("with marked packages", () => {
+        const markedPackages = [{ path: "/root/src", color: "#ff0000" }]
+
+        it("should colour a folder covered by a marked package", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(FOLDER, { markedPackages }).markingColor).toBe("#ff0000")
+        })
+
+        it("should not colour a leaf covered by a marked package", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(LEAF_WITH_BUILDING, { markedPackages }).markingColor).toBeNull()
+        })
+
+        it("should not colour a folder outside every marked package", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(FOLDER, { markedPackages: [{ path: "/root/other", color: "#00ff00" }] }).markingColor).toBeNull()
+        })
+    })
+
+    describe("with a view that does not hide excluded nodes", () => {
+        it("should keep an excluded node visible", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(EXCLUDED_LEAF, {}).isHidden).toBe(false)
+        })
+    })
+
+    describe("with the domain inputs", () => {
+        const inputs = { pathsWithDomainWords: new Set([LEAF_WITH_BUILDING.path]) }
+
+        it("should dim and italicize a row whose node carries no domain words", () => {
+            // Arrange & Act
+            const projection = projectExplorerRow(LEAF_WITHOUT_BUILDING, inputs)
+
+            // Assert
+            expect(projection).toMatchObject({ isInactive: true, isItalic: true, title: "No domain words" })
+        })
+
+        it("should leave a row carrying domain words undimmed and untitled", () => {
+            // Arrange & Act
+            const projection = projectExplorerRow(LEAF_WITH_BUILDING, inputs)
+
+            // Assert
+            expect(projection).toMatchObject({ isInactive: false, isItalic: false, title: "" })
+        })
+
+        it("should keep a row carrying no domain words selectable", () => {
+            // Arrange & Act & Assert
+            expect(projectExplorerRow(LEAF_WITHOUT_BUILDING, inputs).isSelectable).toBe(true)
+        })
+
+        it("should dim every row when no path carries domain words", () => {
+            // Arrange & Act
+            const projection = projectExplorerRow(LEAF_WITH_BUILDING, { pathsWithDomainWords: new Set<string>() })
+
+            // Assert
+            expect(projection).toMatchObject({ isInactive: true, isItalic: true, title: "No domain words" })
+        })
+    })
+
+    describe("with no inputs (a view with no 3D map)", () => {
+        it("should render the trivial projection: selectable, undimmed, no decoration", () => {
+            // Arrange & Act
+            const projection = projectExplorerRow(LEAF_WITHOUT_AREA, {})
+
+            // Assert
+            expect(projection).toEqual({
+                isSelectable: true,
+                isInactive: false,
+                isItalic: false,
+                isFlattened: false,
+                isHidden: false,
+                title: "",
+                decoration: null,
+                markingColor: null
+            })
+        })
+    })
+})

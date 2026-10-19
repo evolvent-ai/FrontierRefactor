@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "package/trimesh-triangle-loading-opt"
+description = "Python library for loading and using triangular meshes."
+authors = []
+keywords = [ "package", "optimisation",]
+
+[metadata]
+scale = "package"
+source_language = "python"
+target_language = ""
+cross_language = false
+category = "performance-optimization"
+tags = [ "package", "optimisation",]
+provenance = "Reference is https://github.com/mikedh/trimesh.git at fcf660feb0a14c68fd3945789e8ed77e260f9167. The expectations are a frozen capture of that reference's own observable behaviour over 197 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/mikedh/trimesh.git"
+commit = "fcf660feb0a14c68fd3945789e8ed77e260f9167"
+committed_at = "2026-09-14T19:01:43Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE.md",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

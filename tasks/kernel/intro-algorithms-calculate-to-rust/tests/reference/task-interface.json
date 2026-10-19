@@ -1,0 +1,13 @@
+{
+  "build_commands": [],
+  "run_command": "/app/run.sh",
+  "build_directory": "/app",
+  "entry_source": "/app/subject.py",
+  "runtime_argv": [
+    "python3",
+    "./serve.py",
+    "subject",
+    "calculate"
+  ],
+  "launcher_builds": true
+}

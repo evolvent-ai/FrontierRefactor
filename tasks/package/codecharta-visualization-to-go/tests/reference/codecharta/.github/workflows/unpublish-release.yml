@@ -1,0 +1,166 @@
+name: Unpublish Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: 'Repository to unpublish'
+        required: true
+        type: choice
+        options:
+          - visualization
+          - analysis
+      version:
+        description: 'Version to unpublish (e.g., 1.131.2)'
+        required: true
+        type: string
+      unpublish_type:
+        description: 'What to unpublish'
+        required: true
+        type: choice
+        options:
+          - all
+          - npm
+          - docker
+          - github
+      create_revert_pr:
+        description: 'Create a PR to revert the release commit'
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  setup:
+    name: Setup Variables
+    runs-on: ubuntu-latest
+    outputs:
+      prefix: ${{ steps.vars.outputs.prefix }}
+      npm_package: ${{ steps.vars.outputs.npm_package }}
+      docker_repo: ${{ steps.vars.outputs.docker_repo }}
+    steps:
+      - name: Setup variables
+        id: vars
+        run: |
+          PREFIX=$([ "${{ inputs.repository }}" = "visualization" ] && echo "vis" || echo "ana")
+          NPM_PACKAGE=$([ "${{ inputs.repository }}" = "visualization" ] && echo "codecharta-visualization" || echo "@codechart/analysis")
+          DOCKER_REPO=$([ "${{ inputs.repository }}" = "visualization" ] && echo "codecharta-visualization" || echo "codecharta-analysis")
+          echo "prefix=${PREFIX}" >> $GITHUB_OUTPUT
+          echo "npm_package=${NPM_PACKAGE}" >> $GITHUB_OUTPUT
+          echo "docker_repo=${DOCKER_REPO}" >> $GITHUB_OUTPUT
+
+  unpublish_npm:
+    name: Unpublish from npm
+    needs: setup
+    if: inputs.unpublish_type == 'npm' || inputs.unpublish_type == 'all'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Unpublish from npm
+        run: |
+          echo "Unpublishing ${{ needs.setup.outputs.npm_package }}@${{ inputs.version }}"
+          npm unpublish ${{ needs.setup.outputs.npm_package }}@${{ inputs.version }} --force || true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  unpublish_docker:
+    name: Unpublish from Docker Hub
+    needs: setup
+    if: inputs.unpublish_type == 'docker' || inputs.unpublish_type == 'all'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove Docker tags
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          
+          echo "Removing Docker tag: codecharta/${{ needs.setup.outputs.docker_repo }}:${{ inputs.version }}"
+          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "${{ secrets.DOCKER_USERNAME }}", "password": "${{ secrets.DOCKER_PASSWORD }}"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+          curl -X DELETE -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/codecharta/${{ needs.setup.outputs.docker_repo }}/tags/${{ inputs.version }}/
+          
+          echo "Note: If this was the latest version, you may need to manually update the 'latest' tag"
+
+  unpublish_github:
+    name: Unpublish from GitHub
+    needs: setup
+    if: inputs.unpublish_type == 'github' || inputs.unpublish_type == 'all'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Delete GitHub Release
+        run: |
+          TAG="${{ needs.setup.outputs.prefix }}-${{ inputs.version }}"
+          echo "Deleting release: ${TAG}"
+          gh release delete ${TAG} --yes || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete Git Tag
+        run: |
+          TAG="${{ needs.setup.outputs.prefix }}-${{ inputs.version }}"
+          echo "Deleting tag: ${TAG}"
+          git push --delete origin ${TAG} || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  create_revert_pr:
+    name: Create Revert Pull Request
+    needs: [setup, unpublish_github]
+    if: inputs.create_revert_pr == true && (inputs.unpublish_type == 'github' || inputs.unpublish_type == 'all')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Create and Push Revert PR
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          COMMIT_MSG="Releasing ${{ needs.setup.outputs.prefix }}-${{ inputs.version }}"
+          COMMIT_HASH=$(git log --format="%H" --grep="$COMMIT_MSG" -1)
+          
+          if [ ! -z "$COMMIT_HASH" ]; then
+            echo "Found release commit: ${COMMIT_HASH}"
+            BRANCH_NAME="revert-release/${{ needs.setup.outputs.prefix }}-${{ inputs.version }}"
+            git checkout -b $BRANCH_NAME
+            git revert --no-edit $COMMIT_HASH
+            git push origin $BRANCH_NAME
+            
+            gh pr create \
+              --title "Revert release ${{ needs.setup.outputs.prefix }}-${{ inputs.version }}" \
+              --body "This PR reverts the release commit for version ${{ inputs.version }}" \
+              --base main \
+              --head $BRANCH_NAME
+          else
+            echo "::warning::Could not find release commit with message: $COMMIT_MSG"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify:
+    name: Show Notifications
+    needs: [setup, unpublish_npm, unpublish_docker, unpublish_github, create_revert_pr]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Warning Message
+        run: |
+          echo "::warning::Release ${{ inputs.version }} has been unpublished. You may need to:"
+          echo "::warning::1. Manually update the 'latest' tag in Docker Hub if needed"
+          echo "::warning::2. Update version numbers in README.md"
+          echo "::warning::3. Consider creating a new patch release"

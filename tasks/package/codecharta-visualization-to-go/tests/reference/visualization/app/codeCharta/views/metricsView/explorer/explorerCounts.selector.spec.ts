@@ -1,0 +1,167 @@
+import { BlacklistItem, CodeMapNode, NodeType } from "../../../model/codeCharta.model"
+import { createBlacklistMatcher } from "../../../util/blacklist/blacklistMatcher"
+import { _calculateExplorerCounts } from "./explorerCounts.selector"
+
+const makeLeaf = (path: string, attributes: Record<string, number> = { unary: 1, rloc: 1 }): CodeMapNode => ({
+    name: path.split("/").pop() ?? path,
+    path,
+    type: NodeType.FILE,
+    attributes
+})
+
+const withBlacklistFlags = (leaves: CodeMapNode[], blacklist: BlacklistItem[]): CodeMapNode[] => {
+    const matcher = createBlacklistMatcher(blacklist)
+    return leaves.map(leaf => ({ ...leaf, ...matcher.classify(leaf.path, true) }))
+}
+
+describe("explorerCounts.selector", () => {
+    describe("_calculateExplorerCounts", () => {
+        const allLeaves: CodeMapNode[] = [
+            makeLeaf("/root/src/alpha.kt"),
+            makeLeaf("/root/src/beta.kt"),
+            makeLeaf("/root/src/gamma.kt"),
+            makeLeaf("/root/test/alpha.spec.ts"),
+            makeLeaf("/root/test/beta.spec.ts")
+        ]
+
+        it("should return shown=all, flattened=0, hidden=0, noArea=0 with empty blacklist and valid metric", () => {
+            // Arrange
+            const blacklist: BlacklistItem[] = []
+            const searchedNodes: CodeMapNode[] = []
+
+            // Act
+            const result = _calculateExplorerCounts(searchedNodes, withBlacklistFlags(allLeaves, blacklist), "rloc")
+
+            // Assert
+            expect(result).toEqual({ shown: 5, flattened: 0, hidden: 0, noArea: 0 })
+        })
+
+        it("should count flattened leaves only", () => {
+            // Arrange
+            const blacklist: BlacklistItem[] = [{ type: "flatten", path: "*.spec.ts*" }]
+
+            // Act
+            const result = _calculateExplorerCounts([], withBlacklistFlags(allLeaves, blacklist), "rloc")
+
+            // Assert
+            expect(result).toEqual({ shown: 3, flattened: 2, hidden: 0, noArea: 0 })
+        })
+
+        it("should count hidden leaves only", () => {
+            // Arrange
+            const blacklist: BlacklistItem[] = [{ type: "exclude", path: "*test*" }]
+
+            // Act
+            const result = _calculateExplorerCounts([], withBlacklistFlags(allLeaves, blacklist), "rloc")
+
+            // Assert
+            expect(result).toEqual({ shown: 3, flattened: 0, hidden: 2, noArea: 0 })
+        })
+
+        it("should count both flattened and hidden", () => {
+            // Arrange
+            const blacklist: BlacklistItem[] = [
+                { type: "flatten", path: "*.spec.ts*" },
+                { type: "exclude", path: "*gamma*" }
+            ]
+
+            // Act
+            const result = _calculateExplorerCounts([], withBlacklistFlags(allLeaves, blacklist), "rloc")
+
+            // Assert
+            expect(result).toEqual({ shown: 2, flattened: 2, hidden: 1, noArea: 0 })
+        })
+
+        it("should count leaves with no area metric among visible files", () => {
+            // Arrange
+            const leaves = [
+                makeLeaf("/a", { rloc: 1 }),
+                makeLeaf("/b", { rloc: 0 }),
+                makeLeaf("/c", { rloc: 5 }),
+                makeLeaf("/d", { unary: 1 })
+            ]
+
+            // Act
+            const result = _calculateExplorerCounts([], withBlacklistFlags(leaves, []), "rloc")
+
+            // Assert
+            expect(result.shown).toBe(4)
+            expect(result.noArea).toBe(2)
+        })
+
+        it("should not count blacklisted leaves toward noArea", () => {
+            // Arrange
+            const leaves = [makeLeaf("/a", { rloc: 0 }), makeLeaf("/b", { rloc: 0 })]
+            const blacklist: BlacklistItem[] = [{ type: "exclude", path: "*a*" }]
+
+            // Act
+            const result = _calculateExplorerCounts([], withBlacklistFlags(leaves, blacklist), "rloc")
+
+            // Assert
+            expect(result.noArea).toBe(1)
+        })
+
+        it("should return zero counts for empty file set", () => {
+            // Arrange & Act
+            const result = _calculateExplorerCounts([], [], "rloc")
+
+            // Assert
+            expect(result).toEqual({ shown: 0, flattened: 0, hidden: 0, noArea: 0 })
+        })
+
+        it("should restrict counts when search pattern returns subset of leaves", () => {
+            // Arrange
+            const blacklist: BlacklistItem[] = [{ type: "flatten", path: "*alpha*" }]
+            const flaggedLeaves = withBlacklistFlags(allLeaves, blacklist)
+            const searched = [flaggedLeaves[0], flaggedLeaves[1]]
+
+            // Act
+            const result = _calculateExplorerCounts(searched, flaggedLeaves, "rloc")
+
+            // Assert
+            expect(result.shown).toBe(1)
+            expect(result.flattened).toBe(1)
+            expect(result.hidden).toBe(0)
+        })
+
+        it("should ignore non-leaf nodes from searchedNodes", () => {
+            // Arrange
+            const folderNode: CodeMapNode = {
+                name: "src",
+                path: "/root/src",
+                type: NodeType.FOLDER,
+                attributes: { unary: 3, rloc: 3 },
+                children: [allLeaves[0]]
+            }
+            const searched = [folderNode, allLeaves[0]]
+
+            // Act
+            const result = _calculateExplorerCounts(searched, allLeaves, "rloc")
+
+            // Assert
+            expect(result.shown).toBe(1)
+        })
+
+        it("should flatten every leaf that does not match a negated rule", () => {
+            // Arrange: "!alpha" flattens everything except the two paths containing "alpha"
+            const blacklist: BlacklistItem[] = [{ type: "flatten", path: "!alpha" }]
+
+            // Act
+            const result = _calculateExplorerCounts([], withBlacklistFlags(allLeaves, blacklist), "rloc")
+
+            // Assert
+            expect(result).toEqual({ shown: 2, flattened: 3, hidden: 0, noArea: 0 })
+        })
+
+        it("should match a bare rule as a substring, mirroring the decorator", () => {
+            // Arrange: bare "beta" affects every path containing "beta", not only exact matches
+            const blacklist: BlacklistItem[] = [{ type: "flatten", path: "beta" }]
+
+            // Act
+            const result = _calculateExplorerCounts([], withBlacklistFlags(allLeaves, blacklist), "rloc")
+
+            // Assert
+            expect(result.flattened).toBe(2)
+        })
+    })
+})

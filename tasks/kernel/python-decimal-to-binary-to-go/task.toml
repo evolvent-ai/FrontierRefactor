@@ -1,0 +1,53 @@
+schema_version = "1.4"
+artifacts = [ "/app",]
+
+[task]
+name = "kernel/python-decimal-to-binary-to-go"
+description = ">>> decimal_to_binary(3,[1.5])"
+authors = []
+keywords = [ "kernel", "cross-language",]
+
+[metadata]
+scale = "kernel"
+source_language = "python"
+target_language = "go"
+cross_language = true
+category = "performance-optimization"
+tags = [ "kernel", "cross-language",]
+provenance = "Reference is https://github.com/bellshade/Python.git at 972659762ce3fddf0c387ea17c5dbe0d1b333115. The expectations are a frozen capture of that reference's own observable behaviour over 57 probe(s), distilled from 5 repeated runs so that only what it reproduces every time is graded. No expected output was hand-authored."
+license_path = "LICENSE.upstream"
+verifier_isolation = "separate"
+
+[metadata.upstream]
+url = "https://github.com/bellshade/Python.git"
+commit = "972659762ce3fddf0c387ea17c5dbe0d1b333115"
+committed_at = "2026-04-15T13:38:40Z"
+license_spdx = "MIT"
+license_files = [ "LICENSE",]
+
+[verifier]
+timeout_sec = 3600.0
+user = "root"
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
+
+[agent]
+user = "65534"
+timeout_sec = 14400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+gpus = 0
+gpu_types = []
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]
